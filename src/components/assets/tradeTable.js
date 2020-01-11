@@ -18,17 +18,17 @@ class TradeTable extends Component {
                         let disabled = false;
                         switch(e.tipo) {
                             case "c": 
-                                tipo = "Compra";
+                                tipo = "Buy";
                                 break;
                             case "v":
-                                tipo = "Venda"
+                                tipo = "Sell"
                                 break;
                             case "p":
-                                tipo = "Patrimonio"
+                                tipo = "Holdings"
                                 disabled = true;
                                 break;
                             case "d":
-                                tipo = "Dividendo"
+                                tipo = "Dividend"
                                 break;
                             default:
                                 tipo = ""
@@ -56,8 +56,8 @@ class TradeTable extends Component {
 }
 
 function formatDate(date) {
-    var monthNames = [ "", "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
-      "Jul", "Ago", "Set", "Out","Nov", "Dez"];
+    var monthNames = [ "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct","Nov", "Dec"];
   
     var day = date.getDate();
     var monthNum = (date.getMonth()+1);

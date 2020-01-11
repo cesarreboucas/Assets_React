@@ -86,7 +86,7 @@ class AssetsMainPage extends Component {
   render() {
     return (
       <div>
-        <h1>Lista de Ativos</h1>
+        <h1>Assets List</h1>
         <div className="container">
           <BootstrapTable keyField='id' classes="table table-dark" data={this.state.assets} columns={this.tableColumns} bordered={false} expandRow={expandRow}/>         
           

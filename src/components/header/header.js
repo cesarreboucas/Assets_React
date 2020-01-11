@@ -18,13 +18,13 @@ class Header extends React.Component{
                     <a className="nav-link active" id="pills-home-tab" href="/" role="tab"><FontAwesomeIcon icon={faHome} /> Home</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" id="pills-home-tab" href="/users" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Users</a>
+                    <a className="nav-link" id="pills-home-tab" href="/profile" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Profile</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" id="pills-profile-tab" href="/ativos" role="tab"><FontAwesomeIcon icon={faChartPie} /> Ativos</a>
+                    <a className="nav-link" id="pills-profile-tab" href="/ativos" role="tab"><FontAwesomeIcon icon={faChartPie} /> Assets</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" id="pills-contact-tab" href="/goals" role="tab"><FontAwesomeIcon icon={faChartBar} /> Metas</a>
+                    <a className="nav-link" id="pills-contact-tab" href="/goals" role="tab"><FontAwesomeIcon icon={faChartBar} /> Goals</a>
                 </li>
             </ul>
             <span className="navbar-text">
