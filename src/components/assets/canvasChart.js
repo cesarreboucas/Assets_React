@@ -41,7 +41,7 @@ class CanvasChart extends Component {
             legend: {
                 position: 'right',
                 labels: {
-                    fontSize:14,
+                    fontSize: 14,
                     boxWidth: 50,
                     fontColor:'#ffffff',
                 }

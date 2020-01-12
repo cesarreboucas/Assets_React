@@ -1,6 +1,6 @@
-    import React, {Component} from 'react';
+    import React from 'react';
 
-class TradeTable extends Component {
+class TradeTable extends React.Component {
     
     render() {
         let tipo;
@@ -45,7 +45,8 @@ class TradeTable extends Component {
                                 <td className="text-right">{Number(e.value).toFixed(2)}</td>
                                 <td className="text-right">
                                     <button disabled={disabled?true:false}
-                                        className="btn btn-sm btn-light">Edit Trade</button></td>
+                                        className="btn btn-sm btn-light"
+                                        onClick={() => this.props.toggleModalTrade(null,null)}>Edit Trade</button></td>
                             </tr>
                         )      
                     })

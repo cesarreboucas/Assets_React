@@ -1,7 +1,6 @@
 "use strict";
 /* Formatting function for row details - modify as you need */
 
-
 // Edit Trade
 function fillEditTradeModal(objid, tradeid, date, value, tipo) {
     $('#f3txtid').val(objid);
@@ -42,41 +41,7 @@ $(document).ready(function() {
 
 
     
-    let dataChart = {
-        labels: new Array(), 
-        datasets:[{ data: new Array(), backgroundColor: new Array() }]
-    };
-
-
-
     
-    let ci = 0;
-    
-    results.AtivosTable.forEach(element => {
-        dataChart.labels.push(element.codigo);
-        dataChart.datasets[0].data.push(Number(element.patrimonio.toFixed(2)));
-        dataChart.datasets[0].backgroundColor.push(colors[ci%10]);
-    
-        //console.log(element.codigo+" - "+element.class.c1+" - "+Number(element.patrimonio.toFixed(2)));
-        if(element.class) {
-            Class01dataChart = addItemsToGraph(Class01dataChart, element.class.c1, element.patrimonio, element.codigo);
-            Class02dataChart = addItemsToGraph(Class02dataChart, element.class.c2, element.patrimonio, element.codigo);
-            Class03dataChart = addItemsToGraph(Class03dataChart, element.class.c3, element.patrimonio, element.codigo);
-        } else {
-            Class01dataChart = addItemsToGraph(Class01dataChart, "", element.patrimonio, element.codigo);
-            Class02dataChart = addItemsToGraph(Class02dataChart, "", element.patrimonio, element.codigo);
-            Class03dataChart = addItemsToGraph(Class03dataChart, "", element.patrimonio, element.codigo);
-        }
-
-        ++ci;
-    });
-
-
-    let AtivoChart = generateNewChart("AtivoChart", dataChart);
-    let Class01Chart = generateNewChart("Class01Chart",Class01dataChart);
-    let Class02Chart = generateNewChart("Class02Chart",Class02dataChart);
-    let Class03Chart = generateNewChart("Class03Chart",Class03dataChart);
-
     // Add event listener for opening and closing details
     $('#ativosList tbody').on('click', 'td.details-control', function() {
         var tr = $(this).closest('tr');
@@ -142,67 +107,3 @@ $(document).ready(function() {
 
 });
 
-let colors = ["#FF6666", "#FFB266", "#FFFF66", "#66FF66", "#66FFFF", "#66B2FF", "#6666FF", "#B266FF",
-        "#FF66FF", "#FF66B2", "#C0C0C0"];
-
-let Class01dataChart = {labels: ["Indefinido"], datasets:[{ data: [0], backgroundColor: [0] }]};
-let Class02dataChart = {labels: ["Indefinido"], datasets:[{ data: [0], backgroundColor: [0] }]};
-let Class03dataChart = {labels: ["Indefinido"], datasets:[{ data: [0], backgroundColor: [0] }]};
-
-// Class01dataChart = addItemsToGraph(element,Class01dataChart, element.class.c1, element.patrimonio, element.codigo);
-function addItemsToGraph(DataChart,classif, patrimonio, codigo) {
-    let position;
-    if(classif=="") { //  Se nao tiver categoria
-        //console.log("Indefinido: "+codigo+" Pat: "+Number(patrimonio.toFixed(2)));
-        DataChart.datasets[0].data[0] += Number(patrimonio.toFixed(2));
-        DataChart.datasets[0].backgroundColor[0] = colors[0];
-    } else if(DataChart.labels.includes(classif)) { // se categoria ja tiver sido add
-            //console.log(codigo+": Adicionando Existente")
-            position = DataChart.labels.indexOf(classif);
-            DataChart.datasets[0].data[position] += Number(patrimonio.toFixed(2));
-    } else { // Inseriondo nova categoria ao grafico
-        //console.log(codigo+": Pushing")
-            DataChart.labels.push(classif);
-            DataChart.datasets[0].data.push(Number(patrimonio.toFixed(2)));
-            DataChart.datasets[0].backgroundColor.push(colors[DataChart.datasets[0].backgroundColor.length]);
-    }
-    return DataChart;
-}
-
-
-function generateNewChart(element, data) {
-    return new Chart(document.getElementById(element),{
-        type:"doughnut",
-        data: data,
-        options: {
-            "animation.animateRotate":false,
-            legend: {
-                position: 'right',
-                labels: {
-                    fontSize:14,
-                    boxWidth: 50,
-                    fontColor:'#ffffff',
-                }
-            },
-            tooltips: {
-                callbacks: {
-                  label: function(tooltipItem, data) {
-                    var dataset = data.datasets[tooltipItem.datasetIndex];
-                    var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                      return previousValue + currentValue;
-                    });
-                    var currentValue = dataset.data[tooltipItem.index];
-                    var percentage = ((currentValue/total) * 100);
-                    return percentage.toFixed(2) + "%";
-                  }
-                }
-            }
-        }
-    });
-
-}
-
-function throwError(obj) {
-    obj.addClass("is-invalid");
-    return false;
-}

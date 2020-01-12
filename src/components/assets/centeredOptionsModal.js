@@ -3,6 +3,27 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
 class CenteredOptionsModal extends React.Component {
+  
+  state = {
+    codigo: "",
+    _id : ""
+  };
+
+  componentDidUpdate() {   
+    if(this.props.assetId!==null && this.props.assetId!==this.state._id){
+      fetch(process.env.REACT_APP_API_ADDRESS+"/ativos/"+this.props.assetId, {headers: {'Content-Type': 'application/json'}})
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        this.setState(result);
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount")
+  }
+
   render() {
     return(
       <Modal size="lg" show={this.props.show} onHide={this.props.onHide}  centered>
@@ -15,7 +36,7 @@ class CenteredOptionsModal extends React.Component {
           <form className="user-form" action="/ativos/edit" method="POST" id="formEditAtivo" encType="application/x-www-form-urlencoded">
             <div className="form-group">
                 <label htmlFor="ativo">Ativo</label>
-                <input type="input" className="form-control" id="f2txtativo" name="ativo" required />
+                <input type="input" className="form-control" id="ativoName" name="ativo" required defaultValue={this.state.codigo} />
                 <input type="hidden" id="f2txtid" name="id" />
                 <input type="hidden" id="f2txtguess" name="guess" />
             </div>
@@ -33,6 +54,9 @@ class CenteredOptionsModal extends React.Component {
                 (2) <input type="input" className="form-control" id="f2txtclass02" name="class_2" list="dl_class2" />
                 (3) <input type="input" className="form-control" id="f2txtclass03" name="class_3" list="dl_class3" />
             </div>
+            <datalist id="dl_class1"></datalist>
+            <datalist id="dl_class2"></datalist>
+            <datalist id="dl_class3"></datalist>
           </form>
         </Modal.Body>
         <Modal.Footer>
