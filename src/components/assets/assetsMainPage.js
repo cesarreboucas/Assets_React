@@ -4,6 +4,8 @@ import TradeTable from './tradeTable.js';
 import CanvasChart from './canvasChart.js';
 import CenteredOptionsModal from './centeredOptionsModal.js';
 import CenteredTradeModal from './centeredTradeModal.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDoubleRight,faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons'
 
 const defaultCollumStyle = () => {
   return {
@@ -31,42 +33,54 @@ class AssetsMainPage extends Component {
 
     expandRow = {
       renderer: row => (
-        <TradeTable trades={row.trades} toggleModalTrade={this.toggleModalTrade}/>
+        <TradeTable movements={row.movements} toggleModalTrade={this.toggleModalTrade}/>
       ),showExpandColumn: true,
-      expandByColumnOnly: true
+      expandByColumnOnly: true,
+      expandHeaderColumnRenderer: ({ isAnyExpands }) => {
+        return (isAnyExpands?<FontAwesomeIcon icon={faAngleDoubleDown} />:<FontAwesomeIcon icon={faAngleDoubleRight} />)
+      },
+      expandColumnRenderer: ({ expanded }) => {
+        return (expanded?<FontAwesomeIcon icon={faAngleDoubleDown} />:<FontAwesomeIcon icon={faAngleDoubleRight} />)
+      }
     };
 
   tableColumns = [
     {
-      dataField: 'codigo',
+      dataField: 'code',
       text: 'Name',
       style: defaultCollumStyle
     }, {
-      dataField: 'saldo',
+      dataField: 'balance',
       text: 'Balance',
       align: 'right',
+      headerAlign: 'right',
       style: defaultCollumStyle
     }, {
-      dataField: 'unitario',
+      dataField: 'unit',
       text: 'Unit',  
       formatter: (cell) => { return `$ ${cell.toFixed(2)}`;},
       align: 'right',
+      headerAlign: 'right',
       style: defaultCollumStyle
     }, {
       dataField: 'total',
       text: 'Total',
       align: 'right',
-      formatter: (cell,row) => { return `$ ${(row.unitario * row.saldo).toFixed(2)}`;},
+      headerAlign: 'right',
+      formatter: (cell,row) => { return `$ ${(row.unit * row.balance).toFixed(2)}`;},
       style: defaultCollumStyle
     }, {
-      dataField: 'guess',
+      dataField: 'irr',
       text: 'Return',
       align: 'right',
+      headerAlign: 'right',
       formatter: (cell) => { return `${(cell*100).toFixed(2)}%`;},
       style: defaultCollumStyle
     }, {
       dataField: 'options',
       text: 'Options',
+      align: 'center',
+      headerAlign: 'center',
       style: defaultCollumStyle,
       formatter: (cell,row) => { 
         return (<span>
@@ -79,7 +93,7 @@ class AssetsMainPage extends Component {
     //dataCharts = [];
     
   componentDidMount(){
-    fetch(process.env.REACT_APP_API_ADDRESS+"/ativos", {headers: {'Content-Type': 'application/json'}})
+    fetch(process.env.REACT_APP_API_ADDRESS+"/assets", {headers: {'Content-Type': 'application/json'}})
     .then(res => res.json())
     .then(result => {
       this.dataCharts = [];
@@ -137,26 +151,26 @@ class AssetsMainPage extends Component {
 
     assets.forEach((asset, i) => {
       //console.log("Asset", asset);
-      this.dataCharts[0].labels.push(asset.codigo);
+      this.dataCharts[0].labels.push(asset.code);
       this.dataCharts[0].datasets[0].data.push(Number(asset.patrimonio.toFixed(2)));
       this.dataCharts[0].datasets[0].backgroundColor.push(colors[i%10]);
 
-      if(asset.class.c1 === undefined || asset.class.c1.length === 0) { // If there no classification
+      if(asset.group.group_a === undefined || asset.group.group_a.length === 0) { // If there no classification
         this.dataCharts[1].datasets[0].data[0] += asset.patrimonio;
       } else { // For assets with a classification
-        this.inserIntoDataset(asset.class.c1, 1, asset.patrimonio);
+        this.inserIntoDataset(asset.group.group_a, 1, asset.patrimonio);
       }
 
-      if(asset.class.c2 === undefined || asset.class.c2.length === 0) { 
+      if(asset.group.group_b === undefined || asset.group.group_b.length === 0) { 
         this.dataCharts[2].datasets[0].data[0] += asset.patrimonio;
       } else { 
-        this.inserIntoDataset(asset.class.c2, 2, asset.patrimonio);
+        this.inserIntoDataset(asset.group.group_b, 2, asset.patrimonio);
       }
 
-      if(asset.class.c3 === undefined || asset.class.c3.length === 0) { 
+      if(asset.group.group_c === undefined || asset.group.group_c.length === 0) { 
         this.dataCharts[3].datasets[0].data[0] += asset.patrimonio;
       } else { 
-        this.inserIntoDataset(asset.class.c3, 3, asset.patrimonio);
+        this.inserIntoDataset(asset.group.group_c, 3, asset.patrimonio);
       }
     });
     console.log("DataSets Built",this.dataCharts);
