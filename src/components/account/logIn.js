@@ -27,9 +27,9 @@ class LogIn extends Component {
 
   async onSignIn() {
     const { username, password, remember } = this.state;
-    console.log('[REMEMBER]', remember);
     try {
-      let response = await account.logIn(username, password);
+      const token = await account.logIn(username, password);
+      console.log('[TOKEN]', token);
       this.setState({ redirectToAssets: true });
     } catch (error) {
       console.log(error);
@@ -74,7 +74,7 @@ class LogIn extends Component {
           />
         </Form.Group>
         <Form.Group controlId="logInCheckbox" style={{ alignItems: 'center', fontSize: '15px' }}>
-          <Form.Check type="checkbox" label="Check me out" onChange={(event) => this.setState({ remember: event.target.value })} />
+          <Form.Check type="checkbox" label="Remember me" onChange={(event) => this.setState({ remember: event.target.value })} />
         </Form.Group>
         <Button variant="primary" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onSignIn()}>
           S U B M I T

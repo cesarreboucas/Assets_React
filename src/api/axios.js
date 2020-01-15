@@ -31,7 +31,7 @@ function getAuthToken() {
   if(authToken == null) {
     return '';
   } else {
-    return `Bearer ${authToken}`;
+    return `${authToken}`;
   }
 };
 

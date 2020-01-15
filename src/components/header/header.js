@@ -2,7 +2,14 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons'
 
+import * as account from '../../api/account';
+
 class Header extends React.Component{
+
+    onLogOut() {
+        account.logOut();
+    }
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,7 +35,7 @@ class Header extends React.Component{
                 </li>
             </ul>
             <span className="navbar-text">
-                <a className="nav-link" id="pills-contact-tab" href="/" role="tab"><FontAwesomeIcon icon={faUser} /> Login</a>
+                <a className="nav-link" id="pills-contact-tab" href="/" role="tab" onClick={() => this.onLogOut()}><FontAwesomeIcon icon={faUser} /> Logout</a>
             </span>
         </div>
       </nav>

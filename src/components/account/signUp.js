@@ -30,7 +30,7 @@ class SignUp extends Component {
   async onSignUp() {
     const { firstName, lastName, username, password } = this.state;
     try {
-      let token = await account.signUp(firstName, lastName, username, password);
+      const token = await account.signUp(firstName, lastName, username, password);
       console.log('[TOKEN]', token);
       this.setState({ redirect: true });
     } catch(error) {
@@ -40,7 +40,7 @@ class SignUp extends Component {
 
   renderRedirect = () => {
     if(this.state.redirect) {
-      return <Redirect to='/login' />
+      return <Redirect to='/assets' />
     }
     return null;
   }

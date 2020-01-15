@@ -2,13 +2,16 @@ import axios from './axios';
 import qs from 'qs';
 
 export function isAuthenticated() {
-  const logged = localStorage.getItem('LOGGED');
+  const logged = localStorage.getItem('AUTH_TOKEN');
   if(logged != null) {
-    if(logged === 'true') return true;
-    return false;
+    return true;
   }
   return false;
 };
+
+export function logOut() {
+  localStorage.removeItem('AUTH_TOKEN');
+}
 
 export async function logIn(username, password, remember) {
   const details = {
@@ -22,10 +25,7 @@ export async function logIn(username, password, remember) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
-    if(remember) {
-      localStorage.setItem('AUTH_TOKEN');
-    }
-    localStorage.setItem('LOGGED', 'true');
+    localStorage.setItem('AUTH_TOKEN', response.data.token);
     return response.data.token;
   } catch (error) {
     throw error;
