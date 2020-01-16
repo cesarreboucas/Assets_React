@@ -8,35 +8,6 @@ import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/f
 class Header extends React.Component{
   
   render() {
-     
-    let optionsBar, loginIcon;
-    if(this.props.isLogged!==null) {
-      optionsBar = (
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <a className="nav-link active" id="pills-home-tab" href="/" role="tab"><FontAwesomeIcon icon={faHome} /> Dashboard</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link active" id="pills-home-tab" href="/profile" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Profile</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link active" id="pills-profile-tab" href="/assets" role="tab"><FontAwesomeIcon icon={faChartPie} /> Assets</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link active" id="pills-contact-tab" href="/goals" role="tab"><FontAwesomeIcon icon={faChartBar} /> Goals</a>
-          </li>
-        </ul>
-      );
-      loginIcon = <a className="nav-link" href="/" onClick={() => {ls.remove('user-token');}} id="pills-contact-tab" role="tab"><FontAwesomeIcon icon={faUser} /> Logout</a>
-
-    } else {
-      optionsBar = (
-        <ul className="navbar-nav mr-auto">
-        </ul>
-      );
-      loginIcon = <a className="nav-link" id="pills-contact-tab" href="/login" role="tab"><FontAwesomeIcon icon={faUser} /> Login</a>
-    }
-
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <a className="navbar-brand" href="/" style={{"marginLeft":"10%"}}>
@@ -46,13 +17,26 @@ class Header extends React.Component{
             <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarText">
-            {optionsBar}
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                    <a className="nav-link active" id="pills-home-tab" href="/" role="tab"><FontAwesomeIcon icon={faHome} /> Home</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" id="pills-home-tab" href="/profile" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Profile</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" id="pills-profile-tab" href="/ativos" role="tab"><FontAwesomeIcon icon={faChartPie} /> Assets</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" id="pills-contact-tab" href="/goals" role="tab"><FontAwesomeIcon icon={faChartBar} /> Goals</a>
+                </li>
+            </ul>
             <span className="navbar-text">
-                {loginIcon}
+                <a className="nav-link" id="pills-contact-tab" href="/" role="tab" onClick={() => this.onLogOut()}><FontAwesomeIcon icon={faUser} /> Logout</a>
             </span>
         </div>
       </nav>
-    )
+    );
   }
 }
 
