@@ -1,5 +1,4 @@
 import React from 'react';
-import ls from 'local-storage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons'
 
