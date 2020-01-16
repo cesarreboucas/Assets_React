@@ -1,15 +1,12 @@
 import React from 'react';
+import ls from 'local-storage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons'
 
-import * as account from '../../api/account';
+
 
 class Header extends React.Component{
-
-    onLogOut() {
-        account.logOut();
-    }
-
+  
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -39,7 +36,7 @@ class Header extends React.Component{
             </span>
         </div>
       </nav>
-    )
+    );
   }
 }
 

@@ -3,25 +3,20 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  Redirect,
-  useHistory,
-  useLocation} from "react-router-dom";
+  Redirect } from "react-router-dom";
 
 import * as account from './api/account';
 
 import LoggedOut from './components/account/loggedOut.js';
-import SignUp from './components/account/signUp.js';
 
-import Header from './components/header/header.js';
-import Footer from './components/header/footer.js'
+import Header from './components/common/header.js';
+import Footer from './components/common/footer.js'
 
 import AssetsMainPage from './components/assets/assetsMainPage.js';
 import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
 
 class App extends React.Component {
-
   render() {
     return (
       <Router>
@@ -40,7 +35,6 @@ class App extends React.Component {
       </Router>
     );
   }
-  
 }
 
 function PrivateComponentsRender(component) {
@@ -82,3 +76,4 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 export default App;
+
