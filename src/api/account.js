@@ -3,6 +3,7 @@ import qs from 'qs';
 
 export function isAuthenticated() {
   const logged = localStorage.getItem('AUTH_TOKEN');
+  console.log('[isAuthenticated]', logged);
   if(logged != null) {
     return true;
   }
