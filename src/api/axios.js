@@ -16,7 +16,13 @@ const instance = axios.create({
 });
 
 // Alter defaults after instance has been created
-instance.defaults.headers.common['Authorization'] = getAuthToken();
+instance.interceptors.request.use(function(request){
+  const authToken = getAuthToken();
+  if(authToken !== '') {
+    request.headers.authorization = authToken;
+  }
+  return request;
+});
 instance.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
@@ -28,6 +34,7 @@ instance.interceptors.response.use(function (response) {
 
 function getAuthToken() {
   const authToken = localStorage.getItem('AUTH_TOKEN');
+  console.log('[getAuthToken]', authToken);
   if(authToken == null) {
     return '';
   } else {
