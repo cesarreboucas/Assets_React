@@ -6,11 +6,16 @@ import CenteredTradeModal from './centeredTradeModal.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDoubleRight, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons'
 
+import * as assetsApi from '../../api/assets';
+
 const defaultCollumStyle = () => {
   return {
     color: '#dddddd'
   }
 }
+
+const colors = ["#FF6666", "#FFB266", "#FFFF66", "#66FF66", "#66FFFF", "#66B2FF", "#6666FF", "#B266FF",
+                "#FF66FF", "#FF66B2", "#C0C0C0"];
 
 class AssetsMainPage extends Component {
   state = {
