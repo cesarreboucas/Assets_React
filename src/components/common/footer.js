@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleRight, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import {faFacebook, faTwitter, faInstagram} from '@fortawesome/free-brands-svg-icons';
 
+
 class Footer extends React.Component {
   render() {
     return(
@@ -45,7 +46,7 @@ class Footer extends React.Component {
         <div className="row">
           <div className="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
             <p><u><a href="/">Assets Control</a></u> Vancouver, BC, Canada.</p>
-            <p className="h6">{String.fromCharCode(169)} All right Reversed - Marcos Marangoni & Cesar Oliveira</p>
+            <p className="h6">{String.fromCharCode(169)} All rights reserved - Marcos Marangoni, Cesar Oliveira, Andre Sa</p>
           </div>
         </div>
       </div>  

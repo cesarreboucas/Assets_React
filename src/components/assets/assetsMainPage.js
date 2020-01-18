@@ -3,10 +3,9 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import TradeTable from './tradeTable.js';
 import CenteredOptionsModal from './centeredOptionsModal.js';
 import CenteredTradeModal from './centeredTradeModal.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDoubleRight, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons'
-
-import * as assetsApi from '../../api/assets';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDoubleRight, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
+import * as assetsApi from '../../api/assets.js';
 
 const defaultCollumStyle = () => {
   return {
@@ -106,16 +105,27 @@ class AssetsMainPage extends Component {
 
   //dataCharts = [];
 
-  componentDidMount() {
-    fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=1", {
+  async componentDidMount() {
+    try {
+      const axios = await assetsApi.list(1);
+      console.log(axios);
+      this.tableColumns[3].footer = `$ ${(axios.asset_total.total).toFixed(2)}`;
+      this.tableColumns[4].footer = `${(axios.asset_total.irr * 100).toFixed(2)}%`;
+      this.setState({ asset_total: axios.asset_total, loading: false, assets: axios.assets });
+    } catch (error) {
+      
+    }
+
+    /*fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=1", {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
       .then(result => {
+        console.log(result)
         this.tableColumns[3].footer = `$ ${(result.asset_total.total).toFixed(2)}`;
         this.tableColumns[4].footer = `${(result.asset_total.irr * 100).toFixed(2)}%`;
         this.setState({ asset_total: result.asset_total, loading: false, assets: result.assets });
-      });
+      });*/
   }
 
   render() {

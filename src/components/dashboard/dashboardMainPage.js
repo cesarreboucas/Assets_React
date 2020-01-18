@@ -1,6 +1,7 @@
 import React from 'react';
 import CanvasChart from './../common/canvasChart.js';
 import BootstrapTable from 'react-bootstrap-table-next';
+import * as assetsApi from '../../api/assets.js';
 
 
 const defaultCollumStyle = () => {
@@ -54,8 +55,14 @@ class DashboardMainPage extends React.Component {
     }
   ];
 
-  componentDidMount() {
-    fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=0", {
+  async componentDidMount() {
+    const result = await assetsApi.list(0);
+      console.log(result);
+      this.dataCharts = [];
+      this.buildDatasets(result.assets);
+      this.setState({ loading: false, assets: result.assets });
+      
+    /*fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=0", {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
@@ -64,7 +71,7 @@ class DashboardMainPage extends React.Component {
         this.buildDatasets(result.assets);
         console.log(result)
         this.setState({ loading: false, assets: result.assets });
-      });
+      });*/
   }
   render() {
     return (<div>
