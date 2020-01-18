@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
-import * as account from '../../api/account';
+//import * as account from '../../api/account';
 
 /**
  * CSS
@@ -24,10 +24,10 @@ class ForgotPassword extends Component {
   }
 
   async onSignIn() {
-    const { username, password, remember } = this.state;
-    console.log('[REMEMBER]', remember);
+    //const { username, password } = this.state;
+    //console.log('[REMEMBER]', remember);
     try {
-      let response = await account.logIn(username, password);
+      //let response = await account.logIn(username, password);
       this.setState({ redirectToAssets: true });
     } catch (error) {
       console.log(error);

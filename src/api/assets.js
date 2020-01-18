@@ -12,3 +12,14 @@ export async function list(irr) {
     throw error;
   }
 }
+
+export async function show(id) {
+  try {
+    const response = await axios.get('/api/assets/'+id);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Index, Show, Create, Delete, Update

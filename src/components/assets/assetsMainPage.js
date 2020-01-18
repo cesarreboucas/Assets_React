@@ -13,9 +13,6 @@ const defaultCollumStyle = () => {
   }
 }
 
-const colors = ["#FF6666", "#FFB266", "#FFFF66", "#66FF66", "#66FFFF", "#66B2FF", "#6666FF", "#B266FF",
-                "#FF66FF", "#FF66B2", "#C0C0C0"];
-
 class AssetsMainPage extends Component {
   state = {
     loading: true,
@@ -111,7 +108,12 @@ class AssetsMainPage extends Component {
       console.log(axios);
       this.tableColumns[3].footer = `$ ${(axios.asset_total.total).toFixed(2)}`;
       this.tableColumns[4].footer = `${(axios.asset_total.irr * 100).toFixed(2)}%`;
-      this.setState({ asset_total: axios.asset_total, loading: false, assets: axios.assets });
+      this.setState({
+        asset_total: axios.asset_total,
+        loading: false,
+        assets: axios.assets,
+        asset_id: null
+       });
     } catch (error) {
       
     }
