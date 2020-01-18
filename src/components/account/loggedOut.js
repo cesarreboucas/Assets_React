@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+//import { Redirect } from 'react-router-dom';
 
 import LogIn from './logIn';
 import SignUp from './signUp';
