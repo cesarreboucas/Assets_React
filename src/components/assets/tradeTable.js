@@ -14,9 +14,9 @@ class TradeTable extends React.Component {
                 </tr></thead>
                 <tbody>
                 {
-                    this.props.trades.map((e,i) => {
+                    this.props.movements.map((e,i) => {
                         let disabled = false;
-                        switch(e.tipo) {
+                        switch(e.kind) {
                             case "c": 
                                 tipo = "Buy";
                                 break;
