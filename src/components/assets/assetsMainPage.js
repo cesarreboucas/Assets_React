@@ -71,7 +71,7 @@ class AssetsMainPage extends Component {
       text: 'Total',
       align: 'right',
       headerAlign: 'right',
-      formatter: (cell, row) => { return `$ ${(row.total).toFixed(2)}`; },
+      formatter: (cell, row) => { return `$ ${(row.total).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`; },
       style: defaultCollumStyle,
       footer: this.state.asset_total ? this.state.asset_total.total : 'b',
       footerAlign: 'right',
@@ -106,7 +106,7 @@ class AssetsMainPage extends Component {
     try {
       const axios = await assetsApi.list(1);
       console.log(axios);
-      this.tableColumns[3].footer = `$ ${(axios.asset_total.total).toFixed(2)}`;
+      this.tableColumns[3].footer = `$ ${(axios.asset_total.total).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
       this.tableColumns[4].footer = `${(axios.asset_total.irr * 100).toFixed(2)}%`;
       this.setState({
         asset_total: axios.asset_total,
