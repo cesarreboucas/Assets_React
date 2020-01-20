@@ -1,6 +1,7 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import * as assetsApi from '../../api/assets.js';
 
 class CenteredOptionsModal extends React.Component {
   
@@ -9,23 +10,40 @@ class CenteredOptionsModal extends React.Component {
     _id : ""
   };
 
-  componentDidUpdate() {   
+  componentDidUMount() {   
+    
+    /*
     if(this.props.assetId!==null && this.props.assetId!==this.state._id){
       fetch(process.env.REACT_APP_API_ADDRESS+"/assets/"+this.props.assetId, {headers: {'Content-Type': 'application/json'}})
       .then(res => res.json())
       .then(result => {
         this.setState(result);
       });
+    }*/
+  }
+
+  async fetchData() {
+    try {
+      console.log("MODAL PROP", this.props.assetId);
+      console.log("MODAL STATE", this.state._id);
+      /*if(this.props.assetId!==null && this.props.assetId!==this.state._id){
+      }*/
+      const result = await assetsApi.show(this.props.assetId);
+      this.setState(result);
+      console.log("MODALLL",'OI');
+
+    } catch (error) {
+      console.log('[ERROR]', error.message);
     }
   }
 
-  render() {
-    
+  render() {  
     return(
-      <Modal size="lg" show={this.props.show} onHide={this.props.onHide}  centered>
+      <Modal size="lg" show={this.props.show} onHide={this.props.onHide}
+        onEnter={() => this.fetchData(this.props.assetId)}  centered>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Editar Ativo
+            Edit Asset
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
