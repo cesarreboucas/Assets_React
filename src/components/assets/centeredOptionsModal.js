@@ -1,6 +1,7 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import * as assetsApi from '../../api/assets.js';
 
 class CenteredOptionsModal extends React.Component {
   
@@ -9,59 +10,75 @@ class CenteredOptionsModal extends React.Component {
     _id : ""
   };
 
-  componentDidUpdate() {   
+  componentDidUMount() {   
+    
+    /*
     if(this.props.assetId!==null && this.props.assetId!==this.state._id){
-      fetch(process.env.REACT_APP_API_ADDRESS+"/ativos/"+this.props.assetId, {headers: {'Content-Type': 'application/json'}})
+      fetch(process.env.REACT_APP_API_ADDRESS+"/assets/"+this.props.assetId, {headers: {'Content-Type': 'application/json'}})
       .then(res => res.json())
       .then(result => {
-        console.log(result);
         this.setState(result);
       });
+    }*/
+  }
+
+  async fetchData() {
+    try {
+      console.log("MODAL PROP", this.props.assetId);
+      console.log("MODAL STATE", this.state._id);
+      /*if(this.props.assetId!==null && this.props.assetId!==this.state._id){
+      }*/
+      const result = await assetsApi.show(this.props.assetId);
+      this.setState(result);
+      console.log("MODALLL",'OI');
+
+    } catch (error) {
+      console.log('[ERROR]', error.message);
     }
   }
 
-  componentWillUnmount() {
-    console.log("componentWillUnmount")
-  }
-
-  render() {
+  render() {  
     return(
-      <Modal size="lg" show={this.props.show} onHide={this.props.onHide}  centered>
+      <Modal size="lg" show={this.props.show} onHide={this.props.onHide}
+        onEnter={() => this.fetchData(this.props.assetId)}  centered>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Editar Ativo
+            Edit Asset
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="user-form" action="/ativos/edit" method="POST" id="formEditAtivo" encType="application/x-www-form-urlencoded">
             <div className="form-group">
                 <label htmlFor="ativo">Ativo</label>
-                <input type="input" className="form-control" id="ativoName" name="ativo" required defaultValue={this.state.codigo} />
-                <input type="hidden" id="f2txtid" name="id" />
-                <input type="hidden" id="f2txtguess" name="guess" />
+                <input type="input" className="form-control" id="mOptCode" name="code" required defaultValue={this.state.code} />
+                <input type="hidden" id="mOpt_id" name="_id" defaultValue={this.state._id} />
+                <input type="hidden" id="mOptIrr" name="irr" defaultValue={this.state.irr} />
             </div>
             <div className="form-group">
                 <label htmlFor="quantidade">Saldo Atual</label>
-                <input type="number" className="form-control" id="f2txtsaldo" name="saldo" required />
+                <input type="number" className="form-control" id="mOptBalance" name="balance" defaultValue={this.state.balance} required />
             </div>
             <div className="form-group">
                 <label htmlFor="valor">Unit&aacute;rio</label>
-                <input type="number" className="form-control" id="f2txtunitario" name="unitario"  required />
+                <input type="number" className="form-control" id="mOptUnit" name="unit" defaultValue={this.state.unit}  required />
             </div>
             <div className="form-group">
                 <label>Classifica&ccedil;&atilde;o</label><br />
-                (1) <input type="input" className="form-control" id="f2txtclass01" name="class_1" list="dl_class1" />
-                (2) <input type="input" className="form-control" id="f2txtclass02" name="class_2" list="dl_class2" />
-                (3) <input type="input" className="form-control" id="f2txtclass03" name="class_3" list="dl_class3" />
+                (1) <input type="input" className="form-control" id="mOptGroupA" 
+                      name="group_a" defaultValue={this.state.group?this.state.group.group_c:''} list="dl_group_a" />
+                (2) <input type="input" className="form-control" id="mOptGroupB" 
+                      name="group_b" defaultValue={this.state.group?this.state.group.group_b:''} list="dl_group_b" />
+                (3) <input type="input" className="form-control" id="mOptGroupC" 
+                      name="group_c" defaultValue={this.state.group?this.state.group.group_c:''} list="dl_group_c" />
             </div>
-            <datalist id="dl_class1"></datalist>
-            <datalist id="dl_class2"></datalist>
-            <datalist id="dl_class3"></datalist>
+            <datalist id="dl_group_a"></datalist>
+            <datalist id="dl_group_b"></datalist>
+            <datalist id="dl_group_c"></datalist>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>
-          <button type="submit" id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
+          <button type="submit" id="btnmOptSubmit" className="btn btn-primary">Save changes</button>
         </Modal.Footer>
       </Modal>
     );

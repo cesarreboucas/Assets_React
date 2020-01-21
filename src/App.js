@@ -15,6 +15,11 @@ import Footer from './components/common/footer.js'
 import AssetsMainPage from './components/assets/assetsMainPage.js';
 import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
+import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './components/common/layout.css';
+
 
 class App extends React.Component {
   render() {
@@ -22,6 +27,9 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" component={LoggedOut}/>
+          <PrivateRoute path="/dashboard">
+            {PrivateComponentsRender(<DshboardMainPage/>)}
+          </PrivateRoute>
           <PrivateRoute path="/goals">
             {PrivateComponentsRender(<GoalsMainPage/>)}
           </PrivateRoute>
@@ -46,7 +54,7 @@ function PrivateComponentsRender(component) {
       <div style={{ width:'90%', margin: 'auto', backgroundColor: 'rgba(0,0,0,0.5)' }}>
         {component}
       </div>
-      <footer>
+      <footer id="footer">
         <Footer/>
       </footer>
     </div>

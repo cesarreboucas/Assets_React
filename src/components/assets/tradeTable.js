@@ -14,9 +14,9 @@ class TradeTable extends React.Component {
                 </tr></thead>
                 <tbody>
                 {
-                    this.props.trades.map((e,i) => {
+                    this.props.movements.map((e,i) => {
                         let disabled = false;
-                        switch(e.tipo) {
+                        switch(e.kind) {
                             case "c": 
                                 tipo = "Buy";
                                 break;
@@ -41,9 +41,9 @@ class TradeTable extends React.Component {
                             
                             <tr key={i}>
                                 <td>{tipo}</td>
-                                <td className="text-right">{formatDate(date)}</td>
-                                <td className="text-right">{Number(e.value).toFixed(2)}</td>
-                                <td className="text-right">
+                                <td>{formatDate(date)}</td>
+                                <td>{'$ ' + Number(e.value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
+                                <td>
                                     <button disabled={disabled?true:false}
                                         className="btn btn-sm btn-light"
                                         onClick={() => this.props.toggleModalTrade(null,null)}>Edit Trade</button></td>

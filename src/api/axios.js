@@ -26,7 +26,7 @@ instance.interceptors.request.use(function(request){
 instance.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  if(error.response.data.message != undefined) {
+  if(error.response.data.message !== undefined) {
     throw new Error(error.response.data.message);
   }
   throw error;
@@ -34,7 +34,7 @@ instance.interceptors.response.use(function (response) {
 
 function getAuthToken() {
   const authToken = localStorage.getItem('AUTH_TOKEN');
-  console.log('[getAuthToken]', authToken);
+  //console.log('[getAuthToken]', authToken);
   if(authToken == null) {
     return '';
   } else {

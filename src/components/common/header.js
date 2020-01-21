@@ -1,12 +1,13 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons';
 import { Redirect } from 'react-router-dom';
 import * as account from '../../api/account';
 
 
+
 class Header extends React.Component{
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,9 +32,30 @@ class Header extends React.Component{
   }
 
   render() {
+     
+    let optionsBar, loginIcon;
+    
+    optionsBar = (
+      <ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+          <a className="nav-link active" id="pills-home-tab" href="/dashboard" role="tab"><FontAwesomeIcon icon={faHome} /> Dashboard</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link active" id="pills-home-tab" href="/profile" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Profile</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link active" id="pills-profile-tab" href="/assets" role="tab"><FontAwesomeIcon icon={faChartPie} /> Assets</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link active" id="pills-contact-tab" href="/goals" role="tab"><FontAwesomeIcon icon={faChartBar} /> Goals</a>
+        </li>
+      </ul>
+    );
+    loginIcon = <a className="nav-link" href="/" onClick={() => this.onLogOut()} id="pills-contact-tab" role="tab"><FontAwesomeIcon icon={faUser} /> Logout</a>
+
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        { this.redirectToLoggedOut() }
+         { this.redirectToLoggedOut() }
         <a className="navbar-brand" href="/" style={{"marginLeft":"10%"}}>
             <img src="/images/assets.svg" alt="logo" style={{width: "64px" ,height:"64px"}} />
         </a>
@@ -41,26 +63,13 @@ class Header extends React.Component{
             <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarText">
-            <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                    <a className="nav-link active" id="pills-home-tab" href="/home" role="tab"><FontAwesomeIcon icon={faHome} /> Home</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" id="pills-home-tab" href="/profile" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Profile</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" id="pills-profile-tab" href="/ativos" role="tab"><FontAwesomeIcon icon={faChartPie} /> Assets</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" id="pills-contact-tab" href="/goals" role="tab"><FontAwesomeIcon icon={faChartBar} /> Goals</a>
-                </li>
-            </ul>
+            {optionsBar}
             <span className="navbar-text">
-                <a className="nav-link" id="pills-contact-tab" href="/" role="tab" onClick={() => this.onLogOut()}><FontAwesomeIcon icon={faUser} /> Logout</a>
+                {loginIcon}
             </span>
         </div>
       </nav>
-    );
+    )
   }
 }
 

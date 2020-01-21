@@ -26,7 +26,7 @@ class LogIn extends Component {
   }
 
   async onSignIn() {
-    const { username, password, remember } = this.state;
+    const { username, password } = this.state;
     try {
       const token = await account.logIn(username, password);
       console.log('[TOKEN]', token);

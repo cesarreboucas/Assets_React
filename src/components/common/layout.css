@@ -43,8 +43,8 @@ img {
 }
 
 /* FOOTER STYLES */
-footer {
-    font: normal small-caps bold 1em/3em Oswald;
+#footer {
+    /*font: normal small-caps bold 1em/3em Oswald;*/
     text-align: center;
     background-color: black;
     color: #eb591f;
@@ -62,7 +62,8 @@ form.user-form {
 .main-page-content {
     margin: 1%;
 }
-.main-page-content .nav {
+
+.nav {
     font-family: Oswald;
 }
 nav a {    
@@ -71,7 +72,8 @@ nav a {
 
 
 /*Footer */
-section#footer {
+
+#footer {
     padding: 45px 0;
 }
 #footer {
