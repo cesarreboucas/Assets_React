@@ -6,36 +6,41 @@ import LogIn from './logIn';
 import SignUp from './signUp';
 import ForgotPassword from './forgotPassword';
 
-/**
- * CSS
- */
-import '../../styles/main.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 class LoggedOut extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeTab: props.activeTab || 1
     };
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount() {
 
   }
 
+  handleSelect(selectedTab) {
+    this.setState({
+      activeTab: selectedTab
+    });
+  }
+
 
   render() {
     return (
-      <div className="Logged-out Logged-out-header">
+      <div className="Logged-out-header loggedOut-tabs">
         <div style={{ height:'75vh' }}>
-          <Tabs defaultActiveKey="logIn" id="uncontrolled-tab-example" style={{ flex: 1, borderColor: 'white', borderWidth:3}}>
-            <Tab eventKey="logIn" title="LogIn">
+          <Tabs 
+          activeKey={this.state.activeTab}
+          id="uncontrolled-tab-example"
+          onSelect={this.handleSelect}>
+            <Tab eventKey={1} title="LogIn">
               <LogIn />
             </Tab>
-            <Tab eventKey="signUp" title="SignUp">
+            <Tab eventKey={2} title="SignUp">
               <SignUp />
             </Tab>
-            <Tab eventKey="forgotPassword" title="Forgot Password">
+            <Tab eventKey={3} title="Forgot Password">
               <ForgotPassword />
             </Tab>
           </Tabs>
