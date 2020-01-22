@@ -4,12 +4,6 @@ import { Redirect } from 'react-router-dom';
 
 //import * as account from '../../api/account';
 
-/**
- * CSS
- */
-import '../../styles/main.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 class ForgotPassword extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +40,7 @@ class ForgotPassword extends Component {
 
   render() {
     return (
-      <Form style={{ flex: 1, width: '30vw', margin: 30 }}>
+      <Form className="loggedOut-tab-form">
         <Form.Group controlId="forgotPasswordEmail" style={{ textAlign: 'left' }}>
           <Form.Label>Email address</Form.Label>
           <Form.Control

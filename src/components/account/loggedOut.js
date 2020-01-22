@@ -28,9 +28,10 @@ class LoggedOut extends Component {
 
   render() {
     return (
-      <div className="Logged-out-header loggedOut-tabs">
+      <div className="Logged-out-header">
         <div style={{ height:'75vh' }}>
           <Tabs 
+          className="custom-tab"
           activeKey={this.state.activeTab}
           id="uncontrolled-tab-example"
           onSelect={this.handleSelect}>

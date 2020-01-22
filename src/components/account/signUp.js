@@ -4,12 +4,6 @@ import { Form, Button } from 'react-bootstrap';
 
 import * as account from '../../api/account';
 
-/**
- * CSS
- */
-import '../../styles/main.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +41,7 @@ class SignUp extends Component {
 
   render() {
     return (
-      <Form style={{ flex: 1, width:'30vw', margin: 30 }}>
+      <Form className="loggedOut-tab-form">
         <Form.Group controlId="signUpFirstName" style={{ textAlign: 'left' }}>
           <Form.Label>First Name</Form.Label>
           <Form.Control 
@@ -87,12 +81,14 @@ class SignUp extends Component {
           value={this.state.password} 
           />
         </Form.Group>
-        <Form.Group controlId="signUpRemember" style={{ alignItems:'center', fontSize:'15px' }}>
-          <Form.Check type="checkbox" label="Check me out" onChange={(event) => this.setState({ remember: event.target.value })} />
-        </Form.Group>
-        <Button variant="primary" type="button" style={{ width:'100%', fontWeight:'bold' }} onClick={() => this.onSignUp()}>
+        {<Button variant="primary" type="button" style={{ width:'100%', fontWeight:'bold' }} onClick={() => this.onSignUp()}>
           S U B M I T
-        </Button>
+        </Button>}
+        {/*<div className="border-container">
+          <a className="border-animation" href="#">
+            <div className="border-animation__inner">S U B M I T</div>
+          </a>
+        </div>*/}
         { this.renderRedirect() }
       </Form>
     );

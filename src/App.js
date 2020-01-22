@@ -17,8 +17,9 @@ import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
 import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './components/common/layout.css';
+import './styles/main.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends React.Component {
