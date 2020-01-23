@@ -12,15 +12,6 @@ class CenteredOptionsModal extends React.Component {
   };
 
   componentDidUMount() {
-
-    /*
-    if(this.props.assetId!==null && this.props.assetId!==this.state._id){
-      fetch(process.env.REACT_APP_API_ADDRESS+"/assets/"+this.props.assetId, {headers: {'Content-Type': 'application/json'}})
-      .then(res => res.json())
-      .then(result => {
-        this.setState(result);
-      });
-    }*/
   }
 
   async fetchData() {

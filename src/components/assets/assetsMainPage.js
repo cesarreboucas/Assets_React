@@ -20,21 +20,21 @@ class AssetsMainPage extends Component {
     asset_total: null,
     showModalOptions: false,
     showModalTrade: false,
-    asset_id: null
+    asset_id: null,
+    movement_modal_info: {asset_info:null},
   }
 
   toggleModalOptions = (asset_id) => {
     this.setState({ showModalOptions: !this.state.showModalOptions, asset_id: asset_id })
   }
 
-  toggleModalTrade = (asset_id, trade_id) => {
-    this.setState({ showModalTrade: !this.state.showModalTrade });
-    console.log("Modal Trade Called - Show: ", this.state.showModalTrade);
+  toggleModalTrade = (asset, movement) => {    
+    this.setState({ showModalTrade: !this.state.showModalTrade, movement_modal_info: { asset_info: asset, movement: movement } });
   }
 
   expandRow = {
     renderer: row => (
-      <TradeTable movements={row.movements} toggleModalTrade={this.toggleModalTrade} />
+      <TradeTable movements={row.movements} asset={{ id: row._id, code: row.code }} toggleModalTrade={this.toggleModalTrade} />
     ), showExpandColumn: true,
     expandByColumnOnly: true,
     expandHeaderColumnRenderer: ({ isAnyExpands }) => {
@@ -113,22 +113,11 @@ class AssetsMainPage extends Component {
         loading: false,
         assets: axios.assets,
         asset_id: null
-       });
-       this.fillDatalists();
+      });
+      this.fillDatalists();
     } catch (error) {
-      
-    }
 
-    /*fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=1", {
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(result => {
-        console.log(result)
-        this.tableColumns[3].footer = `$ ${(result.asset_total.total).toFixed(2)}`;
-        this.tableColumns[4].footer = `${(result.asset_total.irr * 100).toFixed(2)}%`;
-        this.setState({ asset_total: result.asset_total, loading: false, assets: result.assets });
-      });*/
+    }
   }
 
   render() {
@@ -145,7 +134,7 @@ class AssetsMainPage extends Component {
           </div>
         </div>
         <CenteredOptionsModal show={this.state.showModalOptions} onHide={this.toggleModalOptions} assetId={this.state.asset_id} />
-        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} />
+        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_modal_info} />
         <datalist id="dl_group_a"></datalist>
         <datalist id="dl_group_b"></datalist>
         <datalist id="dl_group_c"></datalist>
@@ -155,7 +144,7 @@ class AssetsMainPage extends Component {
 
   fillDatalists() {
     this.state.assets.forEach(asset => {
-      let group_a,group_b,group_c;
+      let group_a, group_b, group_c;
       group_a = document.createElement("option");
       group_a.value = asset.group.group_a;
       document.getElementById("dl_group_a").appendChild(group_a);
@@ -165,7 +154,7 @@ class AssetsMainPage extends Component {
       group_c = document.createElement("option");
       group_c.value = asset.group.group_c;
       document.getElementById("dl_group_c").appendChild(group_c);
-      
+
     });
   }
 

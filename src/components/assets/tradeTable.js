@@ -3,7 +3,7 @@
 class TradeTable extends React.Component {
     
     render() {
-        let tipo;
+        let tipo;        
         return (
             <table cellPadding="4" cellSpacing="0" style={{width:"100%"}}>
                 <thead><tr key={-1}>
@@ -43,10 +43,10 @@ class TradeTable extends React.Component {
                                 <td>{tipo}</td>
                                 <td>{formatDate(date)}</td>
                                 <td style={{textAlign: "right"}}>{'$ ' + Number(e.value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
-                                <td>
+                                <td style={{textAlign:"center"}}>
                                     <button disabled={disabled?true:false}
                                         className="btn btn-sm btn-light"
-                                        onClick={() => this.props.toggleModalTrade(null,null)}>Edit Trade</button></td>
+                                        onClick={() => this.props.toggleModalTrade(this.props.asset,e)}>Edit Trade</button></td>
                             </tr>
                         )      
                     })
