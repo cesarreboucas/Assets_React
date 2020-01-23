@@ -94,7 +94,7 @@ class AssetsMainPage extends Component {
       formatter: (cell, row) => {
         return (<span>
           <button className="btn btn-sm btn-light" onClick={() => this.toggleModalOptions(row._id)}>Options</button>&nbsp;
-            <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>
+          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>
         </span>)
       },
     }
@@ -114,6 +114,7 @@ class AssetsMainPage extends Component {
         assets: axios.assets,
         asset_id: null
        });
+       this.fillDatalists();
     } catch (error) {
       
     }
@@ -145,9 +146,29 @@ class AssetsMainPage extends Component {
         </div>
         <CenteredOptionsModal show={this.state.showModalOptions} onHide={this.toggleModalOptions} assetId={this.state.asset_id} />
         <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} />
+        <datalist id="dl_group_a"></datalist>
+        <datalist id="dl_group_b"></datalist>
+        <datalist id="dl_group_c"></datalist>
       </div>
     );
   }
+
+  fillDatalists() {
+    this.state.assets.forEach(asset => {
+      let group_a,group_b,group_c;
+      group_a = document.createElement("option");
+      group_a.value = asset.group.group_a;
+      document.getElementById("dl_group_a").appendChild(group_a);
+      group_b = document.createElement("option");
+      group_b.value = asset.group.group_b;
+      document.getElementById("dl_group_b").appendChild(group_b);
+      group_c = document.createElement("option");
+      group_c.value = asset.group.group_c;
+      document.getElementById("dl_group_c").appendChild(group_c);
+      
+    });
+  }
+
 }
 
 export default AssetsMainPage;
