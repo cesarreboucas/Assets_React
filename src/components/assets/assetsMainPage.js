@@ -21,15 +21,15 @@ class AssetsMainPage extends Component {
     showModalOptions: false,
     showModalTrade: false,
     asset_id: null,
-    movement_modal_info: {asset_info:null},
+    movement_info: null,
   }
 
   toggleModalOptions = (asset_id) => {
     this.setState({ showModalOptions: !this.state.showModalOptions, asset_id: asset_id })
   }
 
-  toggleModalTrade = (asset, movement) => {    
-    this.setState({ showModalTrade: !this.state.showModalTrade, movement_modal_info: { asset_info: asset, movement: movement } });
+  toggleModalTrade = (movement) => {
+    this.setState({ movement_info : movement, showModalTrade: !this.state.showModalTrade });
   }
 
   expandRow = {
@@ -134,7 +134,7 @@ class AssetsMainPage extends Component {
           </div>
         </div>
         <CenteredOptionsModal show={this.state.showModalOptions} onHide={this.toggleModalOptions} assetId={this.state.asset_id} />
-        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_modal_info} />
+        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_info} />
         <datalist id="dl_group_a"></datalist>
         <datalist id="dl_group_b"></datalist>
         <datalist id="dl_group_c"></datalist>
