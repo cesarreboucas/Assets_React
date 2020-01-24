@@ -32,4 +32,15 @@ export async function updateAsset(assetData) {
   }
 }
 
+export async function updateMovement(movementData) {
+  try {
+    const response = await axios.put('/api/assets/movement',
+      movementData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 // Index, Show, Create, Delete, Update

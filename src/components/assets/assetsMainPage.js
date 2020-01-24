@@ -21,7 +21,14 @@ class AssetsMainPage extends Component {
     showModalOptions: false,
     showModalTrade: false,
     asset_id: null,
-    movement_info: null,
+    movement_info: { 
+      date: new Date(),
+      kind: 'buy',
+      value: 0,
+      comment: '',
+      _id: '',
+      asset_id: '',
+      asset_code: ''}
   }
 
   toggleModalOptions = (asset_id) => {
