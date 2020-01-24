@@ -1,16 +1,25 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 import DatePicker from 'react-datepicker';
 import * as assetsApi from '../../api/assets.js';
+import momentjs from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 
 class CenteredTradeModal extends React.Component {
 
   formSubmit = async (evt) => {
+    const dateObj = this.state.date?this.state.date:new Date(this.props.movementInfo.date);
+    const date = momentjs(dateObj); 
+    //console.log("DEFAULT",date.format());
+    date.utcOffset(0);//Set Today to UTC
+    //console.log("BRINGING TO ZERO",date.format());
+    date.hour(0); // Set time to 0:00:00
+    //console.log("SET MIDNIGHT",date.format());
+
     let body = {
       'asset':this.props.movementInfo.asset_id,
-      'date':(this.state.date?this.state.date:new Date(this.props.movementInfo.date)).toISOString(),
+      'date':date.format(),
       'kind':document.getElementById("mMovSelKind").value,
       'comment':'no comments',
       'value':Number(document.getElementById("mMovValue").value),
@@ -19,11 +28,9 @@ class CenteredTradeModal extends React.Component {
       
     };
     console.log(body);
-    //await assetsApi.updateMovement(body);
-    //evt.preventDefault();
-    //return false;
-    
-    //window.location.href = "/assets";
+    evt.preventDefault();
+    await assetsApi.updateMovement(body);
+    window.location.href = "/assets";
   }
 
     state = {
@@ -31,6 +38,15 @@ class CenteredTradeModal extends React.Component {
 
   render() {
     let props = this.props.movementInfo;
+    let date;
+    if(this.state.date) {
+      date = momentjs(this.state.date);
+    } else {
+      date = momentjs(new Date(props.date));
+    }
+    date.utcOffset(0);//Set Today to UTC
+    date.hour(0); // Set time to 0:00:00
+
     return (
       <Modal size="lg" show={this.props.show} onHide={() => {this.props.onHide(props)}}  centered>
         <Modal.Header closeButton>
@@ -38,7 +54,7 @@ class CenteredTradeModal extends React.Component {
             Add Trade
           </Modal.Title>
         </Modal.Header>
-        
+        <form onSubmit={this.formSubmit} method="POST">
         <Modal.Body>
             <div className="form-group">
               <label htmlFor="ativo">Asset</label>
@@ -48,9 +64,10 @@ class CenteredTradeModal extends React.Component {
             </div>
             <div className="form-group">
               <div>Date</div>
-              <DatePicker className="form-control" selected={this.state.date?this.state.date:new Date(props.date)}
+              <DatePicker className="form-control" 
+                selected={new Date(date.year(),date.month(),date.date(),0,0,0,0)} //Needed to bypass timezone
                 onChange={(date) => { this.setState({date: date}) }} 
-                dateFormat="MMMM d, yyyy" />
+                dateFormat="MMMM d, yyyy" /> <span>{date.format()}</span>
             </div>
             {/*
             //Put it back on add with IF
@@ -73,10 +90,10 @@ class CenteredTradeModal extends React.Component {
             </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => {this.props.onHide(props)}}>Close</Button>
-          <button onClick={this.formSubmit} id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
+          <button className="btn btn-primary" type='submit' onClick={() => {this.props.onHide(props)}}>Close</button>
+          <button id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
         </Modal.Footer>
-        
+        </form>
       </Modal>
     );
   }
