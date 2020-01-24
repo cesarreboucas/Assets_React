@@ -4,8 +4,15 @@ import Button from 'react-bootstrap/Button'
 
 class CenteredTradeModal extends React.Component {
   render() {
+    const formInfo = this.props.movementInfo.asset_info?this.props.movementInfo:null;
+    let date;
+    if(formInfo) {
+      let dateObj = new Date(formInfo.movement.date);
+      date = dateObj.getUTCFullYear()+"-"+(String("0")+(Number(dateObj.getUTCMonth()+1))).substr(-2)
+        +"-"+(String("0")+(Number(dateObj.getUTCDate()))).substr(-2)
+    }
+    console.log(formInfo);
     return (
-      
       <Modal size="lg" show={this.props.show} onHide={this.props.onHide}  centered>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -15,28 +22,33 @@ class CenteredTradeModal extends React.Component {
         <Modal.Body>
           <form className="user-form" action="/ativos/newtrade" method="POST" id="formNewTrade" encType="application/x-www-form-urlencoded">
             <div className="form-group">
-              <label htmlFor="ativo">Ativo</label>
-              <input type="input" className="form-control" id="txtativo" name="ativo" disabled />
-              <input type="hidden" id="txtid" name="id" />
+              <label htmlFor="ativo">Asset</label>
+              <input type="input" className="form-control" id="mMovCode" defaultValue={formInfo?formInfo.asset_info.code:''} name="code" disabled />
+              <input type="hidden" id="mMovAssetId" name="AssetId" defaultValue={formInfo?formInfo.asset_info.code:''} />
+              <input type="hidden" id="mMovMovementId" name="MovementId" defaultValue={formInfo?formInfo.movement._id:''} />
             </div>
             <div className="form-group">
-              <label htmlFor="date">Data</label>
-              <input type="date" className="form-control" id="txtdate" name="date" placeholder="Data do evento" required />
+              <label htmlFor="date">Date</label>
+              <input type="date" className="form-control" id="mMovDate" name="date" 
+                defaultValue={formInfo?date:''} required />
             </div>
+            {/*
+            //Put it back on add with IF
             <div className="form-group">
-              <label htmlFor="quantidade">Quantidade</label>
-              <input type="number" className="form-control" id="txtquantidade" name="quantidade" placeholder="Quantidade" required />
+              <label htmlFor="quantidade">Quantity</label>
+              <input type="number" className="form-control" id="mMovQuantity" name="quantity" placeholder="Quantity Negotiated" />
             </div>
+            */}
             <div className="form-group">
-              <label htmlFor="valor">Valor Total da Operacao</label>
-              <input type="number" className="form-control" id="txtvalor" name="valor" placeholder="Total Investido" required />
+              <label htmlFor="valor">Operation's Value </label>
+              <input type="number" className="form-control" id="mMovValue" name="mMovValue" defaultValue={formInfo?formInfo.movement.value:''}  placeholder="Total Value" required />
             </div>
             <div className="form-group">
               <label htmlFor="tipo">Tipo de Operacao</label>
-              <select name="tipo" id="seltipo" className="custom-select">
-                  <option value="c" selected >Compra</option>
-                  <option value="v">Venda</option>
-                  <option value="d">Dividendo</option>
+              <select name="tipo" id="seltipo" className="custom-select" defaultValue={formInfo?formInfo.movement.kind:''}>
+                  <option value="buy">Buy</option>
+                  <option value="sell">Sell</option>
+                  <option value="dividend">Dividend</option>
               </select>
             </div>
           </form>

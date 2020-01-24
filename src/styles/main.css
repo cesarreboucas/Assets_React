@@ -1,5 +1,38 @@
-.Logged-out {
-  text-align: center;
+@import "button_animation.css";
+
+.custom-tab {
+  border-radius: 5px 5px 0px 0px;
+  background-color: #3a3535;
+  padding-bottom: 1px;
+}
+.custom-tab a {
+  background-color: #3a3535;
+  color: #f4f4f4;
+}
+.custom-tab a:hover {
+  color: #ff7315 !important;
+}
+
+/* When a link is active */
+.custom-tab .nav-tabs .nav-item.show .nav-link, 
+.nav-tabs .nav-link.active {
+  color: #3a3535 !important;
+  background-color: #f4f4f4 !important;
+  border-color: #fff #fff #ff7315 !important;
+  border-width: 3px;
+}
+
+.loggedOut-tab-form {
+  flex: 1; 
+  width: 30vw; 
+  padding: 30px;
+  border-width: 0px 1px 1px 1px;
+  background-color: #3a3535;
+  border-style: solid;
+  border-color: #f4f4f4;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  font-size: calc(2px + 2vmin) !important;
 }
 
 .Logged-out-logo {
@@ -14,13 +47,13 @@
 }
 
 .Logged-out-header {
-  background-color: #282c34;
+  background-color: #232020;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(5px + 2vmin);
   color: white;
 }
 

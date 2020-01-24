@@ -3,31 +3,31 @@
 class TradeTable extends React.Component {
     
     render() {
-        let tipo;
+        let tipo;        
         return (
             <table cellPadding="4" cellSpacing="0" style={{width:"100%"}}>
                 <thead><tr key={-1}>
-                    <th>Moviment</th>
+                    <th>Movement</th>
                     <th>Date</th>
-                    <th>Value</th>
-                    <th>Actions</th>
+                    <th style={{textAlign:"right"}}>Value</th>
+                    <th style={{textAlign:"center"}}>Actions</th>
                 </tr></thead>
                 <tbody>
                 {
                     this.props.movements.map((e,i) => {
                         let disabled = false;
                         switch(e.kind) {
-                            case "c": 
+                            case "buy": 
                                 tipo = "Buy";
                                 break;
-                            case "v":
+                            case "sell":
                                 tipo = "Sell"
                                 break;
-                            case "p":
+                            case "holdings":
                                 tipo = "Holdings"
                                 disabled = true;
                                 break;
-                            case "d":
+                            case "dividend":
                                 tipo = "Dividend"
                                 break;
                             default:
@@ -41,12 +41,12 @@ class TradeTable extends React.Component {
                             
                             <tr key={i}>
                                 <td>{tipo}</td>
-                                <td className="text-right">{formatDate(date)}</td>
-                                <td className="text-right">{Number(e.value).toFixed(2)}</td>
-                                <td className="text-right">
+                                <td>{formatDate(date)}</td>
+                                <td style={{textAlign: "right"}}>{'$ ' + Number(e.value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
+                                <td style={{textAlign:"center"}}>
                                     <button disabled={disabled?true:false}
                                         className="btn btn-sm btn-light"
-                                        onClick={() => this.props.toggleModalTrade(null,null)}>Edit Trade</button></td>
+                                        onClick={() => this.props.toggleModalTrade(this.props.asset,e)}>Edit Trade</button></td>
                             </tr>
                         )      
                     })

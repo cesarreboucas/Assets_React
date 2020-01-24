@@ -39,7 +39,7 @@ class DashboardMainPage extends React.Component {
       text: 'Total',
       align: 'right',
       headerAlign: 'right',
-      formatter: (cell, row) => { return `$ ${(row.unit * row.balance).toFixed(2)}`; },
+      formatter: (cell, row) => { return `$ ${(row.unit * row.balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`; },
       style: defaultCollumStyle
     }, {
       dataField: 'options',

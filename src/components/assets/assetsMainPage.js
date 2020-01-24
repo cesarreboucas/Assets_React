@@ -20,21 +20,21 @@ class AssetsMainPage extends Component {
     asset_total: null,
     showModalOptions: false,
     showModalTrade: false,
-    asset_id: null
+    asset_id: null,
+    movement_modal_info: {asset_info:null},
   }
 
   toggleModalOptions = (asset_id) => {
     this.setState({ showModalOptions: !this.state.showModalOptions, asset_id: asset_id })
   }
 
-  toggleModalTrade = (asset_id, trade_id) => {
-    this.setState({ showModalTrade: !this.state.showModalTrade });
-    console.log("Modal Trade Called - Show: ", this.state.showModalTrade);
+  toggleModalTrade = (asset, movement) => {    
+    this.setState({ showModalTrade: !this.state.showModalTrade, movement_modal_info: { asset_info: asset, movement: movement } });
   }
 
   expandRow = {
     renderer: row => (
-      <TradeTable movements={row.movements} toggleModalTrade={this.toggleModalTrade} />
+      <TradeTable movements={row.movements} asset={{ id: row._id, code: row.code }} toggleModalTrade={this.toggleModalTrade} />
     ), showExpandColumn: true,
     expandByColumnOnly: true,
     expandHeaderColumnRenderer: ({ isAnyExpands }) => {
@@ -71,7 +71,7 @@ class AssetsMainPage extends Component {
       text: 'Total',
       align: 'right',
       headerAlign: 'right',
-      formatter: (cell, row) => { return `$ ${(row.total).toFixed(2)}`; },
+      formatter: (cell, row) => { return `$ ${(row.total).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`; },
       style: defaultCollumStyle,
       footer: this.state.asset_total ? this.state.asset_total.total : 'b',
       footerAlign: 'right',
@@ -94,7 +94,7 @@ class AssetsMainPage extends Component {
       formatter: (cell, row) => {
         return (<span>
           <button className="btn btn-sm btn-light" onClick={() => this.toggleModalOptions(row._id)}>Options</button>&nbsp;
-            <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>
+          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>
         </span>)
       },
     }
@@ -106,28 +106,18 @@ class AssetsMainPage extends Component {
     try {
       const axios = await assetsApi.list(1);
       console.log(axios);
-      this.tableColumns[3].footer = `$ ${(axios.asset_total.total).toFixed(2)}`;
+      this.tableColumns[3].footer = `$ ${(axios.asset_total.total).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
       this.tableColumns[4].footer = `${(axios.asset_total.irr * 100).toFixed(2)}%`;
       this.setState({
         asset_total: axios.asset_total,
         loading: false,
         assets: axios.assets,
         asset_id: null
-       });
+      });
+      this.fillDatalists();
     } catch (error) {
-      
-    }
 
-    /*fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=1", {
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(result => {
-        console.log(result)
-        this.tableColumns[3].footer = `$ ${(result.asset_total.total).toFixed(2)}`;
-        this.tableColumns[4].footer = `${(result.asset_total.irr * 100).toFixed(2)}%`;
-        this.setState({ asset_total: result.asset_total, loading: false, assets: result.assets });
-      });*/
+    }
   }
 
   render() {
@@ -144,10 +134,30 @@ class AssetsMainPage extends Component {
           </div>
         </div>
         <CenteredOptionsModal show={this.state.showModalOptions} onHide={this.toggleModalOptions} assetId={this.state.asset_id} />
-        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} />
+        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_modal_info} />
+        <datalist id="dl_group_a"></datalist>
+        <datalist id="dl_group_b"></datalist>
+        <datalist id="dl_group_c"></datalist>
       </div>
     );
   }
+
+  fillDatalists() {
+    this.state.assets.forEach(asset => {
+      let group_a, group_b, group_c;
+      group_a = document.createElement("option");
+      group_a.value = asset.group.group_a;
+      document.getElementById("dl_group_a").appendChild(group_a);
+      group_b = document.createElement("option");
+      group_b.value = asset.group.group_b;
+      document.getElementById("dl_group_b").appendChild(group_b);
+      group_c = document.createElement("option");
+      group_c.value = asset.group.group_c;
+      document.getElementById("dl_group_c").appendChild(group_c);
+
+    });
+  }
+
 }
 
 export default AssetsMainPage;
