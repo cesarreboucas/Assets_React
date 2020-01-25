@@ -1,9 +1,12 @@
 import React from 'react';
-import {  
+import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect } from "react-router-dom";
+  Redirect,
+  useParams,
+  useLocation
+} from "react-router-dom";
 
 import * as account from './api/account';
 
@@ -27,36 +30,29 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={LoggedOut}/>
-          <PrivateRoute path="/dashboard">
-            {PrivateComponentsRender(<DshboardMainPage/>)}
-          </PrivateRoute>
-          <PrivateRoute path="/goals">
-            {PrivateComponentsRender(<GoalsMainPage/>)}
-          </PrivateRoute>
-          <PrivateRoute path="/profile">
-            {PrivateComponentsRender(<ProfileMainPage/>)}
-          </PrivateRoute>
-          <PrivateRoute path="/assets">
-            {PrivateComponentsRender(<AssetsMainPage/>)}
-          </PrivateRoute>
+          <Route exact path="/" component={LoggedOut} />
+          <PrivateRoute path="/dashboard" component={<DshboardMainPage />} />
+          <PrivateRoute path="/goals" component={<GoalsMainPage />} />
+          <PrivateRoute path="/profile" component={<ProfileMainPage />} />
+          <PrivateRoute exact path="/assets" component={<AssetsMainPage />} />
         </Switch>
       </Router>
     );
   }
 }
 
-function PrivateComponentsRender(component) {
+const PrivateComponentsRender = (props) => {
+  console.log('[USE_PARAMS]', useParams());
   return (
     <div>
       <header>
-        <Header/>
+        <Header />
       </header>
-      <div style={{ width:'90%', margin: 'auto', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-        {component}
+      <div style={{ width: '90%', margin: 'auto', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        {props.component}
       </div>
       <footer id="footer">
-        <Footer/>
+        <Footer />
       </footer>
     </div>
   );
@@ -64,24 +60,23 @@ function PrivateComponentsRender(component) {
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-function PrivateRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        account.isAuthenticated() ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: location }
-            }}
-          />
-        )
-      }
+function PrivateRoute({ children, component, ...rest }) {
+  console.log('[AUTH]', account.isAuthenticated());
+
+  if (account.isAuthenticated()) {
+    return (
+      <Route {...rest}>
+        <PrivateComponentsRender component={component} />
+      </Route>
+    );
+  } else {
+    return <Redirect
+      to={{
+        pathname: "/",
+        //state: { from: window.location }
+      }}
     />
-  );
+  }
 }
 
 export default App;
