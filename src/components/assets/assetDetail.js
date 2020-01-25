@@ -1,12 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams
-  } from "react-router-dom";
 
 class AssetDetail extends Component {
     
@@ -20,7 +12,7 @@ class AssetDetail extends Component {
 
     //a = useParams();
     render() {
-        let assetId = this.props;
+        //let assetId = this.props;
         //console.log(useParams());
 
         return(
