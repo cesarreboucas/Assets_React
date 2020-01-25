@@ -56,6 +56,7 @@ class AssetsMainPage extends Component {
     {
       dataField: 'code',
       text: 'Name',
+      formatter: (cell,row) => { return (<a style={{color:"white"}} href={'/assets/'+row._id}>{cell}</a>); },
       style: defaultCollumStyle,
       footer: '',
     }, {

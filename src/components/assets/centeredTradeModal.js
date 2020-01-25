@@ -9,13 +9,13 @@ import "react-datepicker/dist/react-datepicker.css";
 class CenteredTradeModal extends React.Component {
 
   formSubmit = async (evt) => {
-    const dateObj = this.state.date?this.state.date:new Date(this.props.movementInfo.date);
-    const date = momentjs(dateObj); 
+    
+    const date = this.getDate(); 
     //console.log("DEFAULT",date.format());
+    date.add(date.utcOffset(),'m'); //Taking the TimeDiff Back (Vancouver -480 by default)
+    //console.log("GET MINUTES BACK",date.format());
     date.utcOffset(0);//Set Today to UTC
     //console.log("BRINGING TO ZERO",date.format());
-    date.hour(0); // Set time to 0:00:00
-    //console.log("SET MIDNIGHT",date.format());
 
     let body = {
       'asset':this.props.movementInfo.asset_id,
@@ -29,26 +29,35 @@ class CenteredTradeModal extends React.Component {
     };
     console.log(body);
     evt.preventDefault();
-    await assetsApi.updateMovement(body);
-    window.location.href = "/assets";
+    try {
+      await assetsApi.updateMovement(body);  
+      window.location.href = "/assets";
+    } catch (error) {
+      console.log(body);
+    }
   }
 
     state = {
   };
 
-  render() {
-    let props = this.props.movementInfo;
+  getDate() {
     let date;
     if(this.state.date) {
       date = momentjs(this.state.date);
     } else {
-      date = momentjs(new Date(props.date));
+      date = momentjs(this.props.movementInfo.date);
+      date.subtract(date.utcOffset(),'m'); //Adding the TimeDiff back. //Vancouver = -480 or -420 on summer
     }
-    date.utcOffset(0);//Set Today to UTC
-    date.hour(0); // Set time to 0:00:00
+    return date;
+  }
+
+  render() {
+    let props = this.props.movementInfo;
+    let date = this.getDate();
 
     return (
-      <Modal size="lg" show={this.props.show} onHide={() => {this.props.onHide(props)}}  centered>
+      <Modal size="lg" show={this.props.show} 
+          onHide={() => {this.setState({date:null});;this.props.onHide(props);}}  centered>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Add Trade
@@ -65,9 +74,9 @@ class CenteredTradeModal extends React.Component {
             <div className="form-group">
               <div>Date</div>
               <DatePicker className="form-control" 
-                selected={new Date(date.year(),date.month(),date.date(),0,0,0,0)} //Needed to bypass timezone
+                selected={date.toDate()} 
                 onChange={(date) => { this.setState({date: date}) }} 
-                dateFormat="MMMM d, yyyy" /> <span>{date.format()}</span>
+                dateFormat="MMMM d, yyyy" />
             </div>
             {/*
             //Put it back on add with IF

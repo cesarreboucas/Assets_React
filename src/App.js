@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect } from "react-router-dom";
+  Redirect,
+  useParams } from "react-router-dom";
 
 import * as account from './api/account';
 
@@ -13,6 +14,7 @@ import Header from './components/common/header.js';
 import Footer from './components/common/footer.js'
 
 import AssetsMainPage from './components/assets/assetsMainPage.js';
+import AssetDetail from './components/assets/assetDetail.js';
 import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
 import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
@@ -23,6 +25,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends React.Component {
+  asset() {
+    let { assetId } = useParams()
+  }
+
   render() {
     return (
       <Router>
@@ -37,7 +43,10 @@ class App extends React.Component {
           <PrivateRoute path="/profile">
             {PrivateComponentsRender(<ProfileMainPage/>)}
           </PrivateRoute>
-          <PrivateRoute path="/assets">
+          <PrivateRoute exact path="/assets/:assetId">
+            {PrivateComponentsRender(<AssetDetail/>)}
+          </PrivateRoute>
+          <PrivateRoute exact path="/assets">
             {PrivateComponentsRender(<AssetsMainPage/>)}
           </PrivateRoute>
         </Switch>
@@ -46,7 +55,7 @@ class App extends React.Component {
   }
 }
 
-function PrivateComponentsRender(component) {
+function PrivateComponentsRender(component) {  
   return (
     <div>
       <header>
@@ -64,13 +73,15 @@ function PrivateComponentsRender(component) {
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-function PrivateRoute({ children, ...rest }) {
+function PrivateRoute({ Children, ...rest }) {
+  //let ba = {...rest.computedMatch.params};
+  //console.log(ba);
   return (
     <Route
       {...rest}
       render={({ location }) =>
         account.isAuthenticated() ? (
-          children
+          <Children />
         ) : (
           <Redirect
             to={{
