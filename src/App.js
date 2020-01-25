@@ -4,13 +4,9 @@ import {
   Switch,
   Route,
   Redirect,
-<<<<<<< HEAD
-  useParams } from "react-router-dom";
-=======
   useParams,
   useLocation
 } from "react-router-dom";
->>>>>>> 63935b847c303d8a4dfddafed58a1551190cda99
 
 import * as account from './api/account';
 
@@ -44,6 +40,7 @@ class App extends React.Component {
           <PrivateRoute path="/goals" component={<GoalsMainPage />} />
           <PrivateRoute path="/profile" component={<ProfileMainPage />} />
           <PrivateRoute exact path="/assets" component={<AssetsMainPage />} />
+          <PrivateRoute exact path="/assets/:assetId" component={<AssetDetail />} />
         </Switch>
       </Router>
     );
