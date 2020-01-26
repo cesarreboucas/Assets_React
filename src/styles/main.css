@@ -2,11 +2,11 @@
 
 .custom-tab {
   border-radius: 5px 5px 0px 0px;
-  background-color: #3a3535;
+  background-color: #43525e;
   padding-bottom: 1px;
 }
 .custom-tab a {
-  background-color: #3a3535;
+  background-color: #43525e;
   color: #f4f4f4;
 }
 .custom-tab a:hover {
@@ -24,10 +24,9 @@
 
 .loggedOut-tab-form {
   flex: 1; 
-  width: 30vw; 
   padding: 30px;
   border-width: 0px 1px 1px 1px;
-  background-color: #3a3535;
+  background-color: #43525e;
   border-style: solid;
   border-color: #f4f4f4;
   border-bottom-left-radius: 5px;
@@ -47,13 +46,13 @@
 }
 
 .Logged-out-header {
-  background-color: #232020;
-  min-height: 100vh;
-  display: flex;
+  background-color: #333A40;
+  min-height: 80vh;
+  display: block;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(5px + 2vmin);
+
   color: white;
 }
 
@@ -69,3 +68,12 @@
     transform: rotate(360deg);
   }
 }
+
+.LoginButton{
+  background-color: #ff7315;
+}
+.LoginButton:hover{
+  background-color: #E2E6EA;
+  color:black;
+}
+

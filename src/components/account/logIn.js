@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import * as account from '../../api/account';
 
+
 class LogIn extends Component {
   constructor(props) {
     super(props);
@@ -40,6 +41,13 @@ class LogIn extends Component {
     return null;
   }
 
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      console.log('Test-Andre',event);
+      this.onSignIn()
+    }
+  }
+
   render() {
     return (
       <Form className="loggedOut-tab-form">
@@ -65,18 +73,22 @@ class LogIn extends Component {
             placeholder="Password"
             onChange={(event) => this.setState({ password: event.target.value })}
             value={this.state.password}
+            onKeyPress={this.keyPressed}
+            
           />
         </Form.Group>
         <Form.Group controlId="logInCheckbox" style={{ alignItems: 'center', fontSize: '15px' }}>
           <Form.Check type="checkbox" label="Remember me" onChange={(event) => this.setState({ remember: event.target.value })} />
         </Form.Group>
-        <Button variant="primary" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onSignIn()}>
+        <Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onSignIn()}>
           S U B M I T
         </Button>
         {this.redirectToAssets()}
       </Form>
     );
   }
+
+  
 }
 
 export default LogIn;

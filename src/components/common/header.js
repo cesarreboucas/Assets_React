@@ -56,7 +56,7 @@ class Header extends React.Component{
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
          { this.redirectToLoggedOut() }
-        <a className="navbar-brand" href="/" style={{"marginLeft":"10%"}}>
+        <a className="navbar-brand" href="/dashboard" style={{"marginLeft":"10%"}}>
             <img src="/images/assets.svg" alt="logo" style={{width: "64px" ,height:"64px"}} />
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">

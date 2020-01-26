@@ -81,7 +81,7 @@ class SignUp extends Component {
           value={this.state.password} 
           />
         </Form.Group>
-        {<Button variant="primary" type="button" style={{ width:'100%', fontWeight:'bold' }} onClick={() => this.onSignUp()}>
+        {<Button variant="primary" className="LoginButton" type="button" style={{ width:'100%', fontWeight:'bold' }} onClick={() => this.onSignUp()}>
           S U B M I T
         </Button>}
         {/*<div className="border-container">
