@@ -138,7 +138,7 @@ class AssetsMainPage extends Component {
               bordered={false} expandRow={this.expandRow} />}
 
           <div className="text-right" style={{ padding: "0px 20px 20px 0px" }}>
-            <a className="btn btn-sm btn-light" role="button" href="/ativos/create">Novo</a>
+            <a className="btn btn-sm btn-light" role="button" href="/assets/create">Novo</a>
           </div>
         </div>
         <CenteredOptionsModal show={this.state.showModalOptions} onHide={this.toggleModalOptions} assetId={this.state.asset_id} />
