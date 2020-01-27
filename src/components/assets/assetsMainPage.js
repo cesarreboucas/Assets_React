@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import TradeTable from './tradeTable.js';
 import CenteredOptionsModal from './centeredOptionsModal.js';
@@ -28,8 +29,10 @@ class AssetsMainPage extends Component {
       comment: '',
       _id: '',
       asset_id: '',
-      asset_code: ''}
-  }
+      asset_code: ''},
+    assetDetails: false,
+    assetDetailsId: '',
+  };
 
   toggleModalOptions = (asset_id) => {
     this.setState({ showModalOptions: !this.state.showModalOptions, asset_id: asset_id })
@@ -101,7 +104,7 @@ class AssetsMainPage extends Component {
       footer: "",
       formatter: (cell, row) => {
         return (<span>
-          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalOptions(row._id)}>Options</button>&nbsp;
+          <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetDetailsId: row._id })}>Options</button>&nbsp;
           <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>
         </span>)
       },
@@ -128,9 +131,19 @@ class AssetsMainPage extends Component {
     }
   }
 
+  redirectToAssetDetails = () => {
+    if(this.state.assetDetails) {
+      return (
+        <Redirect to={`/assets/${this.state.assetDetailsId}`} />
+      )
+    }
+    return null;
+  }
+
   render() {
     return (
       <div>
+        { this.redirectToAssetDetails() }
         <h1>Assets List</h1>
         <div className="container">
           {this.state.loading ? '' :
@@ -138,7 +151,7 @@ class AssetsMainPage extends Component {
               bordered={false} expandRow={this.expandRow} />}
 
           <div className="text-right" style={{ padding: "0px 20px 20px 0px" }}>
-            <a className="btn btn-primary" role="button" href="/ativos/create">Novo</a>
+            <a className="btn btn-sm btn-light" role="button" href="/assets/create">Novo</a>
           </div>
         </div>
         <CenteredOptionsModal show={this.state.showModalOptions} onHide={this.toggleModalOptions} assetId={this.state.asset_id} />

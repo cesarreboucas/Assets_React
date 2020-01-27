@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,13 +20,10 @@ import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
 import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/main.css';
+/* import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/main.css'; */
 
 class App extends React.Component {
-  asset() {
-    let { assetId } = useParams()
-  }
 
   render() {
     return (
@@ -37,6 +34,7 @@ class App extends React.Component {
           <PrivateRoute path="/goals" component={GoalsMainPage} />
           <PrivateRoute path="/profile" component={ProfileMainPage} />
           <PrivateRoute exact path="/assets" component={AssetsMainPage} />
+          <PrivateRoute exact path="/assets/create" component={AssetDetail} />
           <PrivateRoute exact path="/assets/:assetId" component={AssetDetail} />
         </Switch>
       </Router>

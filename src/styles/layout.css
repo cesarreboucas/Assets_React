@@ -28,7 +28,10 @@ body {
     background-color: rgba(0, 0, 0, 0.0);
     /*border-radius: 10px;*/
 }
-body::after{ content:''; display:block; height:100px; }
+body::after{
+    content:'';
+    display:block;
+}
 h1 {
     font-weight: bold;
     color: #eeeeee;
@@ -47,13 +50,6 @@ img {
     display: block;
 }
 
-/* FOOTER STYLES */
-#footer {
-    /*font: normal small-caps bold 1em/3em Oswald;*/
-    text-align: center;
-    background-color: black;
-    color: #eb591f;
-}
 /* Form layout */
 div.user-form-container {
     margin-left: 25%;
@@ -76,18 +72,19 @@ nav a {
 }
 
 
-/*Footer */
-
+/*
+ FOOTER STYLES
+*/
 #footer {
     padding: 30px 30px;
-    position:absolute; 
+    position: relative;
     bottom:0; 
     width:100%; 
-    height:300px; 
-}
-#footer {
+    height:300px;
+    text-align: center;
+    background-color: black;
+    color: #eb591f; 
     background-color: #3f3f3f;
-    /*font: normal small-caps bold 1em/3em Oswald;*/
 }
 #footer h5{
 	padding-left: 10px;
@@ -123,3 +120,6 @@ nav a {
 #footer ul.quick-links li:hover a i {
     font-weight: 700;
 }
+/*
+ END FOOTER STYLES
+*/
