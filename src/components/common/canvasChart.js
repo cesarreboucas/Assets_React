@@ -55,7 +55,7 @@ class CanvasChart extends Component {
                     });
                     var currentValue = dataset.data[tooltipItem.index];
                     var percentage = ((currentValue/total) * 100);
-                    return percentage.toFixed(2) + "%";
+                    return data.labels[tooltipItem.index]+' '+percentage.toFixed(2) + "%";
                   }
                 }
             }

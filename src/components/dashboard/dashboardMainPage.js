@@ -57,11 +57,11 @@ class DashboardMainPage extends React.Component {
 
   async componentDidMount() {
     const result = await assetsApi.list(0);
-      console.log(result);
-      this.dataCharts = [];
-      this.buildDatasets(result.assets);
-      this.setState({ loading: false, assets: result.assets });
-      
+    console.log(result);
+    this.dataCharts = [];
+    this.buildDatasets(result.assets);
+    this.setState({ loading: false, assets: result.assets });
+
     /*fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=0", {
       headers: { 'Content-Type': 'application/json' }
     })
@@ -97,10 +97,17 @@ class DashboardMainPage extends React.Component {
               {this.state.loading ? '' : <CanvasChart data={this.dataCharts[3]} />}
             </div>
           </div>
+          {/*<div className="row">
+            <div className="col">
+              {this.state.loading ? '' : <CanvasChart data={this.dataCharts[4]} />}
+            </div>
+          </div>*/}
         </div>
       </div>
     </div>);
   }
+
+
 
   buildDatasets(assets) {
     let dataChart = {
@@ -111,7 +118,21 @@ class DashboardMainPage extends React.Component {
     this.dataCharts[1] = { labels: ["Undefined"], datasets: [{ data: [0], backgroundColor: [colors[0]] }] };
     this.dataCharts[2] = { labels: ["Undefined"], datasets: [{ data: [0], backgroundColor: [colors[0]] }] };
     this.dataCharts[3] = { labels: ["Undefined"], datasets: [{ data: [0], backgroundColor: [colors[0]] }] };
-
+    /*LIXOOO
+    this.dataCharts[4] = {
+      labels: ["Undefined1","Undefinded2"],
+      datasets: [
+        {
+          data: [15,0],
+          backgroundColor: [colors[0],'']
+        },
+        {
+          data: [0,12],
+          backgroundColor: ['',colors[1]]
+        },
+      ]
+    };
+    */
     assets.forEach((asset, i) => {
       //console.log("Asset", asset);
       this.dataCharts[0].labels.push(asset.code);
@@ -137,8 +158,8 @@ class DashboardMainPage extends React.Component {
       }
     });
 
-    for(let x=0;x<this.dataCharts.length;++x) {
-      if(this.dataCharts[x].datasets[0].data[0]===0) {
+    for (let x = 0; x < this.dataCharts.length; ++x) {
+      if (this.dataCharts[x].datasets[0].data[0] === 0) {
         this.dataCharts[x].datasets[0].data.shift();
         //this.dataCharts[x].datasets[0].backgroundColor.shift();
         this.dataCharts[x].labels.shift();
