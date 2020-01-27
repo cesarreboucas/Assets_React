@@ -4,6 +4,7 @@ import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
 
 import LogIn from './logIn';
 import SignUp from './signUp';
+
 import ForgotPassword from './forgotPassword';
 import Header from '../common/header.js'
 import Footer from '../common/footer.js'
@@ -45,6 +46,7 @@ class LoggedOut extends Component {
             <Row>
               <Col>
                 TESTE
+               
               <img src="/images/assets.svg" alt="logo" style={{ width: "100px", height: "100px" }} />
               </Col>
 

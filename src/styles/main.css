@@ -77,3 +77,18 @@
   color:black;
 }
 
+
+
+#Slide{
+  height: 30px !important;
+}
+
+
+.slide___3-Nqo{
+  width: 10% !important;
+  padding: 10px !important;
+}
+.Animation{
+  transition-duration: 5s;
+
+}
