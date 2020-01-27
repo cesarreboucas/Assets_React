@@ -82,25 +82,25 @@ class DashboardMainPage extends React.Component {
             <div className="col">
               <BootstrapTable keyField='id' classes="table table-dark" data={this.state.assets} columns={this.tableColumns} bordered={false} />
             </div>
-            <div className="col">
-              {this.state.loading ? '' : <CanvasChart data={this.dataCharts[0]} />}
-            </div>
+          <div className="col">
+            {this.state.loading ? '' : <CanvasChart data={this.dataCharts[0]} />}
+          </div>
           </div>
           <div className="row">
             <div className="col">
-              {this.state.loading ? '' : <CanvasChart data={this.dataCharts[1]} />}
+              {this.state.loading ? '' :<CanvasChart data={this.dataCharts[1]} />}
             </div>
             <div className="col">
-              {this.state.loading ? '' : <CanvasChart data={this.dataCharts[2]} />}
+              {this.state.loading ? '' :<CanvasChart data={this.dataCharts[2]} />}
             </div>
             <div className="col">
-              {this.state.loading ? '' : <CanvasChart data={this.dataCharts[3]} />}
+              {this.state.loading ? '' :<CanvasChart data={this.dataCharts[3]} />}
             </div>
           </div>
           {/*<div className="row">
             <div className="col">
-              {this.state.loading ? '' : <CanvasChart data={this.dataCharts[4]} />}
-            </div>
+              {this.state.loading ? '' : /*<CanvasChart data={this.dataCharts[4]} />*/}
+            {/*</div>
           </div>*/}
         </div>
       </div>
@@ -139,19 +139,19 @@ class DashboardMainPage extends React.Component {
       this.dataCharts[0].datasets[0].data.push(Number(asset.total.toFixed(2)));
       this.dataCharts[0].datasets[0].backgroundColor.push(colors[i % 10]);
 
-      if (asset.group.group_a === undefined || asset.group.group_a.length === 0) { // If there no classification
+      if (asset.group.group_a === undefined || asset.group.group_a === null || asset.group.group_a.length === 0) { // If there no classification
         this.dataCharts[1].datasets[0].data[0] += asset.total;
       } else { // For assets with a classification
         this.inserIntoDataset(asset.group.group_a, 1, asset.total);
       }
 
-      if (asset.group.group_b === undefined || asset.group.group_b.length === 0) {
+      if (asset.group.group_b === undefined || asset.group.group_b === null|| asset.group.group_b.length === 0) {
         this.dataCharts[2].datasets[0].data[0] += asset.total;
       } else {
         this.inserIntoDataset(asset.group.group_b, 2, asset.total);
       }
 
-      if (asset.group.group_c === undefined || asset.group.group_c.length === 0) {
+      if (asset.group.group_c === undefined || asset.group.group_b === null|| asset.group.group_c.length === 0) {
         this.dataCharts[3].datasets[0].data[0] += asset.total;
       } else {
         this.inserIntoDataset(asset.group.group_c, 3, asset.total);
