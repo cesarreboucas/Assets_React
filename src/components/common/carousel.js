@@ -38,9 +38,9 @@ class Carousel extends Component {
           <Slide index={3}>I am the four Slide.</Slide>
           <Slide index={4}>I am the five Slide.</Slide>
           <Slide index={5}>I am the six Slide.</Slide>
-          <Slide index={6}>I am the four Slide.</Slide>
-          <Slide index={7}>I am the five Slide.</Slide>
-          <Slide index={8}>I am the six Slide.</Slide>
+          <Slide index={6}>I am the seven Slide.</Slide>
+          <Slide index={7}>I am the eight Slide.</Slide>
+          <Slide index={8}>I am the nine Slide.</Slide>
         </Slider>
  
 

@@ -10,11 +10,8 @@
     "axios": "^0.19.1",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
-<<<<<<< HEAD
-    "pure-react-carousel": "^1.24.1",
-=======
     "moment": "^2.24.0",
->>>>>>> 0ae4b75e8567341a989c4308292f0b923ddde0dd
+    "pure-react-carousel": "^1.24.1",
     "qs": "^6.9.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
