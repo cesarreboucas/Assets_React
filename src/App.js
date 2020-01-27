@@ -1,9 +1,11 @@
-import React from 'react';
-import {  
+import React, { Component } from 'react';
+import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect } from "react-router-dom";
+  Redirect,
+  useParams,
+} from "react-router-dom";
 
 import * as account from './api/account';
 
@@ -13,50 +15,46 @@ import Header from './components/common/header.js';
 import Footer from './components/common/footer.js'
 
 import AssetsMainPage from './components/assets/assetsMainPage.js';
+import AssetDetail from './components/assets/assetDetail.js';
 import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
 import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
 
-import './components/common/layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/main.css';
 
-
 class App extends React.Component {
+  asset() {
+    let { assetId } = useParams()
+  }
+
   render() {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={LoggedOut}/>
-          <PrivateRoute path="/dashboard">
-            {PrivateComponentsRender(<DshboardMainPage/>)}
-          </PrivateRoute>
-          <PrivateRoute path="/goals">
-            {PrivateComponentsRender(<GoalsMainPage/>)}
-          </PrivateRoute>
-          <PrivateRoute path="/profile">
-            {PrivateComponentsRender(<ProfileMainPage/>)}
-          </PrivateRoute>
-          <PrivateRoute path="/assets">
-            {PrivateComponentsRender(<AssetsMainPage/>)}
-          </PrivateRoute>
+          <Route exact path="/" component={LoggedOut} />
+          <PrivateRoute path="/dashboard" component={DshboardMainPage} />
+          <PrivateRoute path="/goals" component={GoalsMainPage} />
+          <PrivateRoute path="/profile" component={ProfileMainPage} />
+          <PrivateRoute exact path="/assets" component={AssetsMainPage} />
+          <PrivateRoute exact path="/assets/:assetId" component={AssetDetail} />
         </Switch>
       </Router>
     );
   }
 }
 
-function PrivateComponentsRender(component) {
+const PrivateComponentsRender = (props) => {
   return (
     <div>
       <header>
-        <Header/>
+        <Header />
       </header>
-      <div style={{ width:'90%', margin: 'auto', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-        {component}
+      <div style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <props.component params={useParams()}/>
       </div>
       <footer id="footer">
-        <Footer/>
+        <Footer />
       </footer>
     </div>
   );
@@ -64,24 +62,23 @@ function PrivateComponentsRender(component) {
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-function PrivateRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        account.isAuthenticated() ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: location }
-            }}
-          />
-        )
-      }
+function PrivateRoute({ children, component, ...rest }) {
+  console.log('[AUTH]', account.isAuthenticated());
+
+  if (account.isAuthenticated()) {
+    return (
+      <Route {...rest}>
+        <PrivateComponentsRender component={component} />
+      </Route>
+    );
+  } else {
+    return <Redirect
+      to={{
+        pathname: "/",
+        //state: { from: window.location }
+      }}
     />
-  );
+  }
 }
 
 export default App;

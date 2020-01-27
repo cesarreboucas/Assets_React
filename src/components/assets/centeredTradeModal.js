@@ -1,36 +1,82 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal';
+//import Button from 'react-bootstrap/Button';
+import DatePicker from 'react-datepicker';
+import * as assetsApi from '../../api/assets.js';
+import momentjs from 'moment';
+import "react-datepicker/dist/react-datepicker.css";
 
 class CenteredTradeModal extends React.Component {
-  render() {
-    const formInfo = this.props.movementInfo.asset_info?this.props.movementInfo:null;
-    let date;
-    if(formInfo) {
-      let dateObj = new Date(formInfo.movement.date);
-      date = dateObj.getUTCFullYear()+"-"+(String("0")+(Number(dateObj.getUTCMonth()+1))).substr(-2)
-        +"-"+(String("0")+(Number(dateObj.getUTCDate()))).substr(-2)
+
+  formSubmit = async (evt) => {
+    
+    const date = this.getDate(); 
+    //console.log("DEFAULT",date.format());
+    date.add(date.utcOffset(),'m'); //Taking the TimeDiff Back (Vancouver -480 by default)
+    //console.log("GET MINUTES BACK",date.format());
+    date.utcOffset(0);//Set Today to UTC
+    //console.log("BRINGING TO ZERO",date.format());
+
+    let body = {
+      'asset':this.props.movementInfo.asset_id,
+      'date':date.format(),
+      'kind':document.getElementById("mMovSelKind").value,
+      'comment':'no comments',
+      'value':Number(document.getElementById("mMovValue").value),
+      'balance': 0,
+      'movement':this.props.movementInfo._id,
+      
+    };
+    console.log(body);
+    evt.preventDefault();
+    try {
+      await assetsApi.updateMovement(body);  
+      window.location.href = "/assets";
+    } catch (error) {
+      console.log(body);
     }
-    console.log(formInfo);
+  }
+
+    state = {
+  };
+
+  getDate() {
+    let date;
+    if(this.state.date) {
+      date = momentjs(this.state.date);
+    } else {
+      date = momentjs(this.props.movementInfo.date);
+      date.subtract(date.utcOffset(),'m'); //Adding the TimeDiff back. //Vancouver = -480 or -420 on summer
+    }
+    return date;
+  }
+
+  render() {
+    let props = this.props.movementInfo;
+    let date = this.getDate();
+
     return (
-      <Modal size="lg" show={this.props.show} onHide={this.props.onHide}  centered>
+      <Modal size="lg" show={this.props.show} 
+          onHide={() => {this.setState({date:null});;this.props.onHide(props);}}  centered>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Add Trade
           </Modal.Title>
         </Modal.Header>
+        <form onSubmit={this.formSubmit} method="POST">
         <Modal.Body>
-          <form className="user-form" action="/ativos/newtrade" method="POST" id="formNewTrade" encType="application/x-www-form-urlencoded">
             <div className="form-group">
               <label htmlFor="ativo">Asset</label>
-              <input type="input" className="form-control" id="mMovCode" defaultValue={formInfo?formInfo.asset_info.code:''} name="code" disabled />
-              <input type="hidden" id="mMovAssetId" name="AssetId" defaultValue={formInfo?formInfo.asset_info.code:''} />
-              <input type="hidden" id="mMovMovementId" name="MovementId" defaultValue={formInfo?formInfo.movement._id:''} />
+              <input type="input" className="form-control" id="mMovCode" defaultValue={props.asset_code} name="code" disabled />
+              <input type="hidden" id="mMovAssetId" name="AssetId" defaultValue={props.asset_id} />
+              <input type="hidden" id="mMovMovementId" name="MovementId" defaultValue={props._id} />
             </div>
             <div className="form-group">
-              <label htmlFor="date">Date</label>
-              <input type="date" className="form-control" id="mMovDate" name="date" 
-                defaultValue={formInfo?date:''} required />
+              <div>Date</div>
+              <DatePicker className="form-control" 
+                selected={date.toDate()} 
+                onChange={(date) => { this.setState({date: date}) }} 
+                dateFormat="MMMM d, yyyy" />
             </div>
             {/*
             //Put it back on add with IF
@@ -41,22 +87,22 @@ class CenteredTradeModal extends React.Component {
             */}
             <div className="form-group">
               <label htmlFor="valor">Operation's Value </label>
-              <input type="number" className="form-control" id="mMovValue" name="mMovValue" defaultValue={formInfo?formInfo.movement.value:''}  placeholder="Total Value" required />
+              <input type="number" className="form-control" id="mMovValue" name="mMovValue" defaultValue={props.value}  placeholder="Total Value" required />
             </div>
             <div className="form-group">
-              <label htmlFor="tipo">Tipo de Operacao</label>
-              <select name="tipo" id="seltipo" className="custom-select" defaultValue={formInfo?formInfo.movement.kind:''}>
+              <label htmlFor="mMovSelKind">Tipo de Operacao</label>
+              <select name="mMovSelKind" id="mMovSelKind" className="custom-select" defaultValue={props.kind}>
                   <option value="buy">Buy</option>
                   <option value="sell">Sell</option>
                   <option value="dividend">Dividend</option>
               </select>
             </div>
-          </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.onHide}>Close</Button>
-          <button type="submit" id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
+          <button className="btn btn-primary" type='submit' onClick={() => {this.props.onHide(props)}}>Close</button>
+          <button id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
         </Modal.Footer>
+        </form>
       </Modal>
     );
   }

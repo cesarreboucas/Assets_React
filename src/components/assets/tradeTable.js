@@ -46,7 +46,12 @@ class TradeTable extends React.Component {
                                 <td style={{textAlign:"center"}}>
                                     <button disabled={disabled?true:false}
                                         className="btn btn-sm btn-light"
-                                        onClick={() => this.props.toggleModalTrade(this.props.asset,e)}>Edit Trade</button></td>
+                                        onClick={
+                                            () => this.props.toggleModalTrade({
+                                                ...e,
+                                                asset_id: this.props.asset.id,
+                                                asset_code: this.props.asset.code
+                                                })}>Edit Trade</button></td>
                             </tr>
                         )      
                     })

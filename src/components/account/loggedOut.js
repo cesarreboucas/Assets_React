@@ -9,7 +9,7 @@ import Header from '../common/header.js'
 import Footer from '../common/footer.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../common/layout.css';
+import '../../styles/main.css';
 
 
 
