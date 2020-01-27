@@ -1,6 +1,6 @@
 "use strict";
-/* Formatting function for row details - modify as you need */
-
+ /* Formatting function for row details - modify as you need */
+//Andre Test
 // Edit Trade
 function fillEditTradeModal(objid, tradeid, date, value, tipo) {
     $('#f3txtid').val(objid);

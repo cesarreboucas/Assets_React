@@ -56,7 +56,7 @@ class ForgotPassword extends Component {
           </div>
         </Form.Group>
 
-        <Button variant="primary" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onSignIn()}>
+        <Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onSignIn()}>
           S U B M I T
         </Button>
       </Form>
