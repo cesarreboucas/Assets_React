@@ -60,9 +60,7 @@ div.user-form-container {
 form.user-form {
     padding: 5%;
 }
-.main-page-content {
-    /*margin: 1%;*/
-}
+
 
 .nav {
     font-family: Oswald;
@@ -122,4 +120,26 @@ nav a {
 }
 /*
  END FOOTER STYLES
+*/
+
+
+
+
+
+/*
+CAROUSEL
+*/
+
+.carousel-initialized{
+    height: 50px !important;
+}
+.carousel-item{
+    display: block !important;
+    position: absolute !important;
+    transition: all 0s ease 0s !important;
+    margin: 0 !important;
+}
+
+/*
+END CAROUSEL STYLES
 */

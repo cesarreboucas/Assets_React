@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons';
 import { Redirect } from 'react-router-dom';
 import * as account from '../../api/account';
-import Carousel from '../common/carousel'
+import Carousel from '../common/carousel';
+
 
 
 
@@ -71,7 +72,10 @@ class Header extends React.Component{
             </span>
         </div>
       </nav>
-       <Carousel/>
+      <div >
+      <Carousel/>
+      </div>
+    
        </div>
     )
   }

@@ -45,7 +45,7 @@
 
 .Logged-out-header {
   background-color: #333A40;
-  min-height: 80vh;
+  min-height: 58vh;
   display: block;
   flex-direction: column;
   align-items: center;
@@ -77,18 +77,6 @@
 
 
 
-#Slide{
-  height: 30px !important;
-}
 
-
-.slide___3-Nqo{
-  width: 10% !important;
-  padding: 10px !important;
-}
-.Animation{
-  transition-duration: 5s;
-
-}
 @import "button_animation.css";
 @import "layout.css";

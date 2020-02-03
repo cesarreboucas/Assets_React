@@ -42,5 +42,16 @@ export async function updateMovement(movementData) {
   }
 }
 
+export async function getQuotes(){
+try {
+  const response = await axios.get('/quotes');
+  return response.data;
+  
+} catch (error) {
+  throw error;
+}
+
+}
+
 
 // Index, Show, Create, Delete, Update

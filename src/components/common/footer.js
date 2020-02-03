@@ -3,8 +3,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 
-
-
 class Footer extends React.Component {
   render() {
     return(
@@ -44,6 +42,7 @@ class Footer extends React.Component {
           </Col>
         </Row>
       </Container>
+   
     );
   }
 }
