@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons';
 import { Redirect } from 'react-router-dom';
 import * as account from '../../api/account';
+import Carousel from '../common/carousel';
+
 
 
 
@@ -54,6 +56,7 @@ class Header extends React.Component{
     loginIcon = <a className="nav-link" href="/" onClick={() => this.onLogOut()} id="pills-contact-tab" role="tab"><FontAwesomeIcon icon={faUser} /> Logout</a>
 
     return (
+      <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
          { this.redirectToLoggedOut() }
         <a className="navbar-brand" href="/dashboard" style={{"marginLeft":"10%"}}>
@@ -69,6 +72,11 @@ class Header extends React.Component{
             </span>
         </div>
       </nav>
+      <div >
+      <Carousel/>
+      </div>
+    
+       </div>
     )
   }
 }

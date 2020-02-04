@@ -45,7 +45,7 @@
 
 .Logged-out-header {
   background-color: #333A40;
-  min-height: 80vh;
+  min-height: 58vh;
   display: block;
   flex-direction: column;
   align-items: center;
@@ -73,11 +73,6 @@
 .LoginButton:hover{
   background-color: #E2E6EA;
   color:black;
-}
-
-/* Fixing the input size to fit bootstrap rules */
-.react-datepicker-wrapper, .react-datepicker__input-container {
-  display: block !important;
 }
 
 @import "button_animation.css";
