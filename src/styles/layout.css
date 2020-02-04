@@ -2,7 +2,6 @@
 
 html {
 
-    background-color: #ff6b26;
     background-image: url("/images/Background-Image.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -25,13 +24,19 @@ body {
     min-height:100%;
     z-index: 1;
     margin: auto;
-    background-color: rgba(0, 0, 0, 0.0);
+    background-color: transparent !important;
     /*border-radius: 10px;*/
 }
 body::after{
     content:'';
     display:block;
 }
+
+#body_content{
+  min-height: 60vh;
+  padding-bottom:5vh;
+}
+
 h1 {
     font-weight: bold;
     color: #eeeeee;
@@ -131,15 +136,25 @@ CAROUSEL
 */
 
 .carousel-initialized{
-    height: 50px !important;
+    height: 40px !important;
 }
 .carousel-item{
     display: block !important;
     position: absolute !important;
     transition: all 0s ease 0s !important;
     margin: 0 !important;
+    color:#ffffff;
+    padding-top: 2px;
+    text-align: center;
 }
 
+
+#arrow-down{
+    color: red;
+}
+#arrow-up{
+    color: green;
+}
 /*
 END CAROUSEL STYLES
 */

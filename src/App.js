@@ -48,7 +48,7 @@ const PrivateComponentsRender = (props) => {
       <header>
         <Header />
       </header>
-      <div style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+      <div  id="body_content" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
         <props.component params={useParams()}/>
       </div>
       <footer id="footer">
