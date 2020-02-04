@@ -42,6 +42,7 @@ export async function updateMovement(movementData) {
   }
 }
 
+
 export async function getQuotes(){
 try {
   const response = await axios.get('/quotes');
@@ -50,6 +51,16 @@ try {
 } catch (error) {
   throw error;
 }
+
+
+export async function showAssetMovements(assetId) {
+  try {
+    console.log()
+    const response = await axios.get('/api/assets/' + assetId);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 
 }
 

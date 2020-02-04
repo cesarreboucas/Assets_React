@@ -30,8 +30,10 @@ class AssetsMainPage extends Component {
       _id: '',
       asset_id: '',
       asset_code: ''},
+
+    movementsDetail: false,
     assetDetails: false,
-    assetDetailsId: '',
+    assetId: '',
   };
 
   toggleModalOptions = (asset_id) => {
@@ -103,10 +105,12 @@ class AssetsMainPage extends Component {
       style: defaultCollumStyle,
       footer: "",
       formatter: (cell, row) => {
-        return (<span>
-          <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetDetailsId: row._id })}>Options</button>&nbsp;
-          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>
-        </span>)
+        return (
+        <span>
+          <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetId: row._id })}>Options</button>&nbsp;
+          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>&nbsp;
+          <button className="btn btn-sm btn-light" onClick={() => this.setState({ movementsDetail: true, assetId: row._id })}>Show Mov</button>
+        </span>);
       },
     }
   ];
@@ -134,7 +138,16 @@ class AssetsMainPage extends Component {
   redirectToAssetDetails = () => {
     if(this.state.assetDetails) {
       return (
-        <Redirect to={`/assets/${this.state.assetDetailsId}`} />
+        <Redirect push to={`/assets/${this.state.assetId}`} />
+      )
+    }
+    return null;
+  }
+
+  redirectToMovementsDetail = () => {
+    if(this.state.movementsDetail) {
+      return (
+        <Redirect push to={`/assets/movement/${this.state.assetId}`} />
       )
     }
     return null;
@@ -143,6 +156,7 @@ class AssetsMainPage extends Component {
   render() {
     return (
       <div>
+        { this.redirectToMovementsDetail() }
         { this.redirectToAssetDetails() }
         <h1>Assets List</h1>
         <div className="container">
