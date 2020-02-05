@@ -59,7 +59,7 @@ class AssetsMainPage extends Component {
 
   tableColumns = [
     {
-      dataField: 'code',
+      dataField: 'name',
       text: 'Name',
       formatter: (cell,row) => { return (<a style={{color:"white"}} href={'/assets/'+row._id}>{cell}</a>); },
       style: defaultCollumStyle,

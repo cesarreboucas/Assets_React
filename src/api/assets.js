@@ -44,18 +44,32 @@ export async function updateMovement(movementData) {
 
 
 export async function getQuotes(){
-try {
-  const response = await axios.get('/quotes');
-  return response.data;
-  
-} catch (error) {
-  throw error;
+  try {
+    const response = await axios.get('/quotes');
+    return response.data;
+    
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getQueryQuote(query) {
+  try {
+    const response = await axios.get('/api/assets/queryquote',{
+      params: {
+        query: query
+      }
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
 }
 
 
 export async function showAssetMovements(assetId) {
   try {
-    console.log()
+    //console.log()
     const response = await axios.get('/api/assets/' + assetId);
     return response.data;
   } catch (error) {
