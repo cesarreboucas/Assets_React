@@ -22,6 +22,16 @@ export async function show(id) {
   }
 }
 
+export async function createAsset(assetData) {
+  try {
+    const response = await axios.post('/api/assets',
+      assetData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function updateAsset(assetData) {
   try {
     const response = await axios.put('/api/assets',

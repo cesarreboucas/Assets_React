@@ -1,8 +1,8 @@
 import React from 'react';
 import CanvasChart from './../common/canvasChart.js';
 import BootstrapTable from 'react-bootstrap-table-next';
+import { Redirect } from 'react-router-dom';
 import * as assetsApi from '../../api/assets.js';
-
 
 const defaultCollumStyle = () => {
   return {
@@ -13,12 +13,15 @@ const defaultCollumStyle = () => {
 class DashboardMainPage extends React.Component {
   state = {
     loading: true,
-    assets: []
+    assets: [],
+    assetDetails:false,
+    assetId:null
+
   };
 
   tableColumns = [
     {
-      dataField: 'code',
+      dataField: 'name',
       text: 'Name',
       style: defaultCollumStyle
     }, {
@@ -49,7 +52,7 @@ class DashboardMainPage extends React.Component {
       style: defaultCollumStyle,
       formatter: (cell, row) => {
         return (<span>
-          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalOptions(row._id)}>Options</button>&nbsp;
+          <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetId: row._id})}>Options</button>&nbsp;
           </span>)
       },
     }
@@ -61,20 +64,20 @@ class DashboardMainPage extends React.Component {
     this.dataCharts = [];
     this.buildDatasets(result.assets);
     this.setState({ loading: false, assets: result.assets });
-
-    /*fetch(process.env.REACT_APP_API_ADDRESS + "/assets?irr=0", {
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(result => {
-        this.dataCharts = [];
-        this.buildDatasets(result.assets);
-        console.log(result)
-        this.setState({ loading: false, assets: result.assets });
-      });*/
   }
+
+  redirectToAssetDetails = () => {
+    if(this.state.assetDetails) {
+      return (
+        <Redirect push to={`/assets/${this.state.assetId}`} />
+      )
+    }
+    return null;
+  }
+  
   render() {
     return (<div>
+      { this.redirectToAssetDetails() }
       <h1>Dashboard</h1>
       <div className="container">
         <div className="collapse show " id="divGraph" style={{ margin: "auto" }}>
@@ -90,18 +93,7 @@ class DashboardMainPage extends React.Component {
             <div className="col">
               {this.state.loading ? '' :<CanvasChart data={this.dataCharts[1]} />}
             </div>
-            <div className="col">
-              {this.state.loading ? '' :<CanvasChart data={this.dataCharts[2]} />}
-            </div>
-            <div className="col">
-              {this.state.loading ? '' :<CanvasChart data={this.dataCharts[3]} />}
-            </div>
           </div>
-          {/*<div className="row">
-            <div className="col">
-              {this.state.loading ? '' : /*<CanvasChart data={this.dataCharts[4]} />*/}
-            {/*</div>
-          </div>*/}
         </div>
       </div>
     </div>);
@@ -110,73 +102,67 @@ class DashboardMainPage extends React.Component {
 
 
   buildDatasets(assets) {
-    let dataChart = {
-      labels: [],
-      datasets: [{ data: [], backgroundColor: [] }]
-    };
-    this.dataCharts.push(dataChart, {}, {}, {});
-    this.dataCharts[1] = { labels: ["Undefined"], datasets: [{ data: [0], backgroundColor: [colors[0]] }] };
-    this.dataCharts[2] = { labels: ["Undefined"], datasets: [{ data: [0], backgroundColor: [colors[0]] }] };
-    this.dataCharts[3] = { labels: ["Undefined"], datasets: [{ data: [0], backgroundColor: [colors[0]] }] };
-    /*LIXOOO
-    this.dataCharts[4] = {
-      labels: ["Undefined1","Undefinded2"],
-      datasets: [
-        {
-          data: [15,0],
-          backgroundColor: [colors[0],'']
-        },
-        {
-          data: [0,12],
-          backgroundColor: ['',colors[1]]
-        },
-      ]
-    };
-    */
+
+    this.dataCharts.push(
+      {
+        labels: [],
+        datasets: [{ data: [], backgroundColor: [] }],
+      },
+      {
+        labels: ["Undefinded"],
+        datasets: [
+          { data: [0], backgroundColor: [colors[0]] },
+          { data: [0], backgroundColor: [colors[0]] },
+          { data: [0], backgroundColor: [colors[0]] },
+        ]
+      }
+    );
+    
     assets.forEach((asset, i) => {
       //console.log("Asset", asset);
-      this.dataCharts[0].labels.push(asset.code);
+      this.dataCharts[0].labels.push(asset.name);
       this.dataCharts[0].datasets[0].data.push(Number(asset.total.toFixed(2)));
-      this.dataCharts[0].datasets[0].backgroundColor.push(colors[i % 10]);
+      this.dataCharts[0].datasets[0].backgroundColor.push(colors[i % colors.length]);
 
-      if (asset.group.group_a === undefined || asset.group.group_a === null || asset.group.group_a.length === 0) { // If there no classification
+      if (asset.group_a === undefined || asset.group_a === null || asset.group_a.length === 0) { // If there no classification
         this.dataCharts[1].datasets[0].data[0] += asset.total;
       } else { // For assets with a classification
-        this.inserIntoDataset(asset.group.group_a, 1, asset.total);
+        this.insertIntoDataset(asset.group_a,0,asset.total);
       }
 
-      if (asset.group.group_b === undefined || asset.group.group_b === null|| asset.group.group_b.length === 0) {
-        this.dataCharts[2].datasets[0].data[0] += asset.total;
-      } else {
-        this.inserIntoDataset(asset.group.group_b, 2, asset.total);
+      if (asset.group_b === undefined || asset.group_b === null || asset.group_b.length === 0) { // If there no classification
+        this.dataCharts[1].datasets[1].data[0] += asset.total;
+      } else { // For assets with a classification
+        this.insertIntoDataset(asset.group_b,1,asset.total);
       }
 
-      if (asset.group.group_c === undefined || asset.group.group_b === null|| asset.group.group_c.length === 0) {
-        this.dataCharts[3].datasets[0].data[0] += asset.total;
-      } else {
-        this.inserIntoDataset(asset.group.group_c, 3, asset.total);
+      if (asset.group_c === undefined || asset.group_c === null || asset.group_c.length === 0) { // If there no classification
+        this.dataCharts[1].datasets[2].data[0] += asset.total;
+      } else { // For assets with a classification
+        this.insertIntoDataset(asset.group_c,2,asset.total);
       }
     });
-
-    for (let x = 0; x < this.dataCharts.length; ++x) {
-      if (this.dataCharts[x].datasets[0].data[0] === 0) {
-        this.dataCharts[x].datasets[0].data.shift();
-        //this.dataCharts[x].datasets[0].backgroundColor.shift();
-        this.dataCharts[x].labels.shift();
-      }
-    }
     console.log("DataSets Built", this.dataCharts);
   }
 
-  inserIntoDataset(classification, index, value) {
-    let position = this.dataCharts[index].labels.indexOf(classification);
+  insertIntoDataset(classification, dataset, value) {
+    let position = this.dataCharts[1].labels.indexOf(classification);
     if (position === -1) { // Inserting the classification
-      this.dataCharts[index].labels.push(classification);
-      this.dataCharts[index].datasets[0].data.push(value);
-      this.dataCharts[index].datasets[0].backgroundColor.push(colors[this.dataCharts[1].datasets[0].backgroundColor.length]);
-
+      //Push the label
+      this.dataCharts[1].labels.push(classification);
+      //Push the value to the dataset and 0 to the others
+      this.dataCharts[1].datasets[0].data.push( (dataset===0?value:0) );
+      this.dataCharts[1].datasets[1].data.push( (dataset===1?value:0) );
+      this.dataCharts[1].datasets[2].data.push( (dataset===2?value:0) );
+      
+      //Getting the next color
+      let color = colors[this.dataCharts[1].datasets[0].backgroundColor.length % colors.length];
+      //Putting the collor to all sets
+      this.dataCharts[1].datasets[0].backgroundColor.push(color);
+      this.dataCharts[1].datasets[1].backgroundColor.push(color);
+      this.dataCharts[1].datasets[2].backgroundColor.push(color);
     } else { //If the classification were there already
-      this.dataCharts[index].datasets[0].data[position] += value;
+      this.dataCharts[1].datasets[dataset].data[position] += value;
     }
   }
 }

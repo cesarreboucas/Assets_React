@@ -22,6 +22,7 @@ class AssetDetail extends Component {
       deletechecker:"",
       showalert:false,
       alertMessage:"",
+
       /*Ticker*/
       openBox: false,
       selectedOption: [],
@@ -66,23 +67,24 @@ class AssetDetail extends Component {
   handleForm = (event) => {
     const { value, name } = event.target
     this.setState({ [name] : value}, function() {
-      console.log(this.state);
     });
   }
 
   formSubmit = async (event) => {
     event.preventDefault();
-    let answer = await assetsApi.updateAsset(this.state);
-    if(this.state._id && answer.data.name !== undefined) { //Ativo existe, updated
-      this.setState({alertMessage : "Asset Updated", showalert:true});
-    } else if(this.state._id && answer.data.deleted !== undefined) { //Deleted
-      this.setState({alertMessage : "Asset Deleted", showalert:true});
-    } else if(this.state._id==="" && answer.data.name !== undefined) { //Created
-
+    if(this.state._id==="") {
+      let answer = await assetsApi.createAsset(this.state);
+      if(answer.data.name !== undefined) { //Created
+        this.setState({alertMessage : "Asset Created", showalert:true});
+      }
+    } else {
+      let answer = await assetsApi.updateAsset(this.state);  
+      if(answer.data.name !== undefined) { // Updated
+        this.setState({alertMessage : "Asset Updated", showalert:true});
+      } else if(answer.data.deleted !== undefined) { // Deleted
+        this.setState({alertMessage : "Asset Deleted", showalert:true});
+      }
     }
-    console.log(answer);
-
-    
   }
 
   onSelectedOption = (selected) => {
