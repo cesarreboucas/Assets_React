@@ -18,8 +18,9 @@ import AssetsMainPage from './components/assets/assetsMainPage.js';
 import AssetDetail from './components/assets/assetDetail.js';
 import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
+import GoalsDetail from './components/goals/goalsDetail.js';
 import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
-import MovementDetails from './components/assets/movementDetails';
+//import MovementDetails from './components/assets/movementDetails';
 
 /* import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/main.css'; */
@@ -32,12 +33,13 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={LoggedOut} />
           <PrivateRoute path="/dashboard" component={DshboardMainPage} />
-          <PrivateRoute path="/goals" component={GoalsMainPage} />
+          <PrivateRoute exact path="/goals" component={GoalsMainPage} />
+          <PrivateRoute exact path="/goals/create" component={GoalsDetail} />
           <PrivateRoute path="/profile" component={ProfileMainPage} />
           <PrivateRoute exact path="/assets" component={AssetsMainPage} />
           <PrivateRoute exact path="/assets/create" component={AssetDetail} />
           <PrivateRoute exact path="/assets/:assetId" component={AssetDetail} />
-          <PrivateRoute exact path="/assets/movement/:assetId" component={MovementDetails} />
+          {/*<PrivateRoute exact path="/assets/movement/:assetId" component={MovementDetails} />*/}
         </Switch>
       </Router>
     );

@@ -50,7 +50,7 @@ class TradeTable extends React.Component {
                                             () => this.props.toggleModalTrade({
                                                 ...e,
                                                 asset_id: this.props.asset.id,
-                                                asset_code: this.props.asset.code
+                                                asset_name: this.props.asset.name
                                                 })}>Edit Trade</button></td>
                             </tr>
                         )      

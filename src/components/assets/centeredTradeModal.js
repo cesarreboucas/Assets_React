@@ -67,7 +67,7 @@ class CenteredTradeModal extends React.Component {
         <Modal.Body>
             <div className="form-group">
               <label htmlFor="ativo">Asset</label>
-              <input type="input" className="form-control" id="mMovCode" defaultValue={props.asset_code} name="code" disabled />
+              <input type="input" className="form-control" id="mMovCode" defaultValue={props.asset_name} name="name" disabled />
               <input type="hidden" id="mMovAssetId" name="AssetId" defaultValue={props.asset_id} />
               <input type="hidden" id="mMovMovementId" name="MovementId" defaultValue={props._id} />
             </div>

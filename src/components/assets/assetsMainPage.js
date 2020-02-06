@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import TradeTable from './tradeTable.js';
-import CenteredOptionsModal from './centeredOptionsModal.js';
 import CenteredTradeModal from './centeredTradeModal.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleRight, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
@@ -29,7 +28,7 @@ class AssetsMainPage extends Component {
       comment: '',
       _id: '',
       asset_id: '',
-      asset_code: ''},
+      asset_name: ''},
 
     movementsDetail: false,
     assetDetails: false,
@@ -46,7 +45,7 @@ class AssetsMainPage extends Component {
 
   expandRow = {
     renderer: row => (
-      <TradeTable movements={row.movements} asset={{ id: row._id, code: row.code }} toggleModalTrade={this.toggleModalTrade} />
+      <TradeTable movements={row.movements} asset={{ id: row._id, name: row.name }} toggleModalTrade={this.toggleModalTrade} />
     ), showExpandColumn: true,
     expandByColumnOnly: true,
     expandHeaderColumnRenderer: ({ isAnyExpands }) => {
@@ -59,7 +58,7 @@ class AssetsMainPage extends Component {
 
   tableColumns = [
     {
-      dataField: 'code',
+      dataField: 'name',
       text: 'Name',
       formatter: (cell,row) => { return (<a style={{color:"white"}} href={'/assets/'+row._id}>{cell}</a>); },
       style: defaultCollumStyle,
@@ -168,7 +167,6 @@ class AssetsMainPage extends Component {
             <a className="btn btn-sm btn-light" role="button" href="/assets/create">Novo</a>
           </div>
         </div>
-        <CenteredOptionsModal show={this.state.showModalOptions} onHide={this.toggleModalOptions} assetId={this.state.asset_id} />
         <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_info} />
         <datalist id="dl_group_a"></datalist>
         <datalist id="dl_group_b"></datalist>

@@ -26,7 +26,7 @@ class Carousel extends Component {
 
         try {
             const quoteData = await assetsAPI.getQuotes();
-            console.log("Quotes ", quoteData);
+            //console.log("Quotes ", quoteData);
             this.setState({ quote: quoteData })
         } catch (error) {
 
@@ -41,12 +41,12 @@ class Carousel extends Component {
             quotePercentage = quote.change_percent;
 
         if( quotePercentage.charAt(0) === "-"){
-            console.log("result negative");
+            //console.log("result negative");
              return  <FontAwesomeIcon id='arrow-down' icon={faArrowDown}/> ;
         }
 
         else{
-            console.log("result positive");
+            //console.log("result positive");
              return  <FontAwesomeIcon id='arrow-up' icon={faArrowUp}/> ;
         }       
     }
@@ -56,7 +56,7 @@ class Carousel extends Component {
         if(quote.change_percent != null){
             var quotePercentage = quote.change_percent;
             quotePercentage= quotePercentage.substring(0,  quotePercentage.length - 3) + "%";
-            console.log("Index is: ", quotePercentage);
+            //console.log("Index is: ", quotePercentage);
         }
         
         return (
