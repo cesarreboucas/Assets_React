@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import * as assetsApi from '../../api/assets.js';
-import { Form, Col, Alert } from 'react-bootstrap';
-import { Typeahead } from 'react-bootstrap-typeahead';
+import { Form, Alert } from 'react-bootstrap';
+import SearchQuoteBox from './searchQuoteBox.js'
+
 
 class AssetDetail extends Component {
   
-  defaultQuoteOption = {code : "", name: "" ,currency: "Default"};
+  //defaultQuoteOption = {code : "", name: "" ,currency: "Default"};
 
   constructor(props) {
     super(props);
@@ -24,10 +25,10 @@ class AssetDetail extends Component {
       alertMessage:"",
 
       /*Ticker*/
-      openBox: false,
-      selectedOption: [],
-      quoteOptions : [this.defaultQuoteOption],
-      isLoadingQuotes:false
+      //openBox: false,
+      //selectedOption: [],
+      //quoteOptions : [this.defaultQuoteOption],
+      //isLoadingQuotes:false
     };
 
     if (props.params.assetId !== undefined) {
@@ -52,7 +53,7 @@ class AssetDetail extends Component {
     }
   }
 
-  searchAlphaAPi = async (evt) => {
+  /*searchAlphaAPi = async (evt) => {
     //console.log(this.searchTicker.getInput().value);
     this.setState({isLoadingQuotes:true});
     try {
@@ -62,12 +63,17 @@ class AssetDetail extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
+  }*/
 
   handleForm = (event) => {
     const { value, name } = event.target
     this.setState({ [name] : value}, function() {
     });
+  }
+
+  handleQuoteCode = (selected) => {
+    //console.log("Call change on Detail",selected);
+    this.setState({code : selected[0].code});
   }
 
   formSubmit = async (event) => {
@@ -78,16 +84,17 @@ class AssetDetail extends Component {
         this.setState({alertMessage : "Asset Created", showalert:true});
       }
     } else {
-      let answer = await assetsApi.updateAsset(this.state);  
-      if(answer.data.name !== undefined) { // Updated
-        this.setState({alertMessage : "Asset Updated", showalert:true});
-      } else if(answer.data.deleted !== undefined) { // Deleted
-        this.setState({alertMessage : "Asset Deleted", showalert:true});
-      }
+      console.log(this.state);
+      // let answer = await assetsApi.updateAsset(this.state);  
+      // if(answer.data.name !== undefined) { // Updated
+      //   this.setState({alertMessage : "Asset Updated", showalert:true});
+      // } else if(answer.data.deleted !== undefined) { // Deleted
+      //   this.setState({alertMessage : "Asset Deleted", showalert:true});
+      // }
     }
   }
 
-  onSelectedOption = (selected) => {
+  /*onSelectedOption = (selected) => {
     console.log('[SELECTED]', selected);
     if(selected.length === 0) {
       this.setState({ openBox: true, quoteOptions: [] });  //Allows to search again
@@ -95,7 +102,7 @@ class AssetDetail extends Component {
       this.setState({ openBox: false, code: selected[0].code });
     }
     
-  }
+  }*/
 
   //a = useParams();
   render() {
@@ -121,30 +128,7 @@ class AssetDetail extends Component {
           </Form.Check>
 
           {this.state.autorefresh &&
-            <Form.Row>
-              <Col xs={10}>
-                <label htmlFor="ativo">Stock Market Code (Ticker)</label>
-                <Typeahead id="searchTicker"
-                  labelKey={(option) => `${option.code} - ${option.name} (${option.currency})`}
-                  multiple = {false}
-                  defaultSelected = {[this.state.quoteOptions[0]]}
-                  ref = {(typeahead) => this.searchTicker = typeahead} //the actually input ref
-                  open = {this.state.openBox} // the div box
-                  isLoading = {this.state.isLoadingQuotes} //isLoading box
-                  selectHintOnEnter = {true} //select using enter
-                  onChange = {this.onSelectedOption} 
-                  selected = {this.state.quoteOptions.slice(0,1)} //the one selected
-                  options = {this.state.quoteOptions} //the pool of options
-                  placeholder = "Enter the Ticker or Name..."
-                />
-              </Col>
-              <Col xs={2} style={{ display:'flex' }}>
-                <button type="button"
-                  onClick={this.searchAlphaAPi} 
-                  className="btn btn-primary" style={{ alignSelf: 'flex-end' }}  id="searchBotton">Search
-                </button>
-              </Col>
-            </Form.Row>
+            <SearchQuoteBox handleChange={this.handleQuoteCode} code={this.state.code} />
           }
           <div className="form-group">
             <label>Balance</label>
