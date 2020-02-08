@@ -39,6 +39,7 @@ class App extends React.Component {
           <PrivateRoute exact path="/assets" component={AssetsMainPage} />
           <PrivateRoute exact path="/assets/create" component={AssetDetail} />
           <PrivateRoute exact path="/assets/:assetId" component={AssetDetail} />
+          <PrivateRoute exact path="/forgot_password?token=:token" component={AssetDetail} />
           {/*<PrivateRoute exact path="/assets/movement/:assetId" component={MovementDetails} />*/}
         </Switch>
       </Router>

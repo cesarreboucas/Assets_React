@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-
-//import * as account from '../../api/account';
+import * as account from '../../api/account';
 
 class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      redirectToAssets: false
+      redirectToLogin: false
     };
   }
 
@@ -17,12 +16,9 @@ class ForgotPassword extends Component {
 
   }
 
-  async onSignIn() {
-    //const { username, password } = this.state;
-    //console.log('[REMEMBER]', remember);
+  async onForgotPassword() {
     try {
-      //let response = await account.logIn(username, password);
-      this.setState({ redirectToAssets: true });
+      await account.forgotPassword(this.state.username);
     } catch (error) {
       console.log(error);
       this.setState({
@@ -31,23 +27,16 @@ class ForgotPassword extends Component {
     }
   }
 
-  redirectToAssets = () => {
-    if (this.state.redirectToAssets) {
-      return <Redirect to='/assets' />
-    }
-    return null;
-  }
-
   render() {
     return (
       <Form className="loggedOut-tab-form">
         <Form.Group controlId="forgotPasswordEmail" style={{ textAlign: 'left' }}>
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Password</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="Enter email"
+            type="password"
+            placeholder="Enter new password"
             onChange={(event) => this.setState({ username: event.target.value })}
-            value={this.state.username}
+            value={this.state.password}
           />
           <div>
             <Form.Text className="text-muted" style={{ textAlign: 'center', fontSize: '18px' }}>
@@ -56,7 +45,7 @@ class ForgotPassword extends Component {
           </div>
         </Form.Group>
 
-        <Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onSignIn()}>
+        <Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onForgotPassword()}>
           S U B M I T
         </Button>
       </Form>

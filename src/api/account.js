@@ -52,3 +52,33 @@ export async function signUp(firstName, lastName, username, password) {
     throw error;
   }
 };
+
+export async function forgotPassword(username) {
+  const body = {
+    username
+  };
+  try {
+    await axios.post('/api/forgot_password', qs.stringify(body), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export async function resetPassword(password) {
+  const body = {
+    password
+  };
+  try {
+    await axios.post('/api/reset_password', qs.stringify(body), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+}
