@@ -7,6 +7,7 @@ import '../../styles/layout.css';
 import * as assetsAPI from '../../api/assets'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faArrowDown} from '@fortawesome/free-solid-svg-icons';
+//import { nsend } from 'q';
 
 
 
@@ -17,7 +18,8 @@ class Carousel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            quote: [{ symbol: "null" }]
+            quote: [{ symbol: "null" }],
+            nSlides : Math.floor(window.innerWidth/200)
         };
 
     }
@@ -31,6 +33,8 @@ class Carousel extends Component {
         } catch (error) {
 
         }
+
+       
     }
 
     result = (quote) => {
@@ -61,18 +65,29 @@ class Carousel extends Component {
         
         return (
             <div key={`slider[${index}]`}>
-                <h3>{this.result(quote)} {quote.symbol + ' ' + quotePercentage} </h3>
+                <span style={{fontSize:'0.8rem'}}>{this.result(quote)} {quote.symbol + ' ' + quotePercentage} </span>
             </div>                    
         )
     }
 
+    onResize = () => {
+        //console.log("CALLED");
+        this.setState({nSlides : Math.floor(window.innerWidth/200)});
+    }
+
     render() {
+        //let nSlides = Math.floor(window.innerWidth/256) ;
+
+        console.log('Screen X',this.state.nSlides);
+
         const settings = {
             arrows: false,
             autoplay: true,
             autoplaySpeed: 1000,
             duration: 6000,
-            slidesToShow: 5
+            onResize:this.onResize,
+            slidesToShow: this.state.nSlides
+            
         };
 
         return (

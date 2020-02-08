@@ -128,7 +128,7 @@ class AssetsMainPage extends Component {
         assets: axios.assets,
         asset_id: null
       });
-      this.fillDatalists();
+      //this.fillDatalists();
     } catch (error) {
 
     }
@@ -168,14 +168,14 @@ class AssetsMainPage extends Component {
           </div>
         </div>
         <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_info} />
-        <datalist id="dl_group_a"></datalist>
-        <datalist id="dl_group_b"></datalist>
-        <datalist id="dl_group_c"></datalist>
+        {/*<datalist id="dl_group_a"></datalist>*/}
+        {/*<datalist id="dl_group_b"></datalist>*/}
+        {/*<datalist id="dl_group_c"></datalist>*/}
       </div>
     );
   }
 
-  fillDatalists() {
+  /*fillDatalists() {
     this.state.assets.forEach(asset => {
       let group_a, group_b, group_c;
       group_a = document.createElement("option");
@@ -189,7 +189,7 @@ class AssetsMainPage extends Component {
       document.getElementById("dl_group_c").appendChild(group_c);
 
     });
-  }
+  }*/
 
 }
 

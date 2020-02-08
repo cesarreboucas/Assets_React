@@ -54,7 +54,7 @@ class CenteredTradeModal extends React.Component {
   render() {
     let props = this.props.movementInfo;
     let date = this.getDate();
-
+    console.log(props);
     return (
       <Modal size="lg" show={this.props.show} 
           onHide={() => {this.setState({date:null});;this.props.onHide(props);}}  centered>
@@ -99,8 +99,8 @@ class CenteredTradeModal extends React.Component {
             </div>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-primary" type='submit' onClick={() => {this.props.onHide(props)}}>Close</button>
-          <button id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
+          <button type="button" className="btn btn-primary" onClick={() => {this.props.onHide(props)}}>Close</button>
+          <button type="button" id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
         </Modal.Footer>
         </form>
       </Modal>
