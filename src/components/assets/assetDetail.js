@@ -23,12 +23,6 @@ class AssetDetail extends Component {
       deletechecker:"",
       showalert:false,
       alertMessage:"",
-
-      /*Ticker*/
-      //openBox: false,
-      //selectedOption: [],
-      //quoteOptions : [this.defaultQuoteOption],
-      //isLoadingQuotes:false
     };
 
     if (props.params.assetId !== undefined) {
@@ -53,17 +47,6 @@ class AssetDetail extends Component {
     }
   }
 
-  /*searchAlphaAPi = async (evt) => {
-    //console.log(this.searchTicker.getInput().value);
-    this.setState({isLoadingQuotes:true});
-    try {
-      const results = await assetsApi.getQueryQuote(this.searchTicker.getInput().value);
-      console.log(results.data);
-      this.setState({ openBox: true, quoteOptions: results.data, })
-    } catch (error) {
-      console.log(error);
-    }
-  }*/
 
   handleForm = (event) => {
     const { value, name } = event.target
@@ -85,26 +68,15 @@ class AssetDetail extends Component {
       }
     } else {
       console.log(this.state);
-      // let answer = await assetsApi.updateAsset(this.state);  
-      // if(answer.data.name !== undefined) { // Updated
-      //   this.setState({alertMessage : "Asset Updated", showalert:true});
-      // } else if(answer.data.deleted !== undefined) { // Deleted
-      //   this.setState({alertMessage : "Asset Deleted", showalert:true});
-      // }
+      let answer = await assetsApi.updateAsset(this.state);  
+      if(answer.data.name !== undefined) { // Updated
+        this.setState({alertMessage : "Asset Updated", showalert:true});
+      } else if(answer.data.deleted !== undefined) { // Deleted
+        this.setState({alertMessage : "Asset Deleted", showalert:true});
+      }
     }
   }
 
-  /*onSelectedOption = (selected) => {
-    console.log('[SELECTED]', selected);
-    if(selected.length === 0) {
-      this.setState({ openBox: true, quoteOptions: [] });  //Allows to search again
-    } else {
-      this.setState({ openBox: false, code: selected[0].code });
-    }
-    
-  }*/
-
-  //a = useParams();
   render() {
     return (
       <div style={{ backgroundColor: "#FFFFFF" }}>
