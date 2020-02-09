@@ -21,12 +21,13 @@ class AssetsMainPage extends Component {
     assets: [],
     asset_total: null,
     showModalTrade: false,
+    movement_info: {},
     alertMessage: ( // If there is a message and is not older than 7 seconds
       (this.props.location.state &&
-         ((new Date()).getTime() - this.props.location.state.date.getTime()) < 7000 )?
-        this.props.location.state.message:
+        ((new Date()).getTime() - this.props.location.state.date.getTime()) < 7000) ?
+        this.props.location.state.message :
         false
-      ),
+    ),
     showalert: false,
     movementsDetail: false,
     assetDetails: false,
@@ -34,6 +35,7 @@ class AssetsMainPage extends Component {
   };
 
   toggleModalTrade = (movement) => {
+    console.log("Movement no Parent", movement);
     this.setState({ movement_info: movement, showModalTrade: !this.state.showModalTrade });
   }
 
@@ -101,9 +103,9 @@ class AssetsMainPage extends Component {
         return (
           <span>
             <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetId: row._id })}>Options</button>&nbsp;
-            <button className="btn btn-sm btn-light" 
-              onClick={() => this.toggleModalTrade({asset_id: row._id, asset_name:row.name})}>Add Trade</button>
-        </span>);
+            <button className="btn btn-sm btn-light"
+              onClick={() => this.toggleModalTrade({ asset_id: row._id, asset_name: row.name })}>Add Trade</button>
+          </span>);
       },
     }
   ];
@@ -125,6 +127,31 @@ class AssetsMainPage extends Component {
     }
   }
 
+  render() {
+    return (
+      <div>
+        {this.redirectToMovementsDetail()}
+        {this.redirectToAssetDetails()}
+        {this.state.alertMessage ?
+          <Alert variant="success" onClose={() => this.setState({ alertMessage: false })} dismissible>
+            {this.props.location.state.message}
+          </Alert > : ''
+        }
+        <h1>Assets List</h1>
+        <div className="container">
+          {this.state.loading ? '' :
+            <BootstrapTable keyField='id' classes="table table-dark" data={this.state.assets} columns={this.tableColumns}
+              bordered={false} expandRow={this.expandRow} />}
+
+          <div className="text-right" style={{ padding: "0px 20px 20px 0px" }}>
+            <a className="btn btn-sm btn-light" role="button" href="/assets/create">Novo</a>
+          </div>
+        </div>
+        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_info} />
+      </div>
+    );
+  }
+
   redirectToAssetDetails = () => {
     if (this.state.assetDetails) {
       return (
@@ -141,31 +168,6 @@ class AssetsMainPage extends Component {
       )
     }
     return null;
-  }
-
-  render() {
-    return (
-      <div>
-        {this.redirectToMovementsDetail()}
-        {this.redirectToAssetDetails()}
-        {this.state.alertMessage?
-          <Alert variant="success" onClose={() => this.setState({ alertMessage: false })} dismissible>
-            {this.props.location.state.message}
-          </Alert >:''
-        }
-        <h1>Assets List</h1>
-        <div className="container">
-          {this.state.loading ? '' :
-            <BootstrapTable keyField='id' classes="table table-dark" data={this.state.assets} columns={this.tableColumns}
-              bordered={false} expandRow={this.expandRow} />}
-
-          <div className="text-right" style={{ padding: "0px 20px 20px 0px" }}>
-            <a className="btn btn-sm btn-light" role="button" href="/assets/create">Novo</a>
-          </div>
-        </div>
-        <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_info} />
-      </div>
-    );
   }
 }
 

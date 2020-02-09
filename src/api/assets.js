@@ -52,6 +52,16 @@ export async function updateMovement(movementData) {
   }
 }
 
+export async function createMovement(movementData) {
+  try {
+    const response = await axios.post('/api/assets/movement',
+      movementData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 
 export async function getQuotes(){
   try {
