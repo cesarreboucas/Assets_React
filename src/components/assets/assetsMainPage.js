@@ -20,18 +20,7 @@ class AssetsMainPage extends Component {
     loading: true,
     assets: [],
     asset_total: null,
-    showModalOptions: false,
     showModalTrade: false,
-    asset_id: null,
-    movement_info: {
-      date: new Date(),
-      kind: 'buy',
-      value: 0,
-      comment: '',
-      _id: '',
-      asset_id: '',
-      asset_name: ''
-    },
     alertMessage: ( // If there is a message and is not older than 7 seconds
       (this.props.location.state &&
          ((new Date()).getTime() - this.props.location.state.date.getTime()) < 7000 )?
@@ -43,10 +32,6 @@ class AssetsMainPage extends Component {
     assetDetails: false,
     assetId: '',
   };
-
-  toggleModalOptions = (asset_id) => {
-    this.setState({ showModalOptions: !this.state.showModalOptions, asset_id: asset_id })
-  }
 
   toggleModalTrade = (movement) => {
     this.setState({ movement_info: movement, showModalTrade: !this.state.showModalTrade });
@@ -116,7 +101,8 @@ class AssetsMainPage extends Component {
         return (
           <span>
             <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetId: row._id })}>Options</button>&nbsp;
-          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id)}>Add Trade</button>&nbsp;
+            <button className="btn btn-sm btn-light" 
+              onClick={() => this.toggleModalTrade({asset_id: row._id, asset_name:row.name})}>Add Trade</button>
         </span>);
       },
     }
@@ -131,8 +117,7 @@ class AssetsMainPage extends Component {
       this.setState({
         asset_total: axios.asset_total,
         loading: false,
-        assets: axios.assets,
-        asset_id: null
+        assets: axios.assets
       });
       //this.fillDatalists();
     } catch (error) {
@@ -158,8 +143,7 @@ class AssetsMainPage extends Component {
     return null;
   }
 
-  render() {    
-    console.log("Location ",this.props.location);
+  render() {
     return (
       <div>
         {this.redirectToMovementsDetail()}

@@ -7,9 +7,14 @@ import momentjs from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 
 class CenteredTradeModal extends React.Component {
-
-  formSubmit = async (evt) => {
-    
+  constructor(props) {
+    super(props);
+    this.state = {
+      date:null
+    };
+  }
+  
+  formSubmit = async () => {
     const date = this.getDate(); 
     //console.log("DEFAULT",date.format());
     date.add(date.utcOffset(),'m'); //Taking the TimeDiff Back (Vancouver -480 by default)
@@ -20,44 +25,46 @@ class CenteredTradeModal extends React.Component {
     let body = {
       'asset':this.props.movementInfo.asset_id,
       'date':date.format(),
-      'kind':document.getElementById("mMovSelKind").value,
-      'comment':'no comments',
-      'value':Number(document.getElementById("mMovValue").value),
+      'kind':this.state.kind,
+      'comment':'',
+      'value':parseFloat(this.state.value),
       'balance': 0,
       'movement':this.props.movementInfo._id,
-      
     };
+
     console.log(body);
-    evt.preventDefault();
+    //evt.preventDefault();
     try {
-      await assetsApi.updateMovement(body);  
-      window.location.href = "/assets";
+      //await assetsApi.updateMovement(body);  
+      //window.location.href = "/assets";
     } catch (error) {
       console.log(body);
     }
   }
 
-    state = {
-  };
-
-  getDate() {
+  getDate = () => {
     let date;
     if(this.state.date) {
       date = momentjs(this.state.date);
     } else {
-      date = momentjs(this.props.movementInfo.date);
-      date.subtract(date.utcOffset(),'m'); //Adding the TimeDiff back. //Vancouver = -480 or -420 on summer
+      /*date = momentjs((this.props.movementInfo.date?));*/
+      //date.subtract(date.utcOffset(),'m'); //Adding the TimeDiff back. //Vancouver = -480 or -420 on summer
     }
+    console.log(date.toDate());
     return date;
+
   }
+
+
 
   render() {
     let props = this.props.movementInfo;
     let date = this.getDate();
-    console.log(props);
+    //console.log(this.state);
+    //console.log(this.state.date);
     return (
       <Modal size="lg" show={this.props.show} 
-          onHide={() => {this.setState({date:null});;this.props.onHide(props);}}  centered>
+          onHide={() => {this.setState({date:null});this.props.onHide(props);}}  centered>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Add Trade
@@ -67,9 +74,9 @@ class CenteredTradeModal extends React.Component {
         <Modal.Body>
             <div className="form-group">
               <label htmlFor="ativo">Asset</label>
-              <input type="input" className="form-control" id="mMovCode" defaultValue={props.asset_name} name="name" disabled />
-              <input type="hidden" id="mMovAssetId" name="AssetId" defaultValue={props.asset_id} />
-              <input type="hidden" id="mMovMovementId" name="MovementId" defaultValue={props._id} />
+              <input type="input" className="form-control" defaultValue={props.asset_name} name="name" disabled />
+              <input type="hidden" name="AssetId" defaultValue={props.asset_id} />
+              <input type="hidden" name="MovementId" defaultValue={props._id} />
             </div>
             <div className="form-group">
               <div>Date</div>
@@ -87,11 +94,13 @@ class CenteredTradeModal extends React.Component {
             */}
             <div className="form-group">
               <label htmlFor="valor">Operation's Value </label>
-              <input type="number" className="form-control" id="mMovValue" name="mMovValue" defaultValue={props.value}  placeholder="Total Value" required />
+              <input type="number" className="form-control" name="mMovValue" placeholder="Total Value" required 
+                defaultValue={props.value} onBlur={(e) => {this.setState({value:e.target.value})}}/>
             </div>
             <div className="form-group">
               <label htmlFor="mMovSelKind">Tipo de Operacao</label>
-              <select name="mMovSelKind" id="mMovSelKind" className="custom-select" defaultValue={props.kind}>
+              <select name="mMovSelKind" className="custom-select" defaultValue={props.kind}
+                onChange={(e) => this.setState({kind:e.target.value})}>
                   <option value="buy">Buy</option>
                   <option value="sell">Sell</option>
                   <option value="dividend">Dividend</option>
@@ -99,8 +108,8 @@ class CenteredTradeModal extends React.Component {
             </div>
         </Modal.Body>
         <Modal.Footer>
-          <button type="button" className="btn btn-primary" onClick={() => {this.props.onHide(props)}}>Close</button>
-          <button type="button" id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
+          <button type="button" className="btn btn-secondary" onClick={() => {this.props.onHide(props)}}>Close</button>
+          <button type="button" onClick={this.formSubmit} id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
         </Modal.Footer>
         </form>
       </Modal>
