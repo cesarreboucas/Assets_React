@@ -53,7 +53,7 @@ const PrivateComponentsRender = (props) => {
         <Header />
       </header>
       <div  id="body_content" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-        <props.component params={useParams()}/>
+        <props.component params={useParams()} location={props.location} />
       </div>
       <footer id="footer">
         <Footer />
@@ -65,12 +65,11 @@ const PrivateComponentsRender = (props) => {
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 function PrivateRoute({ children, component, ...rest }) {
-  console.log('[AUTH]', account.isAuthenticated());
-
+  //console.log('[AUTH]', account.isAuthenticated());
   if (account.isAuthenticated()) {
     return (
       <Route {...rest}>
-        <PrivateComponentsRender component={component} />
+        <PrivateComponentsRender component={component} location={{...rest}.location} />
       </Route>
     );
   } else {
