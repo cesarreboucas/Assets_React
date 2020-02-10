@@ -5,7 +5,7 @@ import * as assetsApi from '../../api/assets.js';
 
 export default class SeachQuoteBox extends Component {
   
-  defaultQuoteOption = {code : "", name: "" ,currency: "Default"};
+  defaultQuoteOption = {code : "", name: "" ,currency: "Current"};
   constructor(props) {
     super(props);
     this.defaultQuoteOption.code = props.code
@@ -49,7 +49,7 @@ export default class SeachQuoteBox extends Component {
     return (
       <Form.Row>
         <Col xs={10}>
-          <label htmlFor="ativo">Stock Market Code (Ticker)</label>
+          <label htmlFor="ativo"><strong>Stock Market Code (Ticker)</strong></label>
           <Typeahead id="searchTicker"
             labelKey={(option) => `${option.code} ${option.name} (${option.currency})`}
             multiple={false}

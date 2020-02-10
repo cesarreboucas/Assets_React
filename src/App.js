@@ -22,16 +22,13 @@ import GoalsDetail from './components/goals/goalsDetail.js';
 import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
 //import MovementDetails from './components/assets/movementDetails';
 
-/* import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/main.css'; */
-
 class App extends React.Component {
 
   render() {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={LoggedOut} />
+          <PublicRoute exact path="/" component={LoggedOut} />
           <PrivateRoute path="/dashboard" component={DshboardMainPage} />
           <PrivateRoute exact path="/goals" component={GoalsMainPage} />
           <PrivateRoute exact path="/goals/create" component={GoalsDetail} />
@@ -46,14 +43,14 @@ class App extends React.Component {
   }
 }
 
-const PrivateComponentsRender = (props) => {
+const WrapperComponentsRender = (props) => {
   return (
     <div>
       <header>
         <Header />
       </header>
       <div  id="body_content" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-        <props.component params={useParams()}/>
+        <props.component params={useParams()} location={props.location} />
       </div>
       <footer id="footer">
         <Footer />
@@ -62,24 +59,27 @@ const PrivateComponentsRender = (props) => {
   );
 }
 
+function PublicRoute({ children, component, ...rest }) {
+  return (
+    <Route {...rest}>
+      <WrapperComponentsRender component={component} />
+    </Route>
+  );
+}
+
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 function PrivateRoute({ children, component, ...rest }) {
-  console.log('[AUTH]', account.isAuthenticated());
-
   if (account.isAuthenticated()) {
     return (
       <Route {...rest}>
-        <PrivateComponentsRender component={component} />
+        <WrapperComponentsRender component={component}  location={{...rest}.location} />
       </Route>
     );
   } else {
-    return <Redirect
-      to={{
-        pathname: "/",
-        //state: { from: window.location }
-      }}
-    />
+    return (
+      <Redirect to={{ pathname: "/" }} />
+    );
   }
 }
 
