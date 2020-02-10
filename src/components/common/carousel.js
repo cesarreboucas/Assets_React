@@ -82,7 +82,7 @@ class Carousel extends Component {
 
         const settings = {
             arrows: false,
-            autoplay: false,
+            autoplay: true,
             autoplaySpeed: 1000,
             duration: 6000,
             onResize:this.onResize,
