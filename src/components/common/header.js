@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome,faUserCircle,faChartPie,faChartBar,faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome,faUserCircle,faChartPie,faChartBar,faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Redirect } from 'react-router-dom';
 import * as account from '../../api/account';
 import Carousel from '../common/carousel';
@@ -36,6 +36,9 @@ class Header extends React.Component{
   render() {
      
     let optionsBar, loginIcon;
+
+    //Hide the Header Menu List in the Login Page
+    const style = window.location.pathname ==='/' ? {display:'none'} :{};
     
     optionsBar = (
       <ul className="navbar-nav mr-auto">
@@ -43,21 +46,21 @@ class Header extends React.Component{
           <a className="nav-link active" id="pills-home-tab" href="/dashboard" role="tab"><FontAwesomeIcon icon={faHome} /> Dashboard</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link active" id="pills-home-tab" href="/profile" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Profile</a>
-        </li>
-        <li className="nav-item">
           <a className="nav-link active" id="pills-profile-tab" href="/assets" role="tab"><FontAwesomeIcon icon={faChartPie} /> Assets</a>
         </li>
         <li className="nav-item">
           <a className="nav-link active" id="pills-contact-tab" href="/goals" role="tab"><FontAwesomeIcon icon={faChartBar} /> Goals</a>
         </li>
+        <li className="nav-item">
+          <a className="nav-link active" id="pills-home-tab" href="/profile" role="tab"><FontAwesomeIcon icon={faUserCircle} /> Profile</a>
+        </li>
       </ul>
     );
-    loginIcon = <a className="nav-link" href="/" onClick={() => this.onLogOut()} id="pills-contact-tab" role="tab"><FontAwesomeIcon icon={faUser} /> Logout</a>
+    loginIcon = <a className="nav-link" href="/" onClick={() => this.onLogOut()} id="pills-contact-tab" role="tab"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</a>
 
     return (
       <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={style}>
          { this.redirectToLoggedOut() }
         <a className="navbar-brand" href="/dashboard" style={{"marginLeft":"10%"}}>
             <img src="/images/assets.svg" alt="logo" style={{width: "64px" ,height:"64px"}} />

@@ -82,7 +82,7 @@ class SignUp extends Component {
           />
         </Form.Group>
         {<Button variant="primary" className="LoginButton" type="button" style={{ width:'100%', fontWeight:'bold' }} onClick={() => this.onSignUp()}>
-          S U B M I T
+          S I G N U P
         </Button>}
         {/*<div className="border-container">
           <a className="border-animation" href="#">

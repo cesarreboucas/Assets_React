@@ -52,3 +52,23 @@ export async function signUp(firstName, lastName, username, password) {
     throw error;
   }
 };
+
+export async function userInfo() {
+  let response = await axios.get('/api/users/read/:id');
+  return response.data;
+}
+
+export async function editUserInfo(res){
+  
+  try{
+    let response = await axios.put('/api/users/update/:id',res);
+
+    console.log("NODE - ANDRE", response);
+  }
+  catch(error){
+
+    console.log("React Response from NODE - ANDRE", error.response.data);
+  }
+
+  
+}

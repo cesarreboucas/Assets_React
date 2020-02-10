@@ -34,7 +34,6 @@ class Carousel extends Component {
 
         }
 
-       
     }
 
     result = (quote) => {
@@ -76,10 +75,8 @@ class Carousel extends Component {
     }
 
     render() {
-        //let nSlides = Math.floor(window.innerWidth/256) ;
-
-        console.log('Screen X',this.state.nSlides);
-
+        //console.log('Screen X',this.state.nSlides);
+         
         const settings = {
             arrows: false,
             autoplay: true,

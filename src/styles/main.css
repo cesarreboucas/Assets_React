@@ -45,7 +45,7 @@
 
 .Logged-out-header {
   background-color: #333A40;
-  min-height: 58vh;
+  min-height: 65vh;
   display: block;
   flex-direction: column;
   align-items: center;
@@ -68,7 +68,7 @@
 }
 
 .LoginButton{
-  background-color: #ff7315;
+  background-color: #ff7315 !important;
 }
 .LoginButton:hover{
   background-color: #E2E6EA;
