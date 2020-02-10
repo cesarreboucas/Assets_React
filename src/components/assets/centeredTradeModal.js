@@ -92,7 +92,7 @@ class CenteredTradeModal extends React.Component {
             <DatePicker className="form-control"
               selected={this.state.date}
               onChange={(date) => { this.setState({ date: date }) }}
-              dateFormat="MMMM d, yyyy HH:mm:SS z" />
+              dateFormat="MMMM d, yyyy" />
           </div>
           <div className="form-group">
             <label htmlFor="valor">Operation's Value </label>
@@ -100,7 +100,7 @@ class CenteredTradeModal extends React.Component {
               defaultValue={this.state.value} onBlur={(e) => { this.setState({ value: e.target.value }) }} />
           </div>
           <div className="form-group">
-            <label htmlFor="mMovSelKind">Tipo de Operacao</label>
+            <label htmlFor="mMovSelKind">Operation Type</label>
             <select name="mMovSelKind" className="custom-select" defaultValue={this.state.kind}
               onChange={(e) => this.setState({ kind: e.target.value })}>
               <option value="buy">Buy</option>
