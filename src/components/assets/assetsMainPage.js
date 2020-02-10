@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import TradeTable from './tradeTable.js';
+import { Alert } from 'react-bootstrap';
 import CenteredTradeModal from './centeredTradeModal.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleRight, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
@@ -14,33 +15,28 @@ const defaultCollumStyle = () => {
 }
 
 class AssetsMainPage extends Component {
+
   state = {
     loading: true,
     assets: [],
     asset_total: null,
-    showModalOptions: false,
     showModalTrade: false,
-    asset_id: null,
-    movement_info: { 
-      date: new Date(),
-      kind: 'buy',
-      value: 0,
-      comment: '',
-      _id: '',
-      asset_id: '',
-      asset_name: ''},
-
+    movement_info: {},
+    alertMessage: ( // If there is a message and is not older than 7 seconds
+      (this.props.location.state &&
+        ((new Date()).getTime() - this.props.location.state.date.getTime()) < 7000) ?
+        this.props.location.state.message :
+        false
+    ),
+    showalert: false,
     movementsDetail: false,
     assetDetails: false,
     assetId: '',
   };
 
-  toggleModalOptions = (asset_id) => {
-    this.setState({ showModalOptions: !this.state.showModalOptions, asset_id: asset_id })
-  }
-
   toggleModalTrade = (movement) => {
-    this.setState({ movement_info : movement, showModalTrade: !this.state.showModalTrade });
+    console.log("Movement no Parent", movement);
+    this.setState({ movement_info: movement, showModalTrade: !this.state.showModalTrade });
   }
 
   expandRow = {
@@ -60,7 +56,7 @@ class AssetsMainPage extends Component {
     {
       dataField: 'name',
       text: 'Name',
-      formatter: (cell,row) => { return (<a style={{color:"white"}} href={'/assets/'+row._id}>{cell}</a>); },
+      formatter: (cell, row) => { return (<a style={{ color: "white" }} href={'/assets/' + row._id}>{cell}</a>); },
       style: defaultCollumStyle,
       footer: '',
     }, {
@@ -105,16 +101,14 @@ class AssetsMainPage extends Component {
       footer: "",
       formatter: (cell, row) => {
         return (
-        <span>
-          <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetId: row._id })}>Options</button>&nbsp;
-          <button className="btn btn-sm btn-light" onClick={() => this.toggleModalTrade(row._id, null)}>Add Trade</button>&nbsp;
-          <button className="btn btn-sm btn-light" onClick={() => this.setState({ movementsDetail: true, assetId: row._id })}>Show Mov</button>
-        </span>);
+          <span>
+            <button className="btn btn-sm btn-light" onClick={() => this.setState({ assetDetails: true, assetId: row._id })}>Options</button>&nbsp;
+            <button className="btn btn-sm btn-light"
+              onClick={() => this.toggleModalTrade({ asset_id: row._id, asset_name: row.name })}>Add Trade</button>
+          </span>);
       },
     }
   ];
-
-  //dataCharts = [];
 
   async componentDidMount() {
     try {
@@ -125,8 +119,7 @@ class AssetsMainPage extends Component {
       this.setState({
         asset_total: axios.asset_total,
         loading: false,
-        assets: axios.assets,
-        asset_id: null
+        assets: axios.assets
       });
       //this.fillDatalists();
     } catch (error) {
@@ -134,29 +127,16 @@ class AssetsMainPage extends Component {
     }
   }
 
-  redirectToAssetDetails = () => {
-    if(this.state.assetDetails) {
-      return (
-        <Redirect push to={`/assets/${this.state.assetId}`} />
-      )
-    }
-    return null;
-  }
-
-  redirectToMovementsDetail = () => {
-    if(this.state.movementsDetail) {
-      return (
-        <Redirect push to={`/assets/movement/${this.state.assetId}`} />
-      )
-    }
-    return null;
-  }
-
   render() {
     return (
       <div>
-        { this.redirectToMovementsDetail() }
-        { this.redirectToAssetDetails() }
+        {this.redirectToMovementsDetail()}
+        {this.redirectToAssetDetails()}
+        {this.state.alertMessage ?
+          <Alert variant="success" onClose={() => this.setState({ alertMessage: false })} dismissible>
+            {this.props.location.state.message}
+          </Alert > : ''
+        }
         <h1>Assets List</h1>
         <div className="container">
           {this.state.loading ? '' :
@@ -168,29 +148,27 @@ class AssetsMainPage extends Component {
           </div>
         </div>
         <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_info} />
-        {/*<datalist id="dl_group_a"></datalist>*/}
-        {/*<datalist id="dl_group_b"></datalist>*/}
-        {/*<datalist id="dl_group_c"></datalist>*/}
       </div>
     );
   }
 
-  /*fillDatalists() {
-    this.state.assets.forEach(asset => {
-      let group_a, group_b, group_c;
-      group_a = document.createElement("option");
-      group_a.value = asset.group.group_a;
-      document.getElementById("dl_group_a").appendChild(group_a);
-      group_b = document.createElement("option");
-      group_b.value = asset.group.group_b;
-      document.getElementById("dl_group_b").appendChild(group_b);
-      group_c = document.createElement("option");
-      group_c.value = asset.group.group_c;
-      document.getElementById("dl_group_c").appendChild(group_c);
+  redirectToAssetDetails = () => {
+    if (this.state.assetDetails) {
+      return (
+        <Redirect push to={`/assets/${this.state.assetId}`} />
+      )
+    }
+    return null;
+  }
 
-    });
-  }*/
-
+  redirectToMovementsDetail = () => {
+    if (this.state.movementsDetail) {
+      return (
+        <Redirect push to={`/assets/movement/${this.state.assetId}`} />
+      )
+    }
+    return null;
+  }
 }
 
 export default AssetsMainPage;

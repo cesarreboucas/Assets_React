@@ -50,7 +50,7 @@ const WrapperComponentsRender = (props) => {
         <Header />
       </header>
       <div  id="body_content" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-        <props.component params={useParams()}/>
+        <props.component params={useParams()} location={props.location} />
       </div>
       <footer id="footer">
         <Footer />
@@ -73,7 +73,7 @@ function PrivateRoute({ children, component, ...rest }) {
   if (account.isAuthenticated()) {
     return (
       <Route {...rest}>
-        <WrapperComponentsRender component={component} />
+        <WrapperComponentsRender component={component}  location={{...rest}.location} />
       </Route>
     );
   } else {

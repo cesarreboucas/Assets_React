@@ -75,5 +75,15 @@
   color:black;
 }
 
+/****React Date Picker***/
+.react-datepicker__input-container {
+  width: inherit;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+/****React Date Picker***/
+
 @import "button_animation.css";
 @import "layout.css";
