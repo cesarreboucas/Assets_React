@@ -59,7 +59,8 @@ class Header extends React.Component{
     loginIcon = <a className="nav-link" href="/" onClick={() => this.onLogOut()} id="pills-contact-tab" role="tab"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</a>
 
     return (
-      <div>
+      <React.Fragment>
+        
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={style}>
          { this.redirectToLoggedOut() }
         <a className="navbar-brand" href="/dashboard" style={{"marginLeft":"10%"}}>
@@ -79,7 +80,7 @@ class Header extends React.Component{
       <Carousel/>
       </div>
     
-       </div>
+      </React.Fragment>
     )
   }
 }

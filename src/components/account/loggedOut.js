@@ -38,9 +38,7 @@ class LoggedOut extends Component {
     return (
 
       <div>
-        <header>
-            <Header/>
-          </header>
+ 
         <div className="Logged-out-header">
           
           <Container>
@@ -74,38 +72,6 @@ class LoggedOut extends Component {
 
           </Container>
         </div>
-        <footer id="footer" style={{ display: 'block' }}>
-          <Footer />
-        </footer>
-      {/*
-      <div className="Logged-out-header">    
-        <Container>
-          <Row>
-            <Col>  
-              <img src="/images/assets.svg" alt="logo" style={{ width: "100px", height: "100px" }} />
-            </Col>
-            <Col>
-              <div style={{ height: '50vh' }}>
-                <Tabs
-                  className="custom-tab"
-                  activeKey={this.state.activeTab}
-                  id="uncontrolled-tab-example"
-                  onSelect={this.handleSelect}>
-                  <Tab eventKey={1} title="LogIn">
-                    <LogIn />
-                  </Tab>
-                  <Tab eventKey={2} title="SignUp">
-                    <SignUp />
-                  </Tab>
-                  <Tab eventKey={3} title="Forgot Password">
-                    <ForgotPassword />
-                  </Tab>
-                </Tabs>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      */}
       </div>
     );
   }
