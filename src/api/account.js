@@ -63,7 +63,9 @@ export async function editUserInfo(res){
   try{
     let response = await axios.put('/api/users/update/:id',res);
 
-    console.log("NODE - ANDRE", response);
+    console.log("NODE - ANDRE", response.data);
+
+    return response.data;
   }
   catch(error){
 

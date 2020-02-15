@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import * as account from '../../api/account';
+import { Alert } from 'react-bootstrap';
 
 class ProfileMainPage extends React.Component {
 
@@ -16,6 +17,8 @@ class ProfileMainPage extends React.Component {
           new_password2:'',
           _id:'',
           redirect: false,
+          alertMessage: false,
+          message:''
         };
       }
 
@@ -42,19 +45,39 @@ class ProfileMainPage extends React.Component {
         this.setState({...res});
     }
 
-    async updateProfile(){
-        await account.editUserInfo(this.state);
+   updateProfile = async () => {
+
+        const res = await account.editUserInfo(this.state);
+
+        if(res.status!==''){
+            this.setState({message:res.status, alertMessage:true});
+        }
+        else{
+            this.setState({ alertMessage: "Profile Updated!", redirect: true });
+        }
 
     }
 
     render() {
+
+        if (this.state.redirect) {
+            return <Redirect to={{
+              pathname: "/assets",
+              state: { message: this.state.alertMessage, date: new Date() }
+            }} />;
+          }
+
         return (
         
         <div>
-            
-        <div style={{width:'50vh', margin:'0 auto' }}>
+            {this.state.alertMessage ?
+          <Alert variant="danger" onClose={() => this.setState({ alertMessage: false })} dismissible>
+            { this.state.message}
+          </Alert > : ''
+        }
+        <div style={{width:'50vh', margin:'0 auto', paddingBottom:'5vh' }}>
             <h1>Edit Profile</h1>
-            <Form className="loggedOut-tab-form" style={{borderTopLeftRadius: '5px' , borderTopRightRadius:'5px', borderTopWidth:'1px'}}>
+            <Form className="loggedOut-tab-form" style={{borderTopLeftRadius: '5px' , borderTopRightRadius:'5px', borderTopWidth:'1px' }}>
                 <Form.Group controlId="profileFirstName" style={{ textAlign: 'left' }}>
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
@@ -105,7 +128,7 @@ class ProfileMainPage extends React.Component {
                         
                     />
                 </Form.Group>
-                {<Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => account.editUserInfo(this.state)}>
+                {<Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={this.updateProfile}>
                     U P D A T E
                 </Button>}    
            

@@ -2,9 +2,7 @@
 
 html {
 
-    background-image: url("/images/Background-Image.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-color: black;
    height: 100%;
 }
 
@@ -16,7 +14,10 @@ body {
     z-index: 1;
     margin: auto;
     background-color: transparent !important;
-    /*border-radius: 10px;*/
+     background-image: url("/images/Background-Image.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+   
 }
 body::after{
     content:'';
@@ -25,7 +26,6 @@ body::after{
 
 #body_content{
   min-height: 60vh;
-  padding-bottom:5vh;
 }
 
 h1 {
