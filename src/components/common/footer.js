@@ -28,7 +28,7 @@ class Footer extends React.Component {
             </ul>
           </Col>
           <Col xs={4}>
-            <h5>Parceiros</h5>
+            <h5>Partners</h5>
             <ul className="list-unstyled quick-links">
               <li><a href="/"><FontAwesomeIcon icon={faAngleDoubleRight} /> Inscreva-se</a></li>
             </ul>
