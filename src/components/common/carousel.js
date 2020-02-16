@@ -43,7 +43,7 @@ class Carousel extends Component {
         if(quote.change_percent != null)
             quotePercentage = quote.change_percent;
 
-        if( quotePercentage.charAt(0) === "-"){
+        if( quotePercentage<0){
             //console.log("result negative");
              return  <FontAwesomeIcon id='arrow-down' icon={faArrowDown}/> ;
         }
@@ -55,10 +55,12 @@ class Carousel extends Component {
     }
 
     listQuotes = (quote, index) => {
-
+        let quotePercentage;
+        console.log(quote)
         if(quote.change_percent != null){
-            var quotePercentage = quote.change_percent;
-            quotePercentage= quotePercentage.substring(0,  quotePercentage.length - 3) + "%";
+            quotePercentage = quote.change_percent;
+            console.log("PERCENT",quotePercentage);
+            quotePercentage = quotePercentage.toFixed(2) + "%";
             //console.log("Index is: ", quotePercentage);
         }
         
