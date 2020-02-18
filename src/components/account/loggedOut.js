@@ -6,8 +6,8 @@ import LogIn from './logIn';
 import SignUp from './signUp';
 
 import ForgotPassword from './forgotPassword';
-import Header from '../common/header.js'
-import Footer from '../common/footer.js'
+//import Header from '../common/header.js'
+//import Footer from '../common/footer.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/main.css';

@@ -56,10 +56,10 @@ class Carousel extends Component {
 
     listQuotes = (quote, index) => {
         let quotePercentage;
-        console.log(quote)
+        //console.log(quote)
         if(quote.change_percent != null){
             quotePercentage = quote.change_percent;
-            console.log("PERCENT",quotePercentage);
+            //console.log("PERCENT",quotePercentage);
             quotePercentage = quotePercentage.toFixed(2) + "%";
             //console.log("Index is: ", quotePercentage);
         }
