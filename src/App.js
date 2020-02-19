@@ -31,7 +31,7 @@ class App extends React.Component {
           <PublicRoute exact path="/" component={LoggedOut} />
           <PrivateRoute path="/dashboard" component={DshboardMainPage} />
           <PrivateRoute exact path="/goals" component={GoalsMainPage} />
-          <PrivateRoute exact path="/goals/create" component={GoalsDetail} />
+          <PrivateRoute exact path="/goals/:goal" component={GoalsDetail} />
           <PrivateRoute path="/profile" component={ProfileMainPage} />
           <PrivateRoute exact path="/assets" component={AssetsMainPage} />
           <PrivateRoute exact path="/assets/create" component={AssetDetail} />
