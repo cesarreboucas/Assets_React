@@ -144,7 +144,7 @@ class AssetsMainPage extends Component {
               bordered={false} expandRow={this.expandRow} />}
 
           <div className="text-right" style={{ padding: "0px 20px 20px 0px" }}>
-            <a className="btn btn-sm btn-light" role="button" href="/assets/create">Novo</a>
+            <a className="btn btn-sm btn-light" role="button" href="/assets/create">New Asset</a>
           </div>
         </div>
         <CenteredTradeModal show={this.state.showModalTrade} onHide={this.toggleModalTrade} movementInfo={this.state.movement_info} />

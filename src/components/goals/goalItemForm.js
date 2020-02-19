@@ -64,9 +64,9 @@ class GoalItemForm extends React.Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: "white", padding: "20px 50px" }}>
+      <div style={{ backgroundColor: "white", padding: "10px 30px" }}>
         <div className="form-row" >
-          <h3>{this.state.description === '' ? 'Collumn ' + (this.props.n + 1) : this.state.description}</h3>
+          <h4>{this.state.description === '' ? 'Collumn ' + (this.props.n + 1) : this.state.description}</h4>
         </div>
         <div className="form-row" >
           <div className="form-group col-md-4">
