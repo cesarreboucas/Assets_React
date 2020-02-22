@@ -11,7 +11,8 @@ class CenteredTradeModal extends React.Component {
     super(props);
     this.state = {
       operation: null, //Indicates POST PUT or Null (to be set)
-      alertMessage:false
+      alertMessage:false,
+      shouldRefreshParent: false
     };
   }
 
@@ -28,6 +29,7 @@ class CenteredTradeModal extends React.Component {
           comment: '',
           value: this.props.movementInfo.value,
           quantity: null,
+          delete:false,
           operation: 'PUT'
         });
       } else {
@@ -41,6 +43,7 @@ class CenteredTradeModal extends React.Component {
           comment: '',
           value: '',
           quantity: 0,
+          delete:false,
           operation: 'POST'
         });
       }
@@ -49,7 +52,7 @@ class CenteredTradeModal extends React.Component {
 
   hideModal = () => {
     this.props.onHide({});
-    this.setState({ operation: null, alertMessage:false });
+    this.setState({ operation: null, alertMessage:false, shouldRefreshParent:false });
     //console.log("MODAL CLOSED -> OP: ", this.state.operation)
   }
 
@@ -61,14 +64,19 @@ class CenteredTradeModal extends React.Component {
       } else {
         await assetsApi.updateMovement(this.state);
       }
-      this.setState({ alertMessage: "Movement Stored" });
+      if(this.state.delete) {
+        this.setState({ alertMessage: "Movement Deleted", shouldRefreshParent:true });
+      } else {
+        this.setState({ alertMessage: "Movement Stored", shouldRefreshParent:true });
+      }
+
     } catch (error) {
+      this.setState({ alertMessage: "Ops, An error has ocurred" });
       console.log(error);
     }
   }
 
   render() {
-    console.log(this.state)
     return (
       this.state.operation !== null && this.props.movementInfo !== undefined &&
       <Modal size="lg" show={this.props.show} onHide={this.hideModal} centered>
@@ -117,9 +125,28 @@ class CenteredTradeModal extends React.Component {
               </div> :
               ''
           }
+          {
+            (this.state.operation==='PUT'
+            ?
+            <div className={"form-check" + (this.state.delete?' bg-warning':'')} style={{borderRadius:"4px"}}>
+              <input type="checkbox" className="form-check-input"
+                checked={this.state.delete} name="delete" onChange={() => { this.setState({ delete: !this.state.delete }) }} />
+              <label className="form-check-label">
+                Delete this Trade</label>
+            </div>
+            : ''
+            )
+          }
+          
         </Modal.Body>
         <Modal.Footer>
-          <button type="button" className="btn btn-secondary" onClick={this.hideModal}>Close</button>
+          {
+            this.state.shouldRefreshParent?
+              <button type="button" className="btn btn-secondary" onClick={() => {window.location.reload()}}>Close</button>
+            :
+            <button type="button" className="btn btn-secondary" onClick={this.hideModal}>Close</button>
+          }
+          
           <button type="button" onClick={this.formSubmit} id="btnopcoessubmit" className="btn btn-primary">Save changes</button>
         </Modal.Footer>
       </Modal>
