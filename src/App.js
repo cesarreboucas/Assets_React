@@ -20,7 +20,12 @@ import AssetDetail from './components/assets/assetDetail.js';
 import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
 import GoalsDetail from './components/goals/goalsDetail.js';
+<<<<<<< HEAD
 import DashboardMainPage from './components/dashboard/dashboardMainPage.js';
+=======
+import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
+//import MovementDetails from './components/assets/movementDetails';
+>>>>>>> 991350f8dd372aa3fd16fc82d92e2b12f2ad8874
 
 class App extends React.Component {
 
@@ -29,8 +34,12 @@ class App extends React.Component {
       <Router>
         <Switch>
           <PublicRoute exact path="/" component={LoggedOut} />
+<<<<<<< HEAD
           <PublicRoute exact path="/reset_password?token=:token&username=:username" component={ResetPassword} />
           <PrivateRoute path="/dashboard" component={DashboardMainPage} />
+=======
+          <PrivateRoute path="/dashboard" component={DshboardMainPage} />
+>>>>>>> 991350f8dd372aa3fd16fc82d92e2b12f2ad8874
           <PrivateRoute exact path="/goals" component={GoalsMainPage} />
           <PrivateRoute exact path="/goals/:goal" component={GoalsDetail} />
           <PrivateRoute path="/profile" component={ProfileMainPage} />

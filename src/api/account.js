@@ -53,6 +53,7 @@ export async function signUp(firstName, lastName, username, password) {
   }
 };
 
+<<<<<<< HEAD
 export async function forgotPassword(username) {
   const body = {
     username
@@ -81,4 +82,26 @@ export async function resetPassword(password) {
   } catch (error) {
     throw error;
   }
+=======
+export async function userInfo() {
+  let response = await axios.get('/api/users/read/:id');
+  return response.data;
+}
+
+export async function editUserInfo(res){
+  
+  try{
+    let response = await axios.put('/api/users/update/:id',res);
+
+    console.log("NODE - ANDRE", response.data);
+
+    return response.data;
+  }
+  catch(error){
+
+    console.log("React Response from NODE - ANDRE", error.response.data);
+  }
+
+  
+>>>>>>> 991350f8dd372aa3fd16fc82d92e2b12f2ad8874
 }

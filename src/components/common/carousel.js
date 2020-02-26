@@ -7,6 +7,7 @@ import '../../styles/layout.css';
 import * as assetsAPI from '../../api/assets'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faArrowDown} from '@fortawesome/free-solid-svg-icons';
+//import { nsend } from 'q';
 
 
 
@@ -17,7 +18,8 @@ class Carousel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            quote: [{ symbol: "null" }]
+            quote: [{ symbol: "null" }],
+            nSlides : Math.floor(window.innerWidth/200)
         };
 
     }
@@ -31,6 +33,7 @@ class Carousel extends Component {
         } catch (error) {
 
         }
+
     }
 
     result = (quote) => {
@@ -40,7 +43,7 @@ class Carousel extends Component {
         if(quote.change_percent != null)
             quotePercentage = quote.change_percent;
 
-        if( quotePercentage.charAt(0) === "-"){
+        if( quotePercentage<0){
             //console.log("result negative");
              return  <FontAwesomeIcon id='arrow-down' icon={faArrowDown}/> ;
         }
@@ -52,27 +55,38 @@ class Carousel extends Component {
     }
 
     listQuotes = (quote, index) => {
-
+        let quotePercentage;
+        //console.log(quote)
         if(quote.change_percent != null){
-            var quotePercentage = quote.change_percent;
-            quotePercentage= quotePercentage.substring(0,  quotePercentage.length - 3) + "%";
+            quotePercentage = quote.change_percent;
+            //console.log("PERCENT",quotePercentage);
+            quotePercentage = quotePercentage.toFixed(2) + "%";
             //console.log("Index is: ", quotePercentage);
         }
         
         return (
             <div key={`slider[${index}]`}>
-                <h3>{this.result(quote)} {quote.symbol + ' ' + quotePercentage} </h3>
+                <span style={{fontSize:'0.8rem'}}>{this.result(quote)} {quote.symbol + ' ' + quotePercentage} </span>
             </div>                    
         )
     }
 
+    onResize = () => {
+        //console.log("CALLED");
+        this.setState({nSlides : Math.floor(window.innerWidth/200)});
+    }
+
     render() {
+        //console.log('Screen X',this.state.nSlides);
+         
         const settings = {
             arrows: false,
             autoplay: true,
             autoplaySpeed: 1000,
             duration: 6000,
-            slidesToShow: 5
+            onResize:this.onResize,
+            slidesToShow: this.state.nSlides
+            
         };
 
         return (
