@@ -14,12 +14,17 @@ class ForgotPassword extends Component {
     };
   }
 
-  componentDidMount() { }
+  componentDidMount() { 
+    console.log('[PROPS]', this.props);
+  }
 
   async onResetPassword() {
     try {
-      await account.resetPassword(this.state.password);
-      this.setState({ redirectToAssets: true });
+      const { password, passwordRepeat } = this.state;
+      if(password === passwordRepeat) {
+        await account.resetPassword(this.state.password);
+        this.setState({ redirectToAssets: true });
+      }
     } catch (error) {
       console.log(error);
       this.setState({ password: '' });
