@@ -53,7 +53,6 @@ export async function signUp(firstName, lastName, username, password) {
   }
 };
 
-<<<<<<< HEAD
 export async function forgotPassword(username) {
   const body = {
     username
@@ -69,9 +68,11 @@ export async function forgotPassword(username) {
   }
 };
 
-export async function resetPassword(password) {
+export async function resetPassword(username, password, token) {
   const body = {
-    password
+    username,
+    password,
+    forgot_password_token: token
   };
   try {
     await axios.post('/api/reset_password', qs.stringify(body), {
@@ -82,7 +83,8 @@ export async function resetPassword(password) {
   } catch (error) {
     throw error;
   }
-=======
+}
+
 export async function userInfo() {
   let response = await axios.get('/api/users/read/:id');
   return response.data;
@@ -103,5 +105,4 @@ export async function editUserInfo(res){
   }
 
   
->>>>>>> 991350f8dd372aa3fd16fc82d92e2b12f2ad8874
 }

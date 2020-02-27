@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import * as account from '../../api/account';
 
@@ -8,7 +8,10 @@ class ForgotPassword extends Component {
     super(props);
     this.state = {
       username: '',
-      redirectToLogin: false
+      variant: 'success',
+      showAlert: false,
+      message: '',
+      loading: false,
     };
   }
 
@@ -18,12 +21,13 @@ class ForgotPassword extends Component {
 
   async onForgotPassword() {
     try {
+      this.setState({ loading: true });
       await account.forgotPassword(this.state.username);
+      this.setState({ showAlert: true, variant: 'success'
+      , message: 'A link has been sent to your email', loading: false})
     } catch (error) {
       console.log(error);
-      this.setState({
-        password: '',
-      });
+      this.setState({ showAlert: true, variant: 'danger', message: error.message, loading: false });
     }
   }
 
@@ -31,10 +35,15 @@ class ForgotPassword extends Component {
     return (
       <Form className="loggedOut-tab-form">
         <Form.Group controlId="forgotPasswordEmail" style={{ textAlign: 'left' }}>
+          <Form.Row>
+            <Alert variant={this.state.variant} show={this.state.showAlert} style={{width: '100%'}}>
+              {this.state.message}
+            </Alert>
+          </Form.Row>
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="password"
-            placeholder="Enter new password"
+            type="email"
+            placeholder="Enter your email"
             onChange={(event) => this.setState({ username: event.target.value })}
             value={this.state.password}
           />
@@ -46,7 +55,7 @@ class ForgotPassword extends Component {
         </Form.Group>
 
         <Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onForgotPassword()}>
-          S U B M I T
+          { this.state.loading ? <Spinner animation="border" /> : 'SUBMIT'}
         </Button>
       </Form>
     );
