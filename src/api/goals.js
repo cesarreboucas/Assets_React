@@ -10,6 +10,16 @@ export async function createGoal(goalData) {
   }
 }
 
+export async function updateGoal(goalData) {
+  try {
+    const response = await axios.put('/api/goals',
+      goalData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getGoals() {
   try {
     const response = await axios.get('/api/goals');

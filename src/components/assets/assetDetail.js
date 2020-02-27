@@ -142,7 +142,7 @@ class AssetDetail extends Component {
           }
 
           <Form.Group>
-            <button type="button" className="btn btn-primary" onClick={this.formSubmit}>Save changes</button>&nbsp;
+            <button type="button" disabled={this.state.delete===true && this.state.deletechecker===''} className="btn btn-primary" onClick={this.formSubmit}>Save changes</button>&nbsp;
             <button type="button" className="btn btn-secondary" onClick={() => { this.setState({ alertMessage: null, redirect: true }) }}>Cancel</button>
           </Form.Group>
         </Form>
