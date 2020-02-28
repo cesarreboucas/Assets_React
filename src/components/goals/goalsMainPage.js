@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 import * as goalsApi from '../../api/goals.js';
 
 class GoalsMainPage extends React.Component {
@@ -8,6 +9,12 @@ class GoalsMainPage extends React.Component {
     super(props);
     this.state = {
       redirectToCreate: false,
+      message: ( // If there is a message and is not older than 7 seconds
+        (this.props.location.state &&
+          ((new Date()).getTime() - this.props.location.state.date.getTime()) < 7000) ?
+          this.props.location.state.message :
+          false
+      ),
       goalId: null,
       goals: []
     }
@@ -59,8 +66,14 @@ class GoalsMainPage extends React.Component {
   }
 
   render() {
+    console.log(this.props.location.state);
     return (
       <div className="container">
+        {this.state.message ?
+          <Alert variant="success" onClose={() => this.setState({ message: false })} dismissible>
+            {this.props.location.state.message}
+          </Alert > : ''
+        }
         {this.redirectToCreate()}
         <h1>Goals Page</h1>
         <table className="table table-dark">

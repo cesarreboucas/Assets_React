@@ -20,6 +20,17 @@ export async function updateGoal(goalData) {
   }
 }
 
+export async function deleteGoal(goalData) {
+  console.log(goalData);
+  try {
+    const response = await axios.delete('/api/goals',
+      {data: goalData});
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getGoals() {
   try {
     const response = await axios.get('/api/goals');

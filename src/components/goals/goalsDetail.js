@@ -4,6 +4,7 @@ import { userInfo } from '../../api/account.js';
 import GoalsTable from './goalsTable';
 import { Alert } from 'react-bootstrap';
 import * as goalsApi from '../../api/goals.js';
+import { Redirect } from 'react-router-dom';
 
 export default class GoalsDetail extends React.Component {
 
@@ -17,7 +18,8 @@ export default class GoalsDetail extends React.Component {
     _id: null,
     name: '',
     delete: false,
-    deletechecker:'',
+    /*deletechecker:false,*/
+    redirect:false,
     insertAssets: true,
     returnWithIrr: true,
     useAssetIrrOnResult: true,
@@ -96,21 +98,34 @@ export default class GoalsDetail extends React.Component {
     this.data.useAssetIrrOnResult = this.state.useAssetIrrOnResult;
     this.data.irrOnResult = this.state.irrOnResult;
     this.data.delete = this.state.delete;
-    this.data.deletechecker = this.state.deletechecker;
-    this.data.delete = false;
+    /*this.data.deletechecker = this.state.deletechecker;*/
+
     if (this.data._id !== null) {
-      await goalsApi.updateGoal(this.data);
-      this.setState({ message: "Goal updated!" });
+      if(this.data.delete) {
+        await goalsApi.deleteGoal(this.data);
+        this.setState({ redirect:true, message: "Goal deleted!" });
+      } else {
+        await goalsApi.updateGoal(this.data);  
+        this.setState({ message: "Goal updated!" });
+      }
     } else {
       await goalsApi.createGoal(this.data);
-      this.setState({ message: "Goal updated!" });
+        this.setState({ redirect:true, message: "Goal created!" });
     }
   }
 
   render() {
+
+    if (this.state.redirect) {
+      return <Redirect to={{
+        pathname: '/goals',
+        state: { message: this.state.message, date: new Date() }
+      }} />;
+    }
+
     return (
       <div className="container">
-        <h1>Create</h1>
+        <h1>{(this.state._id !== null?'Update':'Create')}</h1>
         <div className="form-group" style={{ padding: "10px 30px", backgroundColor: "#ffffff", margin: "0px" }}>
           <div className="form-row" >
             <h3>Options</h3>
@@ -160,16 +175,15 @@ export default class GoalsDetail extends React.Component {
             <div className="col-md-4">
               <input className="form-check-input" type="checkbox" name="insertAssets"
                 onChange={(e) => { this.setState({ delete: e.target.checked }) }} defaultChecked={this.state.delete} />
-              <label className="form-check-label">Delete Goal</label>
-            </div>
-            {
-              this.state.delete &&
-                <div className="form-group col-md-8">
-                  <label htmlFor="ativo">Email Confirmation</label>
-                  <input type="input" className="form-control" id="txtDeleteChecker" name="deletechecker"
-                    onChange={(e) => this.setState({deletechecker : e.target.value})} placeholder="Please fill with your email" />
+              <label className="form-check-label"><strong>Delete Goal</strong></label>
+              {/*
+                this.state.delete &&  
+                <div className="col-md-4">
+                  <button type="button" className="btn btn-primary" style={{ margin: "4px" }}
+                    onClick={() => this.setState({deletechecker :true })}>Click to Confirm</button>
                 </div>
-          }
+              */}
+            </div>
           </div>
         </div>
         <div className="form-group text-right" style={{ padding: "15px", backgroundColor: "#ffffff" }}>
@@ -181,7 +195,6 @@ export default class GoalsDetail extends React.Component {
                 onClick={() => this.setState({ dataLoaded: this.state.dataLoaded + 1 })}>Update Table</button> : '')
           }
           <button type="button" className="btn btn-primary" style={{ margin: "4px" }}
-            disabled={this.state.delete===true && this.state.deletechecker===''}
             onClick={() => this.saveGoal()}>Save Goal</button>
           {
             this.state.message !== null &&
