@@ -1,10 +1,12 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class GoalItemForm extends React.Component {
   constructor(props) {
     super(props);
-    if (this.props.data === undefined) {
+    if (this.props.data.boxes[this.props.n] === undefined) {
       this.state = {
         description: '',
         periodicity: "once",
@@ -15,10 +17,9 @@ class GoalItemForm extends React.Component {
         useIRR: false
       }
     } else {
-       this.state = this.props.data;
+       this.state = this.props.data.boxes[this.props.n];
+       
     }
-    
-
   }
 
   handleInputChange = evt => {
@@ -59,14 +60,19 @@ class GoalItemForm extends React.Component {
   }
 
   componentDidUpdate() {
-    this.props.saveData(this.state, this.props.n)
+    this.props.data.boxes[this.props.n] = this.state;
   }
 
   render() {
     return (
       <div style={{ backgroundColor: "white", padding: "10px 30px" }}>
         <div className="form-row" >
-          <h4>{this.state.description === '' ? 'Collumn ' + (this.props.n + 1) : this.state.description}</h4>
+          <div className="form-group col-md-11">
+          <h4> {this.state.description === '' ? 'Collumn ' + (this.props.n + 1) : this.state.description}</h4>
+          </div>
+          <div className="form-group col-md-1 text-right">
+            <FontAwesomeIcon icon={faTrash} onClick={() => {this.props.deleteInput(this.props.n)}} />
+          </div>
         </div>
         <div className="form-row" >
           <div className="form-group col-md-4">

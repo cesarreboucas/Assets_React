@@ -42,6 +42,16 @@ export async function updateAsset(assetData) {
   }
 }
 
+export async function deleteAsset(assetData) {
+  try {
+    const response = await axios.delete('/api/assets',
+      { data: assetData });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function updateMovement(movementData) {
   try {
     const response = await axios.put('/api/assets/movement',
@@ -63,11 +73,11 @@ export async function createMovement(movementData) {
 }
 
 
-export async function getQuotes(){
+export async function getQuotes() {
   try {
     const response = await axios.get('/quotes');
     return response.data;
-    
+
   } catch (error) {
     throw error;
   }
@@ -75,7 +85,7 @@ export async function getQuotes(){
 
 export async function getQueryQuote(query) {
   try {
-    const response = await axios.get('/api/assets/queryquote',{
+    const response = await axios.get('/api/assets/queryquote', {
       params: {
         query: query
       }

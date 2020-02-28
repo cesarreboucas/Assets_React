@@ -63,14 +63,13 @@ class AssetDetail extends Component {
       if (answer.data.name !== undefined) { //Created
         this.setState({ alertMessage: "Asset Created", redirect: true });
       }
+    } else if(this.state.delete) {
+      await assetsApi.deleteAsset(this.state);
+      this.setState({ alertMessage: "Asset Deleted", redirect: true });
+      
     } else {
-      console.log(this.state);
-      let answer = await assetsApi.updateAsset(this.state);
-      if (answer.data.name !== undefined) { // Updated
-        this.setState({ alertMessage: "Asset Updated", redirect: true });
-      } else if (answer.data.deleted !== undefined) { // Deleted
-        this.setState({ alertMessage: "Asset Deleted", redirect: true });
-      }
+      await assetsApi.updateAsset(this.state);
+      this.setState({ alertMessage: "Asset Updated", redirect: true });
     }
   }
 
@@ -132,15 +131,6 @@ class AssetDetail extends Component {
             <label className="form-check-label">
               Delete this Asset</label>
           </Form.Check>
-          {
-            this.state.delete &&
-            <Form.Group className="bg-warning" style={{ padding: "5px" }}>
-              <label htmlFor="ativo">Email Confirmation</label>
-              <input type="input" className="form-control" id="txtDeleteChecker" name="deletechecker"
-                onChange={this.handleForm} placeholder="Please fill with your email" />
-            </Form.Group>
-          }
-
           <Form.Group>
             <button type="button" className="btn btn-primary" onClick={this.formSubmit}>Save changes</button>&nbsp;
             <button type="button" className="btn btn-secondary" onClick={() => { this.setState({ alertMessage: null, redirect: true }) }}>Cancel</button>
