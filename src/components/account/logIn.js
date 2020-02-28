@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 import * as account from '../../api/account';
@@ -12,7 +12,11 @@ class LogIn extends Component {
       username: '',
       password: '',
       remember: false,
-      redirectToAssets: false
+      redirectToAssets: false,
+      loading: false,
+      showAlert: false,
+      variant: 'success',
+      message: ''
     };
   }
 
@@ -23,14 +27,13 @@ class LogIn extends Component {
   async onSignIn() {
     const { username, password } = this.state;
     try {
+      this.setState({ loading: true });
       const token = await account.logIn(username, password);
       console.log('[TOKEN]', token);
-      this.setState({ redirectToAssets: true });
+      this.setState({ redirectToAssets: true, loading: false });
     } catch (error) {
       console.log(error);
-      this.setState({
-        password: '',
-      });
+      this.setState({ password: '', loading: false, variant: 'danger', message: error.message, showAlert: true});
     }
   }
 
@@ -51,6 +54,11 @@ class LogIn extends Component {
   render() {
     return (
       <Form className="loggedOut-tab-form">
+        <Form.Row>
+          <Alert variant={this.state.variant} show={this.state.showAlert} style={{width: '100%'}}>
+            {this.state.message}
+          </Alert>
+        </Form.Row>
         <Form.Group controlId="logInEmail" style={{ textAlign: 'left' }}>
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -81,7 +89,7 @@ class LogIn extends Component {
           <Form.Check type="checkbox" label="Remember me" onChange={(event) => this.setState({ remember: event.target.value })} />
         </Form.Group>
         <Button variant="primary" className="LoginButton" type="button" style={{ width: '100%', fontWeight: 'bold' }} onClick={() => this.onSignIn()}>
-          L O G I N
+          { this.state.loading ? <Spinner animation='border' /> : 'L O G I N' }
         </Button>
         {this.redirectToAssets()}
       </Form>

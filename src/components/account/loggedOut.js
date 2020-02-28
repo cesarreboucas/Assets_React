@@ -36,42 +36,34 @@ class LoggedOut extends Component {
 
   render() {
     return (
+      <div className="Logged-out-header">
+        <Row>
+          <Col>
+            <img style={{paddingTop:'10vh', margin:'0 auto', width: "20vh" ,height:"20vh"}} src="/images/assets.svg" alt="logo"  />
+            <h1 >WELCOME TO <p style={{color:'#ff7315'}}>ASSETS LOOKUP!</p></h1>
+            <h3 style={{textAlign:'center', fontSize:'1.2rem'}}><u>A versatile tool to keep track of your investments return</u></h3>
+          </Col>
 
-      <div>
- 
-        <div className="Logged-out-header">
-          
-          <Container>
-            <Row>
-              <Col>
-                <img style={{paddingTop:'10vh', margin:'0 auto', width: "20vh" ,height:"20vh"}} src="/images/assets.svg" alt="logo"  />
-                <h1 >WELCOME TO <p style={{color:'#ff7315'}}>ASSETS LOOKUP!</p></h1>
-                <h3 style={{textAlign:'center', fontSize:'1.2rem'}}><u>A versatile tool to keep track of your investments return</u></h3>
-              </Col>
-
-              <Col>
-                <div style={{ paddingTop:'6vh' , paddingBottom: '6vh'}}>
-                  <Tabs
-                    className="custom-tab"
-                    activeKey={this.state.activeTab}
-                    id="uncontrolled-tab-example"
-                    onSelect={this.handleSelect}>
-                    <Tab eventKey={1} title="LogIn">
-                      <LogIn />
-                    </Tab>
-                    <Tab eventKey={2} title="SignUp">
-                      <SignUp />
-                    </Tab>
-                    <Tab eventKey={3} title="Forgot Password">
-                      <ForgotPassword />
-                    </Tab>
-                  </Tabs>
-                </div>
-              </Col>
-            </Row>
-
-          </Container>
-        </div>
+          <Col>
+            <div style={{ paddingTop:'6vh' , paddingBottom: '6vh'}}>
+              <Tabs
+                className="custom-tab"
+                activeKey={this.state.activeTab}
+                id="uncontrolled-tab-example"
+                onSelect={this.handleSelect}>
+                <Tab eventKey={1} title="LogIn">
+                  <LogIn />
+                </Tab>
+                <Tab eventKey={2} title="SignUp">
+                  <SignUp />
+                </Tab>
+                <Tab eventKey={3} title="Forgot Password">
+                  <ForgotPassword />
+                </Tab>
+              </Tabs>
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }

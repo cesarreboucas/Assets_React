@@ -10,6 +10,7 @@ import {
 import * as account from './api/account';
 
 import LoggedOut from './components/account/loggedOut.js';
+import ResetPassword from './components/account/resetPassword';
 
 import Header from './components/common/header.js';
 import Footer from './components/common/footer.js'
@@ -19,8 +20,7 @@ import AssetDetail from './components/assets/assetDetail.js';
 import ProfileMainPage from './components/profile/profileMainPage.js';
 import GoalsMainPage from './components/goals/goalsMainPage.js';
 import GoalsDetail from './components/goals/goalsDetail.js';
-import DshboardMainPage from './components/dashboard/dashboardMainPage.js';
-//import MovementDetails from './components/assets/movementDetails';
+import DashboardMainPage from './components/dashboard/dashboardMainPage.js';
 
 class App extends React.Component {
 
@@ -29,7 +29,8 @@ class App extends React.Component {
       <Router>
         <Switch>
           <PublicRoute exact path="/" component={LoggedOut} />
-          <PrivateRoute path="/dashboard" component={DshboardMainPage} />
+          <PublicRoute exact path="/reset_password" component={ResetPassword} />
+          <PrivateRoute path="/dashboard" component={DashboardMainPage} />
           <PrivateRoute exact path="/goals" component={GoalsMainPage} />
           <PrivateRoute exact path="/goals/:goal" component={GoalsDetail} />
           <PrivateRoute path="/profile" component={ProfileMainPage} />
@@ -62,7 +63,7 @@ const WrapperComponentsRender = (props) => {
 function PublicRoute({ children, component, ...rest }) {
   return (
     <Route {...rest}>
-      <WrapperComponentsRender component={component} />
+      <WrapperComponentsRender component={component} {...rest} />
     </Route>
   );
 }
@@ -73,7 +74,7 @@ function PrivateRoute({ children, component, ...rest }) {
   if (account.isAuthenticated()) {
     return (
       <Route {...rest}>
-        <WrapperComponentsRender component={component}  location={{...rest}.location} />
+        <WrapperComponentsRender component={component}  {...rest} />
       </Route>
     );
   } else {
