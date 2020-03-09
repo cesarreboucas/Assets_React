@@ -116,7 +116,7 @@ class AssetDetail extends Component {
             <input type="input" className="form-control" id="txtGroupA"
               name="group_a" defaultValue={this.state.group_a}
               list="dl_group_a" onChange={this.handleForm} />
-            Location <small>(Country, State, City, Market or Institutuon  where it is located/held.</small>
+            Location <small>(Country, State, City, Market or Institutuon  where it is located/held)</small>
             <input type="input" className="form-control" id="txtGroupB"
               name="group_b" defaultValue={this.state.group_b}
               list="dl_group_b" onChange={this.handleForm} />
