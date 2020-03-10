@@ -5,12 +5,13 @@ import GoalsTable from './goalsTable';
 import { Alert } from 'react-bootstrap';
 import * as goalsApi from '../../api/goals.js';
 import { Redirect } from 'react-router-dom';
+import ProjectionChart from './projectionChart.js';
 
 export default class GoalsDetail extends React.Component {
 
   state = {
     nOfBoxes: 0,
-    showTable: false,
+    showProjection: false,
     dataLoaded: 0,
     message: null,
     user_stats: { return: 0, asset_amt: 0 },
@@ -73,7 +74,7 @@ export default class GoalsDetail extends React.Component {
     this.setState({
       dataLoaded: this.state.dataLoaded + 1,
       nOfBoxes: this.data.boxes.length,
-      showTable: false,
+      showProjection: false,
       user_stats: user.stats
     });
   }
@@ -188,11 +189,11 @@ export default class GoalsDetail extends React.Component {
         </div>
         <div className="form-group text-right" style={{ padding: "15px", backgroundColor: "#ffffff" }}>
           <button type="button" className="btn btn-primary" style={{ margin: "4px" }}
-            onClick={() => this.setState({ showTable: !this.state.showTable })}>{this.state.showTable ? 'Hide Table' : 'Show Table'}</button>
+            onClick={() => this.setState({ showProjection: !this.state.showProjection })}>{this.state.showProjection ? 'Hide Projection' : 'Show Projection'}</button>
           {
-            (this.state.showTable ?
+            (this.state.showProjection ?
               <button type="button" className="btn btn-primary" style={{ margin: "4px" }}
-                onClick={() => this.setState({ dataLoaded: this.state.dataLoaded + 1 })}>Update Table</button> : '')
+                onClick={() => this.setState({ dataLoaded: this.state.dataLoaded + 1 })}>Update Projection</button> : '')
           }
           <button type="button" className="btn btn-primary" style={{ margin: "4px" }}
             onClick={() => this.saveGoal()}>Save Goal</button>
@@ -206,7 +207,7 @@ export default class GoalsDetail extends React.Component {
           }
         </div>
         {
-          this.state.showTable &&
+          this.state.showProjection &&
           <div className="form-row">
             {
               <GoalsTable data={this.data} insertAssets={this.state.insertAssets} 
