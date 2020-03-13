@@ -43,7 +43,7 @@ class GoalsMainPage extends React.Component {
       goal.boxes.forEach(box => {
         fields += box.description + ", ";
       });
-      const options = <button className="btn btn-sm btn-light" onClick={() => this.setState({ redirectToCreate: true, goalId: goal._id })}>Options</button>;
+      const options = <button className="btn btn-sm btn-light" onClick={() => this.setState({ redirectToCreate: true, goalId: goal._id })}>View</button>;
       if (fields.length > 27) {
         fields = fields.substr(0, 25) + "...";
       } else {
