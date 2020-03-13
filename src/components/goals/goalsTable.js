@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectionChart from './projectionChart';
+import hash from 'object-hash';
 
 export default class GoalsTable extends React.Component {
   constructor(props) {
@@ -10,6 +11,14 @@ export default class GoalsTable extends React.Component {
   }
 
   renderTable = () => {
+
+    // Dataset to Graph Info
+    this.ds = {
+      labels: [], /* Filled on RenderTable */
+      data: [], /* Filled on RenderTR */
+      x_labels : []
+    };
+
     this.result = (this.props.insertAssets ? this.props.assetsTotal : 0);
     if (this.props.irrOnResult !== 0) {
       //Backing assets to Update on First Month
@@ -56,11 +65,6 @@ export default class GoalsTable extends React.Component {
     return rows;
   }
 
-  ds = {
-    labels: [], /* Filled on RenderTable */
-    data: [], /* Filled on RenderTR */
-    x_labels : []
-  };
   renderTr = (month) => {
     /**
      * This function was modified to fill the ds object filling the graph datasets
@@ -110,7 +114,7 @@ export default class GoalsTable extends React.Component {
             {value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
           </td>);
 
-          this.ds.data[i].push(Math.floor(value * 100) / 100);
+          this.ds.data[i].push(Math.floor(value * 100) / 100); // 2 decimal places
 
         } else { // No value for this current month
           tds.push(<td key={trHeader + i}></td>);
@@ -162,12 +166,13 @@ export default class GoalsTable extends React.Component {
 
   render() {
     console.log(this.props)
+    const trs = this.renderTable();
     return (
       <React.Fragment>
-        <ProjectionChart ds={this.ds} />
+        <ProjectionChart ds={this.ds} key={hash(this.props.data.boxes)} />
         <table className="table table-dark">
           <tbody>
-            {this.renderTable()}
+            {trs}
           </tbody>
         </table>
       </React.Fragment>

@@ -5,7 +5,6 @@ import GoalsTable from './goalsTable';
 import { Alert } from 'react-bootstrap';
 import * as goalsApi from '../../api/goals.js';
 import { Redirect } from 'react-router-dom';
-import ProjectionChart from './projectionChart.js';
 
 export default class GoalsDetail extends React.Component {
 
