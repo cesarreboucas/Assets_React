@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectionChart from './projectionChart';
 import hash from 'object-hash';
+import axios from 'axios';
 
 export default class GoalsTable extends React.Component {
   constructor(props) {
@@ -165,7 +166,7 @@ export default class GoalsTable extends React.Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     const trs = this.renderTable();
     return (
       <React.Fragment>
@@ -177,5 +178,16 @@ export default class GoalsTable extends React.Component {
         </table>
       </React.Fragment>
     );
+    
+    //console.log(this.state.graph);
+    //return (<img src={this.state.graph} />);
+
   }
+
+  /*state = {graph:null};
+  async componentDidMount() {
+    let graph = await axios.post('http://127.0.0.1:4000/api/goals/graph', this.props);
+    this.setState({graph:graph.data.image}, () => console.log(this.state));
+  }*/
+
 }
