@@ -49,12 +49,14 @@ class ProfileMainPage extends React.Component {
 
         const res = await account.editUserInfo(this.state);
 
-        if(res.status!==''){
-            this.setState({message:res.status, alertMessage:true});
-        }
-        else{
+        if(res.status===200){
             this.setState({ alertMessage: "Profile Updated!", redirect: true });
         }
+    
+        else{
+          this.setState({message:res, alertMessage:true});
+        }
+            
 
     }
 

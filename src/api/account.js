@@ -91,17 +91,18 @@ export async function userInfo() {
 }
 
 export async function editUserInfo(res){
-  
+  let response;
   try{
-    let response = await axios.put('/api/users/update/:id',res);
+    response = await axios.put('/api/users/update/:id',res);
 
-    console.log("NODE - ANDRE", response.data);
+    console.log("NODE - ANDRE", response);
 
-    return response.data;
+    return response;
   }
   catch(error){
 
-    console.log("React Response from NODE - ANDRE", error.response.data);
+    console.log("React Response from NODE - ANDRE", error.message);
+    return error.message;
   }
 
   
