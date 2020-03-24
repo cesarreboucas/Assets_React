@@ -166,7 +166,7 @@ export default class GoalsTable extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(JSON.stringify(this.props));
     const trs = this.renderTable();
     return (
       <React.Fragment>
