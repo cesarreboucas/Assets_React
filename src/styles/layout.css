@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css?family=Oswald");
+
+html {
+
+  background-color: black;
+   height: 100%;
+}
+
+
+/* Body Layouts */
+body {
+    position: relative;
+    min-height:100%;
+    z-index: 1;
+    margin: auto;
+    background-color: transparent !important;
+     background-image: url("/images/Background-Image.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+   
+}
+body::after{
+    content:'';
+    display:block;
+}
+
+#body_content{
+  min-height: 60vh;
+}
+
+h1 {
+    font-weight: bold;
+    color: #eeeeee;
+    text-align: center;
+    padding: 15px;
+}
+
+/* Navigation layouts */
+nav {
+    font-family: Oswald;
+}
+
+/* Header layouts */
+img {
+    width: 100%;
+    display: block;
+}
+
+/* Form layout */
+div.user-form-container {
+    margin-left: 25%;
+    margin-bottom: 2%;
+    background-color: ivory;
+    border-radius: 10px;
+}
+form.user-form {
+    padding: 5%;
+}
+
+
+.nav {
+    font-family: Oswald;
+}
+nav a {    
+    font-size: 1.2em;
+}
+
+
+/*
+ FOOTER STYLES
+*/
+#footer {
+    padding: 30px 30px;
+    position: relative;
+    bottom:0; 
+    width:100%; 
+    height:300px;
+    text-align: center;
+    background-color: black;
+    color: #eb591f; 
+    background-color: #3f3f3f;
+}
+#footer h5{
+	padding-left: 10px;
+    border-left: 3px solid #eeeeee;
+    padding-bottom: 6px;
+    margin-bottom: 20px;
+    color:#ffffff;
+}
+#footer a {
+    color: #ffffff;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+#footer ul.quick-links li a{
+	color:#ffffff;
+}
+
+#footer ul.quick-links li{
+	padding: 3px 0;
+	-webkit-transition: .5s all ease;
+	-moz-transition: .5s all ease;
+	transition: .5s all ease;
+}
+#footer ul.quick-links li:hover{
+	padding: 3px 0;
+	margin-left:5px;
+	font-weight:700;
+}
+#footer ul.quick-links li a i{
+	margin-right: 5px;
+}
+#footer ul.quick-links li:hover a i {
+    font-weight: 700;
+}
+/*
+ END FOOTER STYLES
+*/
+
+
+/*
+CAROUSEL
+*/
+
+.carousel-initialized{
+    height: 3vh !important;
+}
+.carousel-item{
+    display: block !important;
+    position: absolute !important;
+    transition: all 0s ease 0s !important;
+    margin: 0 !important;
+    color:#ffffff;
+    padding-top: 2px;
+    text-align: center;
+}
+
+#arrow-down{
+    color: red;
+}
+#arrow-up{
+    color: green;
+}
+/*
+END CAROUSEL STYLES
+*/

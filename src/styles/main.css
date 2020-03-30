@@ -1,0 +1,101 @@
+.custom-tab {
+  border-radius: 5px 5px 0px 0px;
+  background-color: #43525e;
+  padding-bottom: 1px;
+}
+.custom-tab a {
+  background-color: #43525e;
+  color: #f4f4f4;
+}
+.custom-tab a:hover {
+  color: #ff7315 !important;
+}
+
+/* When a link is active */
+.custom-tab .nav-tabs .nav-item.show .nav-link, 
+.nav-tabs .nav-link.active {
+  color: #3a3535 !important;
+  background-color: #f4f4f4 !important;
+  border-color: #fff #fff #ff7315 !important;
+  border-width: 3px;
+}
+
+.loggedOut-tab-form {
+  flex: 1; 
+  padding: 30px;
+  border-width: 0px 1px 1px 1px;
+  background-color: #43525e;
+  border-style: solid;
+  border-color: #f4f4f4;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  font-size: calc(2px + 2vmin) !important;
+}
+
+.resetPassword-form {
+  flex: 1; 
+  padding: 30px;
+  border-width: 1px 1px 1px 1px;
+  background-color: #43525e;
+  border-style: solid;
+  border-color: #f4f4f4;
+  border-radius: 5px;
+  font-size: calc(2px + 2vmin) !important;
+  color: white;
+}
+
+.Logged-out-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .Logged-out-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.Logged-out-header {
+  background-color: #333A40;
+  min-height: 65vh;
+  display: block;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.LoginButton{
+  background-color: #ff7315 !important;
+}
+.LoginButton:hover{
+  background-color: #E2E6EA;
+  color:black;
+}
+
+/****React Date Picker***/
+.react-datepicker__input-container {
+  width: inherit;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+/****React Date Picker***/
+
+@import "button_animation.css";
+@import "layout.css";
